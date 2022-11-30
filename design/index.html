@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://kit.fontawesome.com/012cf477c7.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="header_inner">
+            <div class="title_menu_wrap">
+                <span class="title">
+                    제목을 입력하시오  
+                    <img class="logo" src="images/logo.jpg"/>   
+                </span>
+                <div class="user_menu">
+                    <ul class="menu">
+                        <li><a href="">HOME</a></li>
+                        <li><a href="">MY PAGE</a></li>
+                        <li><a href="">FOLLOW US</a></li>
+                        <li><a href="">LOGOUT</a></li>
+                    </ul>
+                </div>
+            </div>            
+            <div class="list_menu_box">
+                <ul class="menu list_menu">
+                    <li>게시판</li>
+                    <li>알아서해</li>
+                    <li>사진</li>
+                    <li>정보</li>
+                    <li>관련사이트</li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="content_banner">
+            <h1>자유게시판</h1>
+            <form class="search_form">
+                <select>
+                    <option>제목</option>
+                    <option>글쓴이</option>
+                </select>
+                <input type="text">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>                
+            </form>                
+            <select>
+                <option>조회수 순</option>
+                <option>날짜 순</option>
+            </select>
+            <a href="#">
+                <i class="fa-solid fa-pencil"></i>
+            </a>                
+        </div>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>NO.</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>좋아요</th>
+                    <th>날짜</th>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>디자인이 뭐임 ㅈㄱㄴ</td>
+                    <td>휴지</td>
+                    <td>126</td>
+                    <td>2187</td>
+                    <td>5분전</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
