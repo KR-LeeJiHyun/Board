@@ -17,7 +17,7 @@
         <div class="container">
             <div class="content">
                 <div class="regist_wrap">
-                    <form id="frmRegist">
+                    <form id="regist_form">
                         <div class="tag">유저이름</div>
                         <div class="input_row">
                             <input type="text" placeholder="유저이름 입력" required>
@@ -27,14 +27,33 @@
                             <input type="text" placeholder="아이디 입력" required>
                             <button class="small_button">중복확인</button>
                         </div>
+                        <div class="err_msg">
+                            <span>*사용할 수 없는 아이디 입니다</span>
+                        </div>
                         <div class="tag">비밀번호</div>
-                        <div class="input_row">
-                            <input type="password" id="password" placeholder="비밀번호 입력" required>
+                        <div class="pw_row">
+                            <input type="password" id="pw" placeholder="비밀번호 입력" required>
                         </div>
+                        <div class="err_msg">
+                            <span>*20자 이내의 비밀번호를 입력해주세요</span>
+                            
+                        </div>
+                        <div class="chk_box">
+                            <ul>
+                                <li id="alphabet">영문자</li>
+                                <li id="number">숫자</li>
+                                <li id="special">특수문자</li>
+                            </ul>
+                        </div>
+
                         <div class="tag">비밀번호 재확인</div>
-                        <div class="input_row">
-                            <input type="password" id="chk_password" placeholder="비밀번호 재확인" required>
+                        <div class="pw_row">
+                            <input type="password" id="confirmation_pw" placeholder="비밀번호 재확인" required>
                         </div>
+                        <div class="err_msg">
+                            <span id="confirmation_pw_err_msg" class="hidden">*비밀번호가 일치하지 않습니다</span>
+                        </div>
+
                         <div class="tag">이메일</div>
                         <div class="email_row">
                             <input type="text" placeholder="이메일 입력" required>
@@ -65,5 +84,6 @@
                 </div>
             </div>
         </div>
+        <script src="js/regist.js"></script>
     </body>
 </html>

@@ -37,7 +37,17 @@ input::placeholder {
     color: rgb(195,195,195);
 }
 
+/* 공통 */
+.hidden {
+    display: none;
+}
 
+.green_font {
+    color: rgb(63,213,81);
+}
+
+
+/* 아직 모르는거 */
 .header_inner {
     width: 605px;
     margin: 0 auto;
@@ -63,10 +73,26 @@ input::placeholder {
     margin-bottom: 8px;
 }
 
-.input_row, .id_row, .email_row{
+.input_row, .email_row{
     width: 100%;
     border-bottom: 2px solid  rgb(172, 164, 211);
     margin-bottom: 30px;
+}
+
+.pw_row, .id_row {
+    width: 100%;
+    border-bottom: 2px solid  rgb(172, 164, 211);
+}
+
+.err_msg {
+    color: rgb(235,38,38);
+    font-size: 15px;
+    margin-top: 2px;
+    margin-bottom: 30px;
+}
+
+.chk_box {
+    color: rgb(195,195,195);
 }
 
 .select_row {
@@ -74,8 +100,7 @@ input::placeholder {
     margin-bottom: 30px;
 }
 
-
-.input_row input {
+.input_row input, .pw_row input {
     font-family: "nanumgothic-bold";
     border: 0;
     width: 100%;
