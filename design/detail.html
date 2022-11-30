@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상세</title>
     <link rel="stylesheet" href="css/detail.css">
+    
     <script src="https://kit.fontawesome.com/012cf477c7.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -131,9 +132,51 @@
             <div class="comment_header">
                 <span>전체 댓글 수 12개</span>
             </div>
-            <div class="comment_list"></div>
+            <ul class="comment_list">
+                <li class="comment_item">
+                    <div class="comment_area">
+                        <div class="nickname">코뿔소</div>
+                        <div class="comment_txt">안녕하세요</div>
+                        <div class="comment_date">2022.11.23 00:05:55</div>
+                    </div>                    
+                </li>
+                <li class="comment_item" >
+                    <div class="comment_reply_symbol" style="margin-left: 0px;">
+                        └
+                    </div>
+                    <div class="comment_area">
+                        <div class="nickname">원숭이</div>
+                        <div class="comment_txt">코뿔소님 안녕하세요</div>
+                        <div class="comment_date">2022.11.23 00:06:55</div>
+                    </div>
+                </li>
+                <li class="comment_item">
+                    <div class="comment_reply_symbol" style="margin-left: 21px;">
+                        └
+                    </div>
+                    <div class="comment_area">
+                        <div class="nickname">바보</div>
+                        <div class="comment_txt">원숭이님 안녕하세요</div>
+                        <div class="comment_date">2022.11.23 10:05:55</div>
+                    </div>
+                </li>
+                <li class="comment_item">
+                    <div class="comment_area">
+                        <div class="nickname">자동차</div>
+                        <div class="comment_txt">안녕하세요</div>
+                        <div class="comment_date">2022.11.23 15:05:55</div>
+                    </div>
+                </li>
+            </ul>
+            <div class="comment_writer">
+                <div class="nickname">
+                    화난소
+                </div>
+                <textarea class="comment_input_area" placeholder="댓글을 입력하세요" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+            </div>
         </div>
     </div>
     <script src="js/menu.js"></script>
+    <script src="js/resize.js"></script>
 </body>
 </html>

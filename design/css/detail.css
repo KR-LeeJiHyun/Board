@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
 @font-face {
     font-family: "malangmalang-bold";
     src: url(../fonts/HancomMalangMalang-Bold.ttf);
@@ -246,7 +247,56 @@ header {
     margin: 2px;
 }
 
+
+
+.post_content, .comment_box {
+    font-family: 'Ubuntu', sans-serif;
+}
+
 .comment_header {
+    font-family: "HMFMMUEX";
     border-bottom: solid 2px rgb(124,129,166);
 }
 
+.comment_list {
+    margin: 0;
+}
+
+.comment_item {
+    display: flex;
+    padding: 5px 0 5px 0;
+    border-bottom: 1px solid rgb(153,153,153,0.5);
+}
+
+.comment_reply_symbol {
+    margin-right: 5px;
+}
+
+.nickname {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.comment_txt {
+    font-size: 13px;
+}
+
+.comment_date {
+    font-size: 13px;
+    color: gray;
+}
+
+.comment_writer {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid gray;
+}
+
+.comment_input_area {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+}
