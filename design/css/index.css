@@ -248,12 +248,13 @@ header {
 .category_detail {
     position: fixed;
     top: 0;
-    transition: all 1s ease-in-out;
+    /* transition: all 1s ease-in-out; */
+    /* transition: 1s; */
 }
 
-.category_list > li:hover .category_detail {
+/* .category_list > li:hover .category_detail {
     top: 140px;
-}
+} */
 
 .category_detail > li {
     display: flex;
