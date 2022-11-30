@@ -1,14 +1,48 @@
-@import url("style.css");
-
 @font-face {
     font-family: "malangmalang-bold";
     src: url(../fonts/HancomMalangMalang-Bold.ttf);
 }
 
+/* div {
+    display: block;
+} */
+
 html, body{
     font-family: "malangmalang-bold";
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
 }
 
+ul {
+    list-style: none;
+}
+
+header {
+    padding-top: 100px;
+    padding-left: 12px;
+    color : rgb(172, 164, 211)
+}
+
+.header_inner {
+    width: 605px;
+    margin: 0 auto;
+    font-size: 60px;
+}
+
+.header_inner > h1 {
+    margin: 0;
+}
+
+.logo {
+    height: 45px;
+    width: 45px;
+}
+
+/*
+로그인 css
+*/
 .login_wrap {
     color : rgb(172, 164, 211);
     width: 400px;
@@ -19,23 +53,43 @@ html, body{
     padding: 100px;
 }
 
+
+.login_wrap .pannel_wrap {
+    margin: 0;
+    padding: 0;
+}
+
 .id_pw_wrap{
     width: 100%;
     height: 100%;
+    
     border-radius: 5px;
 }
 
-.input_row {
+.id_pw_wrap .input_row {
     width: 100%;
-    text-align: left; 
+    height: 48px;
+    text-align: center; 
     margin: 0 auto;
-    border: 0;
-    border-bottom: 2px solid rgb(124, 129, 166);
-    margin-bottom: 20px;
 }
 
 .input_row input {
     font-family: "malangmalang-bold";
+    border: 0;
+    border-bottom: 2px solid rgb(124, 129, 166);
+    width: 396.02px;
+    font-size: 18px;
+    color: rgb(68,68,68);
+}
+
+.input_row input:focus {
+    outline: none;
+}
+
+input::placeholder {
+    font-family: "malangmalang-bold";
+    color: rgb(195,195,195);
+    text-indent: 5px;
 }
 
 .btn_wrap {
@@ -52,6 +106,11 @@ html, body{
     border: 0;
     font-size: 30px;
     border-radius: 5px;
+}
+
+
+input, button {
+    cursor: pointer;
 }
 
 .login_keep_wrap {
@@ -84,21 +143,13 @@ html, body{
     display: none;
 }
 
-.find_wrap {
-    color: rgb(195,195,195);
-    font-size: 15px;
-}
-
 .find_wrap a {
     text-decoration: none;
-    color: rgb(195,195,195);
+    font-size: 15px;
+    color:rgb(195, 195, 195)
 }
 
 #regist {
     float: right;
 }
 
-.login_font::placeholder {
-    font-family: "malangmalang-bold";
-    text-indent: 5px;
-}
