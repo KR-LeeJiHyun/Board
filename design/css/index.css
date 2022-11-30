@@ -124,7 +124,8 @@ header {
 }
 
 .category_list_box {
-    transition: 1s;
+    height: 72px;
+    transition: 1s all;
 }
 
 
@@ -146,83 +147,22 @@ header {
     transition: 2s;
 }
 
-/* .category_detail {
-    height: 0;
-    transition: 1s;
-    transition-delay: 1s;
-}
-
-.category_detail {
-    transition: transform 1s;
-    transform: translate(0, -100%);
-}
-
-.category_list > div:hover > .category_detail .board {
-    color: black;
-    margin-top: 0px;
-    height: 100%;
-    transform: translate(0, 0);
+.category_active {
+    color: white;
 }
 
 .category_detail > div {
-    opacity: 0;
-    height: 0%;
-    transition: 1s;
-    transition-delay: 1s;
-}
-
-.category_list > li:hover .category_detail .board {
-    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 199px;
+    height: 40px;
+    font-size: 20px;
     color: black;
-    height: 100%;
-} */
-
-
-/* .category_list > li:hover .category {
-    color: white;
-    margin-bottom: 3px;
-    margin-right: 2px;
-    box-shadow: 1px 2px 2px 2px gray;
-    transition: 1s;
+    outline: 1px rgb(235,222,230) solid;
+    box-sizing: border-box;
 }
-
-.category_list > li:hover .category_detail {
-    transition: 1s;
-    color: black;
-    margin-top: 0px;
-    animation: category_down 1s;
-}
-
-@keyframes category_down {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, -200%, 0);
-    }
-
-    100%{
-        opacity: 1;
-        transform: translateZ(0);
-    }
-}
-
-@keyframes category_up {
-    0% {
-        opacity: 1;
-        transform: translateZ(0);
-    }
-
-    100%{
-        opacity: 0;
-        transform: translate3d(0, -200%, 0);
-    }
-}
-
-.category_list > li:not(:hover) .category_detail {
-    animation: category_up 1s;
-    animation-fill-mode: forwards;
-    margin-top: 20px;
-} */
-
 
 .category_active {
     color: white;
@@ -246,15 +186,15 @@ header {
 }
 
 .category_detail {
-    position: fixed;
-    top: 0;
-    /* transition: all 1s ease-in-out; */
-    /* transition: 1s; */
+    position: absolute;
+    left: 0;
+    top: -70px;
+    transition: all 1s;
 }
 
-/* .category_list > li:hover .category_detail {
-    top: 140px;
-} */
+.category_list > li:hover .category_detail {
+    top: 70px;
+}
 
 .category_detail > li {
     display: flex;
