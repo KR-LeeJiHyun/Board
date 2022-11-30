@@ -179,7 +179,6 @@ header {
     left: 0;
     top: -70px;
     transition: all 1s;
-    /* transition: all 1s ease-in-out; */
 }
 
 .category_list > li:hover .category_detail {
