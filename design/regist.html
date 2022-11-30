@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- style.css-->
+        <link rel="stylesheet" href="css/regist.css">
+    </head>
+    <body>
+        <header>
+            <div class="header_inner">
+                <span>
+                    회원정보
+                </span> 
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="content">
+                <div class="regist_wrap">
+                    <form id="frmRegist">
+                        <div class="tag">유저이름</div>
+                        <div class="input_row">
+                            <input type="text" placeholder="유저이름 입력" required>
+                        </div>
+                        <div class="tag">아이디</div>
+                        <div class="id_row">
+                            <input type="text" placeholder="아이디 입력" required>
+                            <button class="small_button">중복확인</button>
+                        </div>
+                        <div class="tag">비밀번호</div>
+                        <div class="input_row">
+                            <input type="password" placeholder="비밀번호 입력" required>
+                        </div>
+                        <div class="tag">비밀번호 재확인</div>
+                        <div class="input_row">
+                            <input type="password" placeholder="비밀번호 재확인" required>
+                        </div>
+                        <div class="tag">이메일</div>
+                        <div class="email_row">
+                            <input type="text" placeholder="이메일 입력" required>
+                            <select class="email_adress">
+                                <option>직접입력</option>
+                                <option>@ google.com</option>
+                                <option>@ naver.com</option>
+                                <option>@ nate.com</option>
+                            </select>
+                        </div>
+                        <div class="tag">생년월일</div>
+                        <div class="select_row">
+                            <select class="year">
+                                <option>년도</option>
+                            </select>
+                            <select class="month">
+                                <option>월</option>
+                            </select>
+                            <select class="day">
+                                <option>일</option>
+                            </select>
+                        </div>
+                        <div class="button_wrap">
+                            <button class="medium_button_white">뒤로가기</button>
+                            <input class="medium_button" type="submit" value="가입하기">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
