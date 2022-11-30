@@ -27,11 +27,11 @@
             </div>            
             <div class="list_menu_box">
                 <ul class="menu list_menu">
-                    <li>게시판</li>
-                    <li>알아서해</li>
-                    <li>사진</li>
-                    <li>정보</li>
-                    <li>관련사이트</li>
+                    <li>자유게시판</li>
+                    <li>게임</li>
+                    <li>스포츠</li>
+                    <li>애완동물</li>
+                    <li>IT/금융</li>
                 </ul>
             </div>
         </div>
@@ -44,19 +44,27 @@
                     <option>제목</option>
                     <option>글쓴이</option>
                 </select>
-                <input type="text">
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>                
-            </form>                
-            <select>
-                <option>조회수 순</option>
-                <option>날짜 순</option>
-            </select>
-            <a href="#">
-                <i class="fa-solid fa-pencil"></i>
-            </a>                
+                <input id="search_content" type="text">
+                 <button class="search_button">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>                
+            </form>
+            <div class="order_edit_wrap">
+                <select class="order">
+                    <option>조회수 순</option>
+                    <option>날짜 순</option>
+                </select>
+                <a href="#">
+                    <i class="fa-solid fa-pencil"></i>
+                </a>  
+            </div>                               
         </div>
         <div class="content">
-            <table>
+            <table class="board">
+                <colgroup>
+                    <col class="post_num">
+                    <col class="post_title">
+                </colgroup>
                 <tr>
                     <th>NO.</th>
                     <th>제목</th>
@@ -67,7 +75,10 @@
                 </tr>
                 <tr>
                     <td>11</td>
-                    <td>디자인이 뭐임 ㅈㄱㄴ</td>
+                    <td>
+                        디자인이 뭐임 ㅈㄱㄴ
+                        <span class="ballon">12</span>
+                    </td>
                     <td>휴지</td>
                     <td>126</td>
                     <td>2187</td>
