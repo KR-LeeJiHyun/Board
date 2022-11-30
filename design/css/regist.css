@@ -12,12 +12,23 @@
     src: url(../fonts/NanumGothicBold.ttf);
 }
 
+@font-face {
+    font-family: "malangmalang-bold";
+    src: url(../fonts/HancomMalangMalang-Bold.ttf);
+}
+
 html, body{
     font-family: "HMFMMUEX";
     margin: 0;
     padding: 0;
     width: 100vw;
     height: 100vh;
+}
+
+ul {
+    margin : 0;
+    padding-inline-start: 18px;
+    list-style-type: circle;
 }
 
 header {
@@ -48,24 +59,22 @@ input::placeholder {
 
 
 /* 아직 모르는거 */
+
 .header_inner {
+    font-family: "malangmalang-bold";
     width: 605px;
     margin: 0 auto;
     font-size: 60px;
 }
 
-.header_inner > h1 {
-    margin: 0;
-}
-
 .regist_wrap{
     color : rgb(68,68,68);
-    width: 400px;
+    width: 500px;
     height: fit-content;
     margin: 0 auto;
     border: 0.68mm rgb(178, 188, 220, 0.5) solid;
     border-radius: 5px;
-    padding: 100px;
+    padding: 50px;
 }
 
 .tag {
@@ -73,18 +82,24 @@ input::placeholder {
     margin-bottom: 8px;
 }
 
-.input_row, .email_row{
+.input_row{
     width: 100%;
     border-bottom: 2px solid  rgb(172, 164, 211);
     margin-bottom: 30px;
 }
 
-.pw_row, .id_row {
+.pw_row, .id_row, .email_row {
     width: 100%;
     border-bottom: 2px solid  rgb(172, 164, 211);
 }
 
-.err_msg {
+.pw_err_msg_wrap {
+    color: rgb(235,38,38);
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.err_msg_wrap {
     color: rgb(235,38,38);
     font-size: 15px;
     margin-top: 2px;
@@ -92,15 +107,17 @@ input::placeholder {
 }
 
 .chk_box {
+    font-size: 15px;
     color: rgb(195,195,195);
+    margin: 2px 0 30px 0;
 }
 
 .select_row {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 80px;
 }
 
-.input_row input, .pw_row input {
+.input_row input {
     font-family: "nanumgothic-bold";
     border: 0;
     width: 100%;
@@ -112,15 +129,24 @@ input::placeholder {
 .id_row input {
     font-family: "nanumgothic-bold";
     border: 0;
-    width: 266px;
+    width: 366px;
     font-size: 18px;
     color: rgb(68,68,68);
+}
+
+.pw_row input {
+    font-family: "nanumgothic-bold";
+    border: 0;
+    width: 470px;
+    font-size: 18px;
+    color: rgb(68,68,68);
+    padding: 0px;
 }
 
 .email_row input {
     font-family: "nanumgothic-bold";
     border: 0;
-    width: 207px;
+    width: 307px;
     font-size: 18px;
     color: rgb(68,68,68);
 }
@@ -155,26 +181,27 @@ input::placeholder {
     font-family: "HMFMMUEX";
     border: 2px solid  rgb(178, 188, 220);
     width: 48%;
-    border-radius: 5px;
+    border-radius: 10px;
     color: white;
     background-color: rgb(178, 188, 220);
     font-size: 30px;
     padding-top: 5px;
     padding-bottom: 2px;
-    margin-bottom: 1px;
+    margin-bottom: 50px;
 }
 
 .medium_button_white {
     font-family: "HMFMMUEX";
     border: 2px solid  rgb(178, 188, 220);
     width: 48%;
-    border-radius: 5px;
+    border-radius: 10px;
     color: rgb(68,68,68);
     background-color: white;
     font-size: 30px;
     padding-top: 5px;
     padding-bottom: 2px;
-    margin-bottom: 1px;
+    margin-right: 5px;
+    margin-bottom: 50px;
 }
 
 .year{
@@ -182,6 +209,14 @@ input::placeholder {
     font-weight: 100;
 }
 .month, .day{
-    width : 25%;
+    width : 28%;
     font-weight: 100;
+}
+
+.gray_eye {
+    color: rgb(195,195,195);
+}
+
+.green_eye {
+    color: rgb(63,213,81);
 }
