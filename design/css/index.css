@@ -45,7 +45,6 @@ select {
 header {
     width: 1000px;
     margin: 0 auto;
-    z-index: 5;
 }
 
 #blackbox {
@@ -122,13 +121,17 @@ header {
     height: 72px;
     width: 200px;    
     align-items: flex-end;
-    
 }
+
+.category_list_box {
+    transition: 1s;
+}
+
 
 .category {
     background-color: rgb(172,164,211);
     width: 200px;
-    height: 0;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -143,16 +146,10 @@ header {
     transition: 2s;
 }
 
-.category_detail {
-    position: relative;
-
+/* .category_detail {
     height: 0;
     transition: 1s;
     transition-delay: 1s;
-}
-
-.category_detail > div {
-    height: 0;
 }
 
 .category_detail {
@@ -160,7 +157,7 @@ header {
     transform: translate(0, -100%);
 }
 
-.category_list > div:hover > .category_detail {
+.category_list > div:hover > .category_detail .board {
     color: black;
     margin-top: 0px;
     height: 100%;
@@ -170,15 +167,16 @@ header {
 .category_detail > div {
     opacity: 0;
     height: 0%;
-    /* transition: height 1s; */
-    transition-delay: 10s;
-    transition-property: height;
+    transition: 1s;
+    transition-delay: 1s;
 }
 
-.category_list > li:hover .category_detail > li {
+.category_list > li:hover .category_detail .board {
     opacity: 1;
+    color: black;
     height: 100%;
-}
+} */
+
 
 /* .category_list > li:hover .category {
     color: white;
@@ -228,6 +226,33 @@ header {
 
 .category_active {
     color: white;
+}
+
+.category_detail > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 199px;
+    height: 40px;
+    font-size: 20px;
+    color: black;
+    outline: 1px rgb(235,222,230) solid;
+    box-sizing: border-box;
+}
+
+.test {
+    position: relative;
+}
+
+.category_detail {
+    position: fixed;
+    top: 0;
+    transition: all 1s ease-in-out;
+}
+
+.category_list > li:hover .category_detail {
+    top: 140px;
 }
 
 .category_detail > li {
