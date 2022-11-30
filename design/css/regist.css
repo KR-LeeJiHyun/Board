@@ -1,0 +1,44 @@
+/* 회원가입 css */
+html, body {
+    font-family: "HMFMPYUN";
+}
+
+input {
+    padding: 5px 0 0 0;
+}
+
+.regist_wrap {
+    color : rgb(172, 164, 211);
+    width: 400px;
+    height: fit-content;
+    margin: 0 auto;
+    border: 0.68mm rgb(172, 164, 211, 0.5) solid;
+    border-radius: 5px;
+    padding: 100px;
+}
+
+.input_label {
+    width: 100%;
+    color: black;
+    font-size: 22px;
+}
+
+.btn {
+    color: white;
+    background-color: rgb(176,187,219);
+    border: 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn_check {
+    float: right;
+    width: 80px;
+    height: 25px;
+}
+
+.regist_font::placeholder {
+    font-family: "HMFMMUEX";
+    text-indent: 2px;
+    font-size: 15px;
+}

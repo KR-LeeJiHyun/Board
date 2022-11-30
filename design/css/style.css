@@ -1,0 +1,97 @@
+@font-face {
+    font-family: "malangmalang-bold";
+    src: url(../fonts/HancomMalangMalang-Bold.ttf);
+}
+
+@font-face {
+    font-family: "HMFMPYUN";
+    src: url(../fonts/MoeumTR-HM-01.ttf);
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+ul {
+    list-style: none;
+}
+
+input, button {
+    cursor: pointer;
+    padding: 0;
+}
+
+header {
+    padding-top: 100px;
+    padding-left: 12px;
+    color : rgb(172, 164, 211)
+}
+
+.header_inner {
+    width: 605px;
+    margin: 0 auto;
+    font-size: 60px;
+}
+
+.header_inner > h1 {
+    margin: 0;
+}
+
+.logo {
+    height: 45px;
+    width: 45px;
+}
+
+.input_row {
+    width: 100%;
+    text-align: left; 
+    margin: 0 auto;
+    border: 0;
+    border-bottom: 2px solid rgb(124, 129, 166);
+    margin-bottom: 20px;
+}
+
+.input_row input {
+    border: 0;
+    width: 100%;
+    font-size: 18px;
+    color: rgb(68,68,68);
+}
+
+.input_row .input_short {
+    width: 80%;
+}
+
+.input_row input:focus {
+    outline: none;
+}
+
+.input_row input::placeholder {
+    color: rgb(195,195,195);
+}
+
+.btn {
+    color: white;
+    background-color: rgb(176,187,219);
+    border: 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn_small {
+    width: 77px;
+    height: 25px;
+}
+
+.btn_medium {
+    width: 10px;
+    height: 10px;
+}
+
+.btn_large {
+    width: 10px;
+    height: 10px;
+}
