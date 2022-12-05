@@ -49,8 +49,8 @@ header {
 
 #blackbox {
     position: absolute;
-    width: 100vw;
-    height: 140px;
+    width: 1500px;
+    height: 120px;
     background-color: white;
     z-index: 3;
 }
@@ -100,7 +100,7 @@ header {
 
 .category_list_box {
     margin: 0 auto;
-    z-index: 20;
+    z-index: 4;
 }
 
 .category_list {
@@ -181,7 +181,7 @@ header {
     box-sizing: border-box;
 }
 
-.test {
+.category_list_item {
     position: relative;
 }
 
@@ -190,23 +190,11 @@ header {
     left: 0;
     top: -70px;
     transition: all 1s;
+    z-index: 2;
 }
 
 .category_list > li:hover .category_detail {
     top: 70px;
-}
-
-.category_detail > li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    width: 199px;
-    height: 40px;
-    font-size: 20px;
-    color: black;
-    outline: 1px rgb(235,222,230) solid;
-    box-sizing: border-box;
 }
 
 .container {
