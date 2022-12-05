@@ -55,8 +55,8 @@ header {
 
 #blackbox {
     position: absolute;
-    width: 100vw;
-    height: 140px;
+    width: 1500px;
+    height: 120px;
     background-color: white;
     z-index: 3;
 }
@@ -106,7 +106,7 @@ header {
 
 .category_list_box {
     margin: 0 auto;
-    z-index: 20;
+    z-index: 4;
 }
 
 .category_list {
@@ -131,7 +131,6 @@ header {
 
 .category_list_box {
     height: 72px;
-    transition: 1s all;
 }
 
 
@@ -145,12 +144,12 @@ header {
     z-index: 4;
 }
 
-.category_list > li:hover .category {
+.category_list_item:hover .category {
     color: white;
     margin-bottom: 3px;
     margin-right: 2px;
     box-shadow: 1px 2px 2px 2px gray;
-    transition: 2s;
+    transition: 1s;
 }
 
 .category_active {
@@ -170,32 +169,20 @@ header {
     box-sizing: border-box;
 }
 
-.test {
+.category_list_item {
     position: relative;
 }
 
 .category_detail {
     position: absolute;
     left: 0;
-    top: -70px;
+    top: -200%;
     transition: all 1s;
+    z-index: 2;
 }
 
 .category_list > li:hover .category_detail {
     top: 70px;
-}
-
-.category_detail > li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    width: 199px;
-    height: 40px;
-    font-size: 20px;
-    color: black;
-    outline: 1px rgb(235,222,230) solid;
-    box-sizing: border-box;
 }
 
 .container {
@@ -238,12 +225,17 @@ header {
 }
 
 .btn_like_unlike {
-    /* background-color: white; */
-    /* border: 0; */
-    outline: 0;
-    width: 30px;
-    height: 30px;
+    background-color: white;
+    border: 0;
+    width: 40px;
+    height: 40px;
     margin: 2px;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.btn_like_unlike:hover {
+    background-color: rgb(172,164,211);
 }
 
 
@@ -298,4 +290,9 @@ header {
     border: none;
     resize: none;
     outline: none;
+}
+
+.comment_btn_box {
+    display: flex;
+    justify-content: right;
 }
