@@ -73,3 +73,4 @@ local.properties
 .classpath
 .settings
 */target/*
+target/
