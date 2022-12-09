@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -20,9 +22,17 @@
             <div class="content">
                 <div class="regist_wrap">
                     <form id="regist_form">
-                        <div class="tag">유저이름</div>
+                        <div class="tag">이름</div>
                         <div class="input_row">
-                            <input type="text" placeholder="유저이름 입력" required>
+                            <input type="text" placeholder="이름 입력" required>
+                        </div>
+                        <div class="tag">닉네임</div>
+                        <div class="nickname_row">
+                            <input type="text" placeholder="닉네임 입력" required>
+                            <button id="duplicate_nickname_button" type="button" class="small_button">중복확인</button>
+                        </div>
+                        <div class="err_msg_wrap">
+                            <span id="nickname_err_msg" class="hidden">*사용할 수 없는 닉네임입니다.</span>
                         </div>
                         <div class="tag">아이디</div>
                         <div class="id_row">
@@ -30,7 +40,7 @@
                             <button id="duplicate_id_button" type="button" class="small_button">중복확인</button>
                         </div>
                         <div class="err_msg_wrap">
-                            <span id="id_err_msg" class="hidden">*사용할 수 없는 아이디 입니다.</span>
+                            <span id="id_err_msg" class="hidden">*사용할 수 없는 아이디입니다.</span>
                         </div>
                         <div class="tag">비밀번호</div>
                         <div class="pw_row">
