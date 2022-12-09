@@ -24,11 +24,11 @@
                     <form id="regist_form">
                         <div class="tag">이름</div>
                         <div class="input_row">
-                            <input type="text" placeholder="이름 입력" required>
+                            <input type="text" name="name" placeholder="이름 입력" required>
                         </div>
                         <div class="tag">닉네임</div>
                         <div class="nickname_row">
-                            <input type="text" placeholder="닉네임 입력" required>
+                            <input type="text" name="nickname" placeholder="닉네임 입력" required>
                             <button id="duplicate_nickname_button" type="button" class="small_button">중복확인</button>
                         </div>
                         <div class="err_msg_wrap">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="tag">아이디</div>
                         <div class="id_row">
-                            <input type="text" placeholder="아이디 입력" required>
+                            <input type="text" name="id" placeholder="아이디 입력" required>
                             <button id="duplicate_id_button" type="button" class="small_button">중복확인</button>
                         </div>
                         <div class="err_msg_wrap">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="tag">비밀번호</div>
                         <div class="pw_row">
-                            <input type="password" id="pw" placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)" required>
+                            <input type="password" id="pw" name="password" placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)" required>
                             <i id="pw_eye" class="fa-solid fa-eye gray_eye"></i>
                         </div>
                         <div class="pw_err_msg_wrap">
@@ -60,7 +60,7 @@
 
                         <div class="tag">비밀번호 재확인</div>
                         <div class="pw_row">
-                            <input type="password" id="confirmation_pw" placeholder="비밀번호 재확인" required>
+                            <input type="password" id="confirmation_pw" name="confirmationPassword" placeholder="비밀번호 재확인" required>
                             <i id="confirmation_eye" class="fa-solid fa-eye gray_eye"></i>
                         </div>
                         <div class="err_msg_wrap">
@@ -69,12 +69,12 @@
 
                         <div class="tag">이메일</div>
                         <div class="email_row">
-                            <input id="email" type="text" placeholder="이메일 입력" required>
+                            <input id="email" type="text" name="email" placeholder="이메일 입력" required>
                             <select id="adress" class="email_adress">
-                                <option value="">직접입력</option>
-                                <option value="@google.com">@ google.com</option>
-                                <option value="@naver.com">@ naver.com</option>
-                                <option value="@nate.com">@ nate.com</option>
+                                <option name="address" value="">직접입력</option>
+                                <option name="address" value="@google.com">@google.com</option>
+                                <option name="address" value="@naver.com">@naver.com</option>
+                                <option name="address" value="@nate.com">@nate.com</option>
                             </select>
                         </div>
                         <div class="err_msg_wrap">
@@ -83,13 +83,13 @@
                         <div class="tag">생년월일</div>
                         <div class="select_row">
                             <select class="year">
-                                <option>년도</option>
+                                <option name="year">년도</option>
                             </select>
                             <select class="month">
-                                <option>월</option>
+                                <option name="month">월</option>
                             </select>
                             <select class="day">
-                                <option>일</option>
+                                <option name="day">일</option>
                             </select>
                         </div>
                         <div class="button_wrap">
