@@ -2,8 +2,8 @@
 name: Metting template
 about: metting
 title: ''
-labels: ''
-assignees: ''
+labels: meeting
+assignees: kr-seominwoo, KR-LeeJiHyun
 
 ---
 
