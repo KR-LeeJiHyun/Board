@@ -88,7 +88,7 @@ input::placeholder {
     margin-bottom: 30px;
 }
 
-.pw_row, .id_row, .email_row {
+.pw_row, .id_row, .email_row, .nickname_row {
     width: 100%;
     border-bottom: 2px solid  rgb(172, 164, 211);
 }
@@ -126,7 +126,7 @@ input::placeholder {
     padding: 0px;
 }
 
-.id_row input {
+.id_row input, .nickname_row input {
     font-family: "nanumgothic-bold";
     border: 0;
     width: 366px;
