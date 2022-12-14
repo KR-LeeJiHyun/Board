@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.board.web.entity.Member;
 import com.board.web.service.RegService;
 
 @RequestMapping("/member")
@@ -27,8 +28,9 @@ public class RegController {
 	@PostMapping
 	public String postReg(String name, String nickname, String id,
 			String password, String confirmationPassword, String email,
-			String address, Date birthday) {	
-		if (this.regService.registMember(name, nickname, id, password, confirmationPassword, email, birthday)) {
+			String address, Date birthday) {
+		Member member = new Member(name, nickname, id, password, confirmationPassword, email, address, birthday);
+		if (this.regService.registMember(member)) {
 			return "redirect:/";
 		} else {
 			return "regist";			
