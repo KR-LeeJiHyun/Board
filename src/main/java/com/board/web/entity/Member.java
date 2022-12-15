@@ -7,9 +7,7 @@ public class Member {
 	private String nickname; 
 	private String id;
 	private String password; 
-	private String confirmationPassword;
 	private String email;
-	private String address;
 	private Date birthday;
 	
 	public Member() {
@@ -17,21 +15,16 @@ public class Member {
 		this.nickname = null;
 		this.id = null;
 		this.password = null;
-		this.confirmationPassword = null;
 		this.email = null;
-		this.address = null;
 		this.birthday = null;
 	}
 	
-	public Member(String name, String nickname, String id, String password, String confirmationPassword, String email,
-			String address, Date birthday) {
+	public Member(String name, String nickname, String id, String password, String email, Date birthday) {
 		this.name = name;
 		this.nickname = nickname;
 		this.id = id;
 		this.password = password;
-		this.confirmationPassword = confirmationPassword;
 		this.email = email;
-		this.address = address;
 		this.birthday = birthday;
 	}
 
@@ -67,28 +60,12 @@ public class Member {
 		this.password = password;
 	}
 	
-	public String getConfirmationPassword() {
-		return confirmationPassword;
-	}
-	
-	public void setConfirmationPassword(String confirmationPassword) {
-		this.confirmationPassword = confirmationPassword;
-	}
-	
 	public String getEmail() {
 		return email;
 	}
 	
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
 	}
 	
 	public Date getBirthday() {
