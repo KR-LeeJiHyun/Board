@@ -1,5 +1,10 @@
 package com.board.web.service.jdbc;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -24,7 +29,27 @@ public class JDBCMemberService implements MemberService{
 	
 	@Override
 	public String getMemberId(String id) {
-		return "";
+		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
+		String result = "";
+
+		try {
+			Connection con = dataSource.getConnection();
+			PreparedStatement prepared_statement = con.prepareStatement(sql);
+			prepared_statement.setString(1, id);
+
+			//게시글 얻어오기
+			ResultSet rs = prepared_statement.executeQuery();
+
+			if(rs.next()) {
+				result = rs.getString("id");
+			}
+			prepared_statement.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 	
 	@Override
