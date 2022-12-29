@@ -6,7 +6,6 @@ public class Member {
 	private String name;
 	private String nickname; 
 	private String id;
-	private String password; 
 	private String email;
 	private Date birthday;
 	
@@ -14,16 +13,14 @@ public class Member {
 		this.name = null;
 		this.nickname = null;
 		this.id = null;
-		this.password = null;
 		this.email = null;
 		this.birthday = null;
 	}
 	
-	public Member(String name, String nickname, String id, String password, String email, Date birthday) {
+	public Member(String name, String nickname, String id, String email, Date birthday) {
 		this.name = name;
 		this.nickname = nickname;
 		this.id = id;
-		this.password = password;
 		this.email = email;
 		this.birthday = birthday;
 	}
@@ -50,14 +47,6 @@ public class Member {
 	
 	public void setId(String id) {
 		this.id = id;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 	public String getEmail() {

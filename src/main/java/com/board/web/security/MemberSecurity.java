@@ -21,5 +21,5 @@ public class MemberSecurity {
 	
 	boolean verifyBirthday(Date birthday) {
 		return true;
-	}	
+	}
 }
