@@ -29,7 +29,7 @@ public class MemberController {
 	public String postMember(String name, String nickname, String id,
 			String password, String confirmationPassword, String email, Date birthday) {
 		Member member = new Member(name, nickname, id, email, birthday);
-		if (this.memberService.registMember(member)) {
+		if (this.memberService.registMember(member, confirmationPassword)) {
 			return "redirect:/";
 		} else {
 			return "regist";			

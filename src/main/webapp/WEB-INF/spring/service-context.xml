@@ -20,8 +20,8 @@
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
 			value="jdbc:oracle:thin:@localhost:1522/xepdb1" />
-		<property name="username" value="???" />
-		<property name="password" value="054612" />
+		<property name="username" value="COMMUNITY_ADMIN" />
+		<property name="password" value="1a2w3e" />
 	</bean>
 		
 
