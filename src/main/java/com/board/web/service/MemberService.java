@@ -10,4 +10,6 @@ public interface MemberService {
 	boolean validateDuplicateId(String id);
 	boolean validatePassword(String password, String confirmationPassword);
 	boolean validateBirthday(Date bitrhday);
+	boolean validateDuplicateNickname(String nickname);
+	boolean validateEmail(String email);
 }
