@@ -21,7 +21,7 @@
 		<property name="url"
 			value="jdbc:oracle:thin:@localhost:1522/xepdb1" />
 		<property name="username" value="COMMUNITY_ADMIN" />
-		<property name="password" value="1a2w3e" />
+		<property name="password" value="1q2w3e" />
 	</bean>
 		
 
