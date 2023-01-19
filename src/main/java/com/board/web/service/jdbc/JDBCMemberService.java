@@ -16,18 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.board.web.entity.Member;
+import com.board.web.security.EncryptiontSecurity;
 import com.board.web.service.MemberService;
 
 @Service
 public class JDBCMemberService implements MemberService{
-	
+	private EncryptiontSecurity encryptiontSecurity;
 	private DataSource dataSource;
-	
+
 	@Autowired
-	public void setDataSource(DataSource dataSource) {
+	public JDBCMemberService(EncryptiontSecurity encryptiontSecurity, DataSource dataSource) {
+		this.encryptiontSecurity = encryptiontSecurity;
 		this.dataSource = dataSource;
 	}
-	
+
 	@Override
 	public String getMemberId(String id) {
 		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
