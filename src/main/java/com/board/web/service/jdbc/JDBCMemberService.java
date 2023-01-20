@@ -16,11 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.board.web.entity.Member;
+import com.board.web.error.MemberError;
 import com.board.web.security.EncryptiontSecurity;
 import com.board.web.service.MemberService;
 
 @Service
-public class JDBCMemberService implements MemberService{
+public class JDBCMemberService implements MemberService {
 	private EncryptiontSecurity encryptiontSecurity;
 	private DataSource dataSource;
 
@@ -62,9 +63,75 @@ public class JDBCMemberService implements MemberService{
 	}
 	
 	@Override
-	public boolean registMember(Member member, String confirmationPassword) {
-		// TODO Auto-generated method stub
-		return false;
+	public MemberError registMember(Member member, String password, String confirmationPassword) {
+		if (!validateBirthday(member.getBirthday())) {
+			return MemberError.INVALID_BIRTHDAY;
+		}
+		
+		if (!validateId(member.getId())) {
+			return MemberError.INVALID_ID;
+		}
+		
+		if (!validateDuplicateId(member.getId())) {
+			return MemberError.DUPLICATE_ID;
+		}
+		
+		if (!validatePassword(password, confirmationPassword)) {
+			return MemberError.INVALID_PASSWORD;
+		}
+
+		if (!validateNickname(member.getNickname())) {
+			return MemberError.INVALID_NICKNAME;
+		}
+		
+		if (!validateDuplicateId(member.getNickname())) {
+			return MemberError.DUPLICATE_NICKNAME;
+		}
+		
+		if (!validateEmail(member.getEmail())) {
+			return MemberError.INVALID_EMAIL;
+		}
+		
+		String encryptedPassword = this.encryptiontSecurity.encryptPassword(password);
+		
+		String sql = "INSERT INTO MEMBER(NAME, ID, PASSWORD, NICKNAME, EMAIL, BIRTHDAY, ROLE) VALUES(?,?,?,?,?,?,?)";
+		
+		boolean result = false;		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;		
+		try {
+			con = this.dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, member.getId());
+			preparedStatement.setString(2, member.getId());
+			preparedStatement.setString(3, encryptedPassword);
+			preparedStatement.setString(4, member.getId());
+			preparedStatement.setString(5, member.getId());
+			preparedStatement.setString(6, member.getId());
+			preparedStatement.setString(7, member.getId());
+			
+			result = preparedStatement.execute();			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					con.close();
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (result) {
+			return MemberError.NO_ERROR;
+		} else {
+			return MemberError.DB_FAIL;
+		}
 	}
 	
 	@Override
@@ -73,6 +140,8 @@ public class JDBCMemberService implements MemberService{
 		if(birthday.compareTo(now) < 1) return true;
 		return false;
 	}
+	
+	
 	
 	@Override
 	public boolean validateDuplicateId(String id) {
@@ -145,5 +214,17 @@ public class JDBCMemberService implements MemberService{
 		}
 		
 		return result;
+	}
+
+	@Override
+	public boolean validateId(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean validateNickname(String nickname) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
