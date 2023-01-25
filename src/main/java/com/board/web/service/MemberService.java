@@ -12,4 +12,5 @@ public interface MemberService {
 	boolean validateBirthday(Date bitrhday);
 	boolean validateDuplicateNickname(String nickname);
 	boolean validateEmail(String email);
+	boolean login(String id, String password);
 }

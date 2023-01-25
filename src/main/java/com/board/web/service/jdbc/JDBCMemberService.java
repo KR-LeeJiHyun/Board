@@ -34,22 +34,35 @@ public class JDBCMemberService implements MemberService{
 	public String getMemberId(String id) {
 		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
 		String result = "";
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
 
 		try {
-			Connection con = dataSource.getConnection();
-			PreparedStatement prepared_statement = con.prepareStatement(sql);
-			prepared_statement.setString(1, id);
+			con = dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, id);
 
-			//게시글 얻어오기
-			ResultSet rs = prepared_statement.executeQuery();
+			ResultSet rs = preparedStatement.executeQuery();
 
 			if(rs.next()) {
 				result = rs.getString("id");
 			}
-			prepared_statement.close();
+			preparedStatement.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					con.close();
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return result;
@@ -145,5 +158,41 @@ public class JDBCMemberService implements MemberService{
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public boolean login(String id, String password) {
+		String sql = "SELECT PASSWORD FROM MEMBER WHERE ID = ?";
+		String encryptedPassword = "";
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+
+
+		try {
+			con = dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				encryptedPassword = rs.getString("password");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					con.close();
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return encryptiontSecurity.matches(password, encryptedPassword);
 	}
 }
