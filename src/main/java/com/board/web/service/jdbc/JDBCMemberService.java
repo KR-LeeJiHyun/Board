@@ -226,14 +226,14 @@ public class JDBCMemberService implements MemberService {
 
 	@Override
 	public boolean validateNickname(String nickname) {
-		final int MIN_LENGTH = 5;
-		final int MAX_LENGTH = 20;
-		final int LENGTH = nickname.length();
-		if (LENGTH < MIN_LENGTH || LENGTH > MAX_LENGTH) {
-			return false;
-		}
-		
-		String allPattern = "^*[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]*$";
+//		final int MIN_LENGTH = 5;
+//		final int MAX_LENGTH = 20;
+//		final int LENGTH = nickname.length();
+//		if (LENGTH < MIN_LENGTH || LENGTH > MAX_LENGTH) {
+//			return false;
+//		}
+//		
+		String allPattern = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]{5,20}$";
 		return Pattern.matches(nickname, allPattern);
 	}
 }
