@@ -11,7 +11,7 @@ import com.board.web.entity.Member;
 import com.board.web.error.MemberError;
 import com.board.web.service.MemberService;
 
-@RequestMapping("/member")
+@RequestMapping("/members")
 public class MemberController {
 	
 	private MemberService memberService;
@@ -36,4 +36,19 @@ public class MemberController {
 			return "regist";			
 		}
 	}
+	
+	@GetMapping("/login")
+	public String getLoginPage() {
+		return "login";
+	}
+	
+	@PostMapping("/login")
+	public String postMember(String id, String password) {
+		if (this.memberService.login(id, password)) {
+			return "redirect:/";
+		} else {
+			return "login";			
+		}
+	}
+	
 }

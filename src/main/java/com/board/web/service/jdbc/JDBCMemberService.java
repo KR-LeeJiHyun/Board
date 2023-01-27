@@ -21,7 +21,7 @@ import com.board.web.security.EncryptiontSecurity;
 import com.board.web.service.MemberService;
 
 @Service
-public class JDBCMemberService implements MemberService {
+public class JDBCMemberService implements MemberService{
 	private EncryptiontSecurity encryptiontSecurity;
 	private DataSource dataSource;
 
@@ -29,37 +29,6 @@ public class JDBCMemberService implements MemberService {
 	public JDBCMemberService(EncryptiontSecurity encryptiontSecurity, DataSource dataSource) {
 		this.encryptiontSecurity = encryptiontSecurity;
 		this.dataSource = dataSource;
-	}
-
-	@Override
-	public String getMemberId(String id) {
-		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
-		String result = "";
-
-		try {
-			Connection con = dataSource.getConnection();
-			PreparedStatement prepared_statement = con.prepareStatement(sql);
-			prepared_statement.setString(1, id);
-
-			//게시글 얻어오기
-			ResultSet rs = prepared_statement.executeQuery();
-
-			if(rs.next()) {
-				result = rs.getString("id");
-			}
-			prepared_statement.close();
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-	
-	@Override
-	public String getMemberNickname() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	@Override
@@ -141,11 +110,40 @@ public class JDBCMemberService implements MemberService {
 		return birthday.compareTo(now) < 1;
 	}
 	
-	
-	
 	@Override
 	public boolean validateDuplicateId(String id) {
-		return !(id.compareTo(getMemberId(id)) == 0);
+		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
+		String result = "";
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			con = dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if(rs.next()) {
+				result = rs.getString("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					con.close();
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result != null;
 	}
 	
 	@Override
@@ -173,22 +171,27 @@ public class JDBCMemberService implements MemberService {
 	
 	@Override
 	public boolean validateDuplicateNickname(String nickname) {
-		String sql = "SELECT NICKNAME FROM MEMBER WHERE NICKNAME =" + nickname;
-		
-		boolean result = false;		
+		String sql = "SELECT NICKNAME FROM MEMBER WHERE ID = NICKNAME";
+		String result = "";
 		Connection con = null;
-		Statement st = null;		
+		PreparedStatement preparedStatement = null;
+
 		try {
-			con = this.dataSource.getConnection();
-			st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			result = !rs.next();
-		} catch (SQLException e) {			
+			con = dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, nickname);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if(rs.next()) {
+				result = rs.getString("id");
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (st != null) {
-					st.close();
+				if (preparedStatement != null) {
+					preparedStatement.close();
 				}
 				
 				if (con != null) {
@@ -199,7 +202,7 @@ public class JDBCMemberService implements MemberService {
 			}
 		}
 		
-		return result;
+		return result != null;
 	}
 
 	@Override
@@ -207,16 +210,52 @@ public class JDBCMemberService implements MemberService {
 		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?{3,320}";
 		return Pattern.matches(email, regex);
 	}
-
+	
 	@Override
 	public boolean validateId(String id) {
 		String allPattern = "^[a-zA-Z0-9_-]{5,20}$";
 		return Pattern.matches(id, allPattern);
 	}
-
+	
 	@Override
 	public boolean validateNickname(String nickname) {
 		String allPattern = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]{5,20}$";
 		return Pattern.matches(nickname, allPattern);
+	}
+	
+	@Override
+	public boolean login(String id, String password) {
+		String sql = "SELECT PASSWORD FROM MEMBER WHERE ID = ?";
+		String encryptedPassword = "";
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+
+
+		try {
+			con = dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				encryptedPassword = rs.getString("password");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					con.close();
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return encryptiontSecurity.matches(password, encryptedPassword);
 	}
 }

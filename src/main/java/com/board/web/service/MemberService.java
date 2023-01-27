@@ -6,8 +6,6 @@ import com.board.web.error.MemberError;
 
 public interface MemberService {
 	MemberError registMember(Member member, String password, String confirmationPassword);
-	String getMemberId(String id);
-	String getMemberNickname();
 	boolean validateId(String id);
 	boolean validateDuplicateId(String id);
 	boolean validatePassword(String password, String confirmationPassword);
@@ -15,4 +13,5 @@ public interface MemberService {
 	boolean validateNickname(String nickname);
 	boolean validateDuplicateNickname(String nickname);
 	boolean validateEmail(String email);
+	boolean login(String id, String password);
 }
