@@ -138,35 +138,37 @@ public class JDBCMemberService implements MemberService {
 	@Override
 	public boolean validateBirthday(Date birthday) {
 		Date now = java.sql.Date.valueOf(LocalDate.now());
-		if(birthday.compareTo(now) < 1) return true;
-		return false;
+		return birthday.compareTo(now) < 1;
 	}
 	
 	
 	
 	@Override
 	public boolean validateDuplicateId(String id) {
-		if(id.compareTo(getMemberId(id)) == 0) return false;
-		return true;
+		return !(id.compareTo(getMemberId(id)) == 0);
 	}
 	
 	@Override
 	public boolean validatePassword(String password, String confirmationPassword) {
-		//숫자
-		String numberPattern = "*[0-9]*$";
-		//영문자
-		String alphabetPattern = "*[a-zA-Z]*$";
-		//특수문자
-		String specialPattern = "*[~!@\\#$%<>^&*]*$";
-		int len = password.length();
-		
-		//길이 확인
-		if(len < 8 && len > 20) return false;
-		//확인용 비밀번호와 일치하는지 확인
-		else if(password.compareTo(confirmationPassword) != 0) return false;
-		//숫자, 문자, 특수문자가 알맞게 들어가있는지 확인
-		else if(Pattern.matches(password, numberPattern) && Pattern.matches(password, alphabetPattern) && Pattern.matches(password, specialPattern)) return false;
-		return true;
+	      //숫자
+	      String numberPattern = "*[0-9]*$";
+	      //영문자
+	      String alphabetPattern = "*[a-zA-Z]*$";
+	      //특수문자
+	      String specialPattern = "*[`~!@#$%\\\\^&*()-_=+\\\\|[{]};:'\\\",<.>/?]*$";
+	      //포함 문자
+	      String allPattern = "^[a-zA-Z0-9`~!@#$%\\^&*()-_=+\\|[{]};:'\",<.>/?]{8,20}$";
+	      
+	      //확인용 비밀번호와 일치하는지 확인
+	      if(password.compareTo(confirmationPassword) != 0) {
+	    	  return false;
+	      }
+	      //숫자, 문자, 특수문자가 알맞게 들어가있는지 확인
+	      else if(Pattern.matches(password, numberPattern) && Pattern.matches(password, alphabetPattern) && Pattern.matches(password, specialPattern) && Pattern.matches(password, allPattern)) {
+	    	  return false;
+	      }
+	      
+	      return true;
 	}
 	
 	@Override
@@ -202,38 +204,19 @@ public class JDBCMemberService implements MemberService {
 
 	@Override
 	public boolean validateEmail(String email) {
-		final int EMAIL_MAX_LENGTH = 320;
-		if (email.length() > EMAIL_MAX_LENGTH) {
-			return false;
-		}
-		
-		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?";
+		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?{3,320}";
 		return Pattern.matches(email, regex);
 	}
 
 	@Override
 	public boolean validateId(String id) {
-		final int MIN_LENGTH = 5;
-		final int MAX_LENGTH = 20;
-		final int LENGTH = id.length();
-		if (LENGTH < MIN_LENGTH || LENGTH > MAX_LENGTH) {
-			return false;
-		}
-		
-		String allPattern = "^*[a-zA-Z0-9_-]*$";
+		String allPattern = "^[a-zA-Z0-9_-]{5,20}$";
 		return Pattern.matches(id, allPattern);
 	}
 
 	@Override
 	public boolean validateNickname(String nickname) {
-		final int MIN_LENGTH = 5;
-		final int MAX_LENGTH = 20;
-		final int LENGTH = nickname.length();
-		if (LENGTH < MIN_LENGTH || LENGTH > MAX_LENGTH) {
-			return false;
-		}
-		
-		String allPattern = "^*[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]*$";
+		String allPattern = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]{5,20}$";
 		return Pattern.matches(nickname, allPattern);
 	}
 }
