@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.board.web.entity.Member;
+import com.board.web.error.MemberError;
 import com.board.web.service.MemberService;
 
 @RequestMapping("/members")
@@ -29,7 +30,7 @@ public class MemberController {
 	public String postMember(String name, String nickname, String id,
 			String password, String confirmationPassword, String email, Date birthday) {
 		Member member = new Member(name, nickname, id, email, birthday);
-		if (this.memberService.registMember(member, confirmationPassword)) {
+		if (this.memberService.registMember(member, password, confirmationPassword) == MemberError.NO_ERROR) {
 			return "redirect:/";
 		} else {
 			return "regist";			

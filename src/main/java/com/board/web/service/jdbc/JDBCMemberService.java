@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.board.web.entity.Member;
+import com.board.web.error.MemberError;
 import com.board.web.security.EncryptiontSecurity;
 import com.board.web.service.MemberService;
 
@@ -29,9 +30,88 @@ public class JDBCMemberService implements MemberService{
 		this.encryptiontSecurity = encryptiontSecurity;
 		this.dataSource = dataSource;
 	}
-
+	
 	@Override
-	public String getMemberId(String id) {
+	public MemberError registMember(Member member, String password, String confirmationPassword) {
+		
+		if (!validateBirthday(member.getBirthday())) {
+			return MemberError.INVALID_BIRTHDAY;
+		}
+		
+		if (!validateId(member.getId())) {
+			return MemberError.INVALID_ID;
+		}
+		
+		if (!validateDuplicateId(member.getId())) {
+			return MemberError.DUPLICATE_ID;
+		}
+		
+		if (!validatePassword(password, confirmationPassword)) {
+			return MemberError.INVALID_PASSWORD;
+		}
+
+		if (!validateNickname(member.getNickname())) {
+			return MemberError.INVALID_NICKNAME;
+		}
+		
+		if (!validateDuplicateId(member.getNickname())) {
+			return MemberError.DUPLICATE_NICKNAME;
+		}
+		
+		if (!validateEmail(member.getEmail())) {
+			return MemberError.INVALID_EMAIL;
+		}
+		
+		String encryptedPassword = this.encryptiontSecurity.encryptPassword(password);
+		
+		String sql = "INSERT INTO MEMBER(NAME, ID, PASSWORD, NICKNAME, EMAIL, BIRTHDAY, ROLE) VALUES(?,?,?,?,?,?,?)";
+		
+		boolean result = false;		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;		
+		try {
+			con = this.dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, member.getId());
+			preparedStatement.setString(2, member.getId());
+			preparedStatement.setString(3, encryptedPassword);
+			preparedStatement.setString(4, member.getId());
+			preparedStatement.setString(5, member.getId());
+			preparedStatement.setString(6, member.getId());
+			preparedStatement.setString(7, member.getId());
+			
+			result = preparedStatement.execute();			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					con.close();
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (result) {
+			return MemberError.NO_ERROR;
+		} else {
+			return MemberError.DB_FAIL;
+		}
+	}
+	
+	@Override
+	public boolean validateBirthday(Date birthday) {
+		Date now = java.sql.Date.valueOf(LocalDate.now());
+		return birthday.compareTo(now) < 1;
+	}
+	
+	@Override
+	public boolean validateDuplicateId(String id) {
 		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
 		String result = "";
 		Connection con = null;
@@ -47,8 +127,6 @@ public class JDBCMemberService implements MemberService{
 			if(rs.next()) {
 				result = rs.getString("id");
 			}
-			preparedStatement.close();
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -64,72 +142,56 @@ public class JDBCMemberService implements MemberService{
 				e.printStackTrace();
 			}
 		}
-
-		return result;
-	}
-	
-	@Override
-	public String getMemberNickname() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public boolean registMember(Member member, String confirmationPassword) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	@Override
-	public boolean validateBirthday(Date birthday) {
-		Date now = java.sql.Date.valueOf(LocalDate.now());
-		if(birthday.compareTo(now) < 1) return true;
-		return false;
-	}
-	
-	@Override
-	public boolean validateDuplicateId(String id) {
-		if(id.compareTo(getMemberId(id)) == 0) return false;
-		return true;
+		
+		return result != null;
 	}
 	
 	@Override
 	public boolean validatePassword(String password, String confirmationPassword) {
-		//숫자
-		String numberPattern = "*[0-9]*$";
-		//영문자
-		String alphabetPattern = "*[a-zA-Z]*$";
-		//특수문자
-		String specialPattern = "*[~!@\\#$%<>^&*]*$";
-		int len = password.length();
-		
-		//길이 확인
-		if(len < 8 && len > 20) return false;
-		//확인용 비밀번호와 일치하는지 확인
-		else if(password.compareTo(confirmationPassword) != 0) return false;
-		//숫자, 문자, 특수문자가 알맞게 들어가있는지 확인
-		else if(Pattern.matches(password, numberPattern) && Pattern.matches(password, alphabetPattern) && Pattern.matches(password, specialPattern)) return false;
-		return true;
+	      //숫자
+	      String numberPattern = "*[0-9]*$";
+	      //영문자
+	      String alphabetPattern = "*[a-zA-Z]*$";
+	      //특수문자
+	      String specialPattern = "*[`~!@#$%\\\\^&*()-_=+\\\\|[{]};:'\\\",<.>/?]*$";
+	      //포함 문자
+	      String allPattern = "^[a-zA-Z0-9`~!@#$%\\^&*()-_=+\\|[{]};:'\",<.>/?]{8,20}$";
+	      
+	      //확인용 비밀번호와 일치하는지 확인
+	      if(password.compareTo(confirmationPassword) != 0) {
+	    	  return false;
+	      }
+	      //숫자, 문자, 특수문자가 알맞게 들어가있는지 확인
+	      else if(Pattern.matches(password, numberPattern) && Pattern.matches(password, alphabetPattern) && Pattern.matches(password, specialPattern) && Pattern.matches(password, allPattern)) {
+	    	  return false;
+	      }
+	      
+	      return true;
 	}
 	
 	@Override
 	public boolean validateDuplicateNickname(String nickname) {
-		String sql = "SELECT NICKNAME FROM MEMBER WHERE NICKNAME =" + nickname;
-		
-		boolean result = false;		
+		String sql = "SELECT NICKNAME FROM MEMBER WHERE ID = NICKNAME";
+		String result = "";
 		Connection con = null;
-		Statement st = null;		
+		PreparedStatement preparedStatement = null;
+
 		try {
-			con = this.dataSource.getConnection();
-			st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			result = !rs.next();
-		} catch (SQLException e) {			
+			con = dataSource.getConnection();
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, nickname);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if(rs.next()) {
+				result = rs.getString("id");
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (st != null) {
-					st.close();
+				if (preparedStatement != null) {
+					preparedStatement.close();
 				}
 				
 				if (con != null) {
@@ -140,24 +202,25 @@ public class JDBCMemberService implements MemberService{
 			}
 		}
 		
-		return result;
+		return result != null;
 	}
 
 	@Override
 	public boolean validateEmail(String email) {
-		boolean result = true;
-		
-		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(email);
-		result = matcher.matches();
-		
-		final int EMAIL_MAX_LENGTH = 320;
-		if (email.length() > EMAIL_MAX_LENGTH) {
-			result = false;
-		}
-		
-		return result;
+		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?{3,320}";
+		return Pattern.matches(email, regex);
+	}
+	
+	@Override
+	public boolean validateId(String id) {
+		String allPattern = "^[a-zA-Z0-9_-]{5,20}$";
+		return Pattern.matches(id, allPattern);
+	}
+	
+	@Override
+	public boolean validateNickname(String nickname) {
+		String allPattern = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]{5,20}$";
+		return Pattern.matches(nickname, allPattern);
 	}
 	
 	@Override
