@@ -64,6 +64,7 @@ public class JDBCMemberService implements MemberService {
 	
 	@Override
 	public MemberError registMember(Member member, String password, String confirmationPassword) {
+		
 		if (!validateBirthday(member.getBirthday())) {
 			return MemberError.INVALID_BIRTHDAY;
 		}
@@ -201,30 +202,38 @@ public class JDBCMemberService implements MemberService {
 
 	@Override
 	public boolean validateEmail(String email) {
-		boolean result = true;
-		
-		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(email);
-		result = matcher.matches();
-		
 		final int EMAIL_MAX_LENGTH = 320;
 		if (email.length() > EMAIL_MAX_LENGTH) {
-			result = false;
+			return false;
 		}
 		
-		return result;
+		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?";
+		return Pattern.matches(email, regex);
 	}
 
 	@Override
 	public boolean validateId(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		final int MIN_LENGTH = 5;
+		final int MAX_LENGTH = 20;
+		final int LENGTH = id.length();
+		if (LENGTH < MIN_LENGTH || LENGTH > MAX_LENGTH) {
+			return false;
+		}
+		
+		String allPattern = "^*[a-zA-Z0-9_-]*$";
+		return Pattern.matches(id, allPattern);
 	}
 
 	@Override
 	public boolean validateNickname(String nickname) {
-		// TODO Auto-generated method stub
-		return false;
+		final int MIN_LENGTH = 5;
+		final int MAX_LENGTH = 20;
+		final int LENGTH = nickname.length();
+		if (LENGTH < MIN_LENGTH || LENGTH > MAX_LENGTH) {
+			return false;
+		}
+		
+		String allPattern = "^*[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]*$";
+		return Pattern.matches(nickname, allPattern);
 	}
 }
