@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <!-- style.css-->
-        <link rel="stylesheet" href="css/regist.css">
+        <link rel="stylesheet" href="/community/css/regist.css">
         <!-- 눈모양 이모티콘-->
         <script src="https://kit.fontawesome.com/9182b3b25b.js" crossorigin="anonymous"></script>
     </head>
@@ -100,6 +100,6 @@
                 </div>
             </div>
         </div>
-        <script src="js/regist.js"></script>
+        <script src="/community/js/regist.js"></script>
     </body>
 </html>
