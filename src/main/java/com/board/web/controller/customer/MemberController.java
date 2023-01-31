@@ -3,6 +3,8 @@ package com.board.web.controller.customer;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import com.board.web.entity.Member;
 import com.board.web.error.MemberError;
 import com.board.web.service.MemberService;
 
+@Controller
 @RequestMapping("/members")
 public class MemberController {
 	
