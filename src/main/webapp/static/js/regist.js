@@ -1,7 +1,3 @@
-function checkDuplicateId() {
-
-}
-
 // 비밀번호 적합성 검사
 function checkPw() {
     var numberPattern = /[0-9]/; //숫자
@@ -131,13 +127,37 @@ function init() {
 
     const duplicateIdButton = document.getElementById("duplicate_id_button");
     duplicateIdButton.addEventListener('click', (event) => {
-        // 서버로 아이디 중복검사 보내기 ajax사용
+        const id = document.getElementById("id").value;
+        // 서버로 아이디 중복검사 보내기 ajax사용     
+        const curURL = $(window.location)[0].href;
+        const slashLastIndex = curURL.lastIndexOf("/"); 
+        let url = curURL.substring(0, slashLastIndex + 1) + "id";        
 
-        let pass = true;
-        // 일단 통과된 경우
-        if (pass) {
-            document.getElementById("id_err_msg").classList.add("hidden");
-        }
+        $.get(url, {"id" : id}, function(response) {
+            if (response == "none") {
+                $("#chk_id").attr("value", "pass");
+            } else {
+                $("#chk_id").attr("value", "");
+            }
+        });
+    });
+
+
+    const duplicateNicknameButton = document.getElementById("duplicate_nickname_button");
+    duplicateNicknameButton.addEventListener('click', (event) => {
+        const nickname = document.getElementById("nickname").value;
+        // 서버로 아이디 중복검사 보내기 ajax사용     
+        const curURL = $(window.location)[0].href;
+        const slashLastIndex = curURL.lastIndexOf("/"); 
+        let url = curURL.substring(0, slashLastIndex + 1) + "nickname";        
+
+        $.get(url, {"nickname" : nickname}, function(response) {
+            if (response == "none") {
+                $("#chk_nickname").attr("value", "pass");
+            } else {
+                $("#chk_nickname").attr("value", "");
+            }
+        });
     });
 
     const backButton = document.getElementById("back_button");
@@ -152,7 +172,6 @@ function init() {
         */
         location.replace("login.html");
     });
-
 }
 
 init();
