@@ -30,19 +30,21 @@
                         <div class="nickname_row">
                             <input id="nickname" type="text" name="nickname" placeholder="닉네임 입력" required>                            
                             <button id="duplicate_nickname_button" type="button" class="small_button">중복확인</button>
-                            <input id="chk_nickname" type="text" required>
+                            <input id="chk_nickname" type="text" class="hidden" required readonly>
                         </div>
                         <div class="err_msg_wrap">
-                            <span id="nickname_err_msg" class="hidden">*사용할 수 없는 닉네임입니다.</span>
+                            <span id="invalid_nickname_err_msg" class="hidden">*사용할 수 없는 닉네임입니다.</span>
+                            <span id="duplicate_nickname_err_msg" class="hidden">*중복된 닉네임입니다.</span>
                         </div>
                         <div class="tag">아이디</div>
                         <div class="id_row">
                             <input id="id" type="text" name="id" placeholder="아이디 입력" required>
                             <button id="duplicate_id_button" type="button" class="small_button">중복확인</button>
-                            <input id="chk_id" type="text" required>
+                            <input id="chk_id" type="text" class="hidden" required readonly>
                         </div>
                         <div class="err_msg_wrap">
-                            <span id="id_err_msg" class="hidden">*사용할 수 없는 아이디입니다.</span>
+                            <span id="invalid_id_err_msg" class="hidden">*사용할 수 없는 아이디입니다.</span>
+                            <span id="duplicate_id_err_msg" class="hidden">*중복된 아이디입니다.</span>
                         </div>
                         <div class="tag">비밀번호</div>
                         <div class="pw_row">
