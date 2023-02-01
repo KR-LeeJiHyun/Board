@@ -198,7 +198,7 @@ function init() {
             return;
         }
 
-        // 서버로 아이디 중복검사 보내기 ajax사용     
+        // 서버로 닉네임 중복검사 보내기 ajax사용     
         const curURL = $(window.location)[0].href;
         const slashLastIndex = curURL.lastIndexOf("/"); 
         let url = curURL.substring(0, slashLastIndex + 1) + "nickname";        
