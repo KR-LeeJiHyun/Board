@@ -1,15 +1,16 @@
 // 비밀번호 적합성 검사
 function checkPw() {
-    var numberPattern = /[0-9]/; //숫자
-    var alphabetPattern = /[a-zA-Z]/; //영어
-    var specialPattern = /[~!@#\#$%<>^&*]/; //특수문자
+    const numberPattern = /[0-9]/; //숫자
+    const alphabetPattern = /[a-zA-Z]/; //영어
+    // var specialPattern = /[~!@#\#$%<>^&*]/; //특수문자
+    const specialPattern = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자
 
     const pw = document.querySelector("#pw");
     const pwValue = pw.value;
     const pwLen = pwValue.length;
     const pwErrMsg = document.querySelector("#pw_err_msg");
 
-    var result = false;
+    let result = false;
 
     //숫자 체크
     if (numberPattern.test(pwValue)) {
@@ -86,12 +87,34 @@ function checkEmail() {
     const adress = document.querySelector("#adress");
     const emailAdress = email.value + adress.value;
     const emailErrMsg =  document.querySelector("#email_err_msg");
-    var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; //이메일
+    const emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; //이메일
 
     if(emailPattern.test(emailAdress)){
         emailErrMsg.classList.add("hidden");
     }else {
         emailErrMsg.classList.remove("hidden");
+    }
+}
+
+function checkId() {
+    const pattern = /^[a-zA-Z0-9-_]{5,20}$/;
+    const id = document.getElementById('id').value;
+    const idErrMsg = document.getElementById('invalid_id_err_msg');
+    if (pattern.test(id)) {
+        idErrMsg.classList.add("hidden");
+    } else {
+        idErrMsg.classList.remove("hidden");
+    }
+}
+
+function checkNickname() {
+    const pattern = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣-_]{5,20}$/;
+    const nickname = document.getElementById('nickname').value;
+    const nicknameErrMsg = document.getElementById('invalid_nickname_err_msg');
+    if (pattern.test(nickname)) {
+        nicknameErrMsg.classList.add("hidden");
+    } else {
+        nicknameErrMsg.classList.remove("hidden");
     }
 }
 
@@ -125,9 +148,20 @@ function init() {
         checkEmail(); 
     });
 
+    const idInput = document.getElementById("id");
+    idInput.addEventListener('focusout', (event) => {
+        checkId();
+    });
+
     const duplicateIdButton = document.getElementById("duplicate_id_button");
     duplicateIdButton.addEventListener('click', (event) => {
         const id = document.getElementById("id").value;
+        const chkId = document.getElementById('chk_id').value;
+        const idErrMsg = document.getElementById('invalid_id_err_msg');
+        if (id.length < 5 && !idErrMsg.classList.contains('hidden') && id == chkId) {
+            return;
+        }
+
         // 서버로 아이디 중복검사 보내기 ajax사용     
         const curURL = $(window.location)[0].href;
         const slashLastIndex = curURL.lastIndexOf("/"); 
@@ -136,15 +170,34 @@ function init() {
         $.get(url, {"id" : id}, function(response) {
             $("#chk_id").attr("value", "");
             if (response == "none") {
-                $("#chk_id").attr("value", "pass");
+                $("#chk_id").attr("value", id);
             }
         });
     });
 
+    const nicknameInput = document.getElementById("nickname");
+    nicknameInput.addEventListener('focusout', (event) => {
+        checkNickname();
+    });
 
     const duplicateNicknameButton = document.getElementById("duplicate_nickname_button");
     duplicateNicknameButton.addEventListener('click', (event) => {
         const nickname = document.getElementById("nickname").value;
+        const chkNickname = document.getElementById('chk_nickname').value;
+
+        if (nickname.length < 5 && !nicknameErrMsg.classList.contains('hidden') && nickname == chkNickname) {
+            return;
+        }
+
+        const nicknameErrMsg = document.getElementById('invalid_nickname_err_msg');
+        if (nickname.length <= 0 && !nicknameErrMsg.classList.contains('hidden')) {
+            return;
+        }
+
+        if (nickname == chkNickname) {
+            return;
+        }
+
         // 서버로 아이디 중복검사 보내기 ajax사용     
         const curURL = $(window.location)[0].href;
         const slashLastIndex = curURL.lastIndexOf("/"); 
@@ -153,7 +206,7 @@ function init() {
         $.get(url, {"nickname" : nickname}, function(response) {
             $("#chk_nickname").attr("value", "");
             if (response == "none") {
-                $("#chk_nickname").attr("value", "pass");
+                $("#chk_nickname").attr("value", nickname);
             }
         });
     });
