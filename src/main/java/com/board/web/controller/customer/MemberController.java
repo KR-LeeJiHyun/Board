@@ -44,13 +44,23 @@ public class MemberController {
 	@ResponseBody
 	@GetMapping("/nickname")
 	public String getNickname(String nickname) {
-		return "none";
+		if(memberService.validateDuplicateNickname(nickname)) {
+			return "none";
+		}
+		else {
+			return "exist";
+		}
 	}
 	
 	@ResponseBody
 	@GetMapping("/id")
 	public String getId(String id) {
-		return "none";
+		if(memberService.validateDuplicateId(id)) {
+			return "none";
+		}
+		else {
+			return "exist";
+		}
 	}
 	
 	@GetMapping("/login")

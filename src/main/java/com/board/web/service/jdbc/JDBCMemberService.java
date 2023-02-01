@@ -42,20 +42,12 @@ public class JDBCMemberService implements MemberService{
 			return MemberError.INVALID_ID;
 		}
 		
-		if (!validateDuplicateId(member.getId())) {
-			return MemberError.DUPLICATE_ID;
-		}
-		
 		if (!validatePassword(password, confirmationPassword)) {
 			return MemberError.INVALID_PASSWORD;
 		}
 
 		if (!validateNickname(member.getNickname())) {
 			return MemberError.INVALID_NICKNAME;
-		}
-		
-		if (!validateDuplicateId(member.getNickname())) {
-			return MemberError.DUPLICATE_NICKNAME;
 		}
 		
 		if (!validateEmail(member.getEmail())) {

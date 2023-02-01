@@ -134,10 +134,9 @@ function init() {
         let url = curURL.substring(0, slashLastIndex + 1) + "id";        
 
         $.get(url, {"id" : id}, function(response) {
+            $("#chk_id").attr("value", "");
             if (response == "none") {
                 $("#chk_id").attr("value", "pass");
-            } else {
-                $("#chk_id").attr("value", "");
             }
         });
     });
@@ -152,10 +151,9 @@ function init() {
         let url = curURL.substring(0, slashLastIndex + 1) + "nickname";        
 
         $.get(url, {"nickname" : nickname}, function(response) {
+            $("#chk_nickname").attr("value", "");
             if (response == "none") {
                 $("#chk_nickname").attr("value", "pass");
-            } else {
-                $("#chk_nickname").attr("value", "");
             }
         });
     });
