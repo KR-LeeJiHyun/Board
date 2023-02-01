@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.board.web.entity.Member;
 import com.board.web.error.MemberError;
@@ -38,6 +39,18 @@ public class MemberController {
 		} else {
 			return "regist";			
 		}
+	}
+	
+	@ResponseBody
+	@GetMapping("/nickname")
+	public String getNickname(String nickname) {
+		return "none";
+	}
+	
+	@ResponseBody
+	@GetMapping("/id")
+	public String getId(String id) {
+		return "none";
 	}
 	
 	@GetMapping("/login")
