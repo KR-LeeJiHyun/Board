@@ -28,16 +28,18 @@
                         </div>
                         <div class="tag">닉네임</div>
                         <div class="nickname_row">
-                            <input type="text" name="nickname" placeholder="닉네임 입력" required>
+                            <input id="nickname" type="text" name="nickname" placeholder="닉네임 입력" required>                            
                             <button id="duplicate_nickname_button" type="button" class="small_button">중복확인</button>
+                            <input id="chk_nickname" type="text" required>
                         </div>
                         <div class="err_msg_wrap">
                             <span id="nickname_err_msg" class="hidden">*사용할 수 없는 닉네임입니다.</span>
                         </div>
                         <div class="tag">아이디</div>
                         <div class="id_row">
-                            <input type="text" name="id" placeholder="아이디 입력" required>
+                            <input id="id" type="text" name="id" placeholder="아이디 입력" required>
                             <button id="duplicate_id_button" type="button" class="small_button">중복확인</button>
+                            <input id="chk_id" type="text" required>
                         </div>
                         <div class="err_msg_wrap">
                             <span id="id_err_msg" class="hidden">*사용할 수 없는 아이디입니다.</span>
@@ -100,6 +102,7 @@
                 </div>
             </div>
         </div>
+        <script src="/community/js/jquery.js"></script>
         <script src="/community/js/regist.js"></script>
     </body>
 </html>
