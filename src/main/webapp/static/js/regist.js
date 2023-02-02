@@ -84,12 +84,12 @@ function finalCheckPw() {
 // 이메일 적합성
 function checkEmail() {
     const email = document.querySelector("#email");
-    const adress = document.querySelector("#adress");
-    const emailAdress = email.value + adress.value;
+    const address = document.querySelector("#address");
+    const emailaddress = email.value + address.value;
     const emailErrMsg =  document.querySelector("#email_err_msg");
     const emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; //이메일
 
-    if(emailPattern.test(emailAdress)){
+    if(emailPattern.test(emailaddress)){
         emailErrMsg.classList.add("hidden");
     }else {
         emailErrMsg.classList.remove("hidden");
@@ -122,7 +122,7 @@ function init() {
     const pw = document.querySelector("#pw");
     const confirmationPw = document.querySelector("#confirmation_pw");
     const email = document.querySelector("#email");
-    const adress = document.querySelector("#adress");
+    const address = document.querySelector("#address");
     
     pw.addEventListener('change', (event) => {
         // 비밀번호 적합성
@@ -143,13 +143,14 @@ function init() {
         checkEmail(); 
     });
 
-    adress.addEventListener('change', (event) => {
+    address.addEventListener('change', (event) => {
         // 이메일 적합성
         checkEmail(); 
     });
 
     const idInput = document.getElementById("id");
     idInput.addEventListener('focusout', (event) => {
+        // 기존 아이디랑 같지 않을 경우에 처리하기        
         checkId();
     });
 
@@ -222,6 +223,41 @@ function init() {
         }
         */
         location.replace("login.html");
+    });
+
+    const submitButton = document.getElementById("submit_button");
+    submitButton.addEventListener('click', (event) => {
+        const name = $("#name").val();
+        const nickname = $("#nickname").val();
+        const id = $("#id").val();
+        const password = $("#pw").val();
+        const confirmationPw = $("#confirmation_pw").val();
+        const email = $("#email").val() + $("#address option:selected").val();
+        const year = $(".year option:selected").val();
+        const month = $(".month option:selected").val();
+        const day = $(".day option:selected").val();
+        const date = new Date(year, month, day);
+
+        const data = {
+            'name' : name,
+            'nickname' : nickname,
+            'id' : id,
+            'password' : password,
+            'confirmationPassword': confirmationPw,
+            'email' : email,
+            'birthday' : date
+        };
+
+        const curURL = $(window.location)[0].href;
+        const slashLastIndex = curURL.lastIndexOf("/"); 
+        const url = curURL.substring(0, slashLastIndex);
+        $.post(url, data, function(response) {
+            if (response == 'success') {
+                console.log('success');
+            } else {
+                console.log('fail');
+            }
+        });
     });
 }
 
