@@ -33,7 +33,6 @@ public class JDBCMemberService implements MemberService{
 	
 	@Override
 	public MemberError registMember(Member member, String password, String confirmationPassword) {
-		
 		if (!validateBirthday(member.getBirthday())) {
 			return MemberError.INVALID_BIRTHDAY;
 		}
@@ -45,7 +44,7 @@ public class JDBCMemberService implements MemberService{
 		if (!validatePassword(password, confirmationPassword)) {
 			return MemberError.INVALID_PASSWORD;
 		}
-
+		
 		if (!validateNickname(member.getNickname())) {
 			return MemberError.INVALID_NICKNAME;
 		}
@@ -58,21 +57,21 @@ public class JDBCMemberService implements MemberService{
 		
 		String sql = "INSERT INTO MEMBER(NAME, ID, PASSWORD, NICKNAME, EMAIL, BIRTHDAY, ROLE) VALUES(?,?,?,?,?,?,?)";
 		
-		boolean result = false;		
+		int result = 0;		
 		Connection con = null;
 		PreparedStatement preparedStatement = null;		
 		try {
 			con = this.dataSource.getConnection();
 			preparedStatement = con.prepareStatement(sql);
-			preparedStatement.setString(1, member.getId());
+			preparedStatement.setString(1, member.getName());
 			preparedStatement.setString(2, member.getId());
 			preparedStatement.setString(3, encryptedPassword);
-			preparedStatement.setString(4, member.getId());
-			preparedStatement.setString(5, member.getId());
-			preparedStatement.setString(6, member.getId());
-			preparedStatement.setString(7, member.getId());
+			preparedStatement.setString(4, member.getNickname());
+			preparedStatement.setString(5, member.getEmail());
+			preparedStatement.setDate(6, new java.sql.Date(member.getBirthday().getTime()));
+			preparedStatement.setInt(7, 0);
 			
-			result = preparedStatement.execute();			
+			result = preparedStatement.executeUpdate();
 		} catch (SQLException e) {			
 			e.printStackTrace();
 		} finally {
@@ -89,7 +88,7 @@ public class JDBCMemberService implements MemberService{
 			}
 		}
 		
-		if (result) {
+		if (result == 1) {
 			return MemberError.NO_ERROR;
 		} else {
 			return MemberError.DB_FAIL;
@@ -115,9 +114,7 @@ public class JDBCMemberService implements MemberService{
 			preparedStatement.setString(1, id);
 
 			ResultSet rs = preparedStatement.executeQuery();
-
 			result = !rs.next();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -138,26 +135,27 @@ public class JDBCMemberService implements MemberService{
 	}
 	
 	@Override
-	public boolean validatePassword(String password, String confirmationPassword) {
-	      //숫자
-	      String numberPattern = "*[0-9]*$";
-	      //영문자
-	      String alphabetPattern = "*[a-zA-Z]*$";
-	      //특수문자
-	      String specialPattern = "*[`~!@#$%\\\\^&*()-_=+\\\\|[{]};:'\\\",<.>/?]*$";
-	      //포함 문자
-	      String allPattern = "^[a-zA-Z0-9`~!@#$%\\^&*()-_=+\\|[{]};:'\",<.>/?]{8,20}$";
-	      
-	      //확인용 비밀번호와 일치하는지 확인
-	      if(password.compareTo(confirmationPassword) != 0) {
-	    	  return false;
-	      }
-	      //숫자, 문자, 특수문자가 알맞게 들어가있는지 확인
-	      else if(Pattern.matches(password, numberPattern) && Pattern.matches(password, alphabetPattern) && Pattern.matches(password, specialPattern) && Pattern.matches(password, allPattern)) {
-	    	  return false;
-	      }
-	      
-	      return true;
+	public boolean validatePassword(String password, String confirmationPassword) {		
+		// 숫자
+		String numberPattern = "(.*)[0-9](.*)$";
+		// 영문자
+		String alphabetPattern = "(.*)[a-zA-Z](.*)$";
+		// 특수문자
+		String specialPattern = "(.*)[`~!@#$%\\\\^&*()-_=+\\\\|[{]};:'\\\",<.>/?](.*)$";
+		// 포함 문자
+		String allPattern = "^[a-zA-Z0-9`~!@#$%\\^&*()-_=+\\|[{]};:'\",<.>/?]{8,20}$";
+
+		// 확인용 비밀번호와 일치하는지 확인
+		if (password.compareTo(confirmationPassword) != 0) {
+			return false;
+		}
+		// 숫자, 문자, 특수문자가 알맞게 들어가있는지 확인
+		else if (!Pattern.matches(numberPattern, password) || !Pattern.matches(alphabetPattern, password)
+				|| !Pattern.matches(specialPattern, password) || !Pattern.matches(allPattern, password)) {
+			return false;
+		}
+
+		return true;
 	}
 	
 	@Override
@@ -175,7 +173,6 @@ public class JDBCMemberService implements MemberService{
 			ResultSet rs = preparedStatement.executeQuery();
 
 			result = !rs.next();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -197,20 +194,21 @@ public class JDBCMemberService implements MemberService{
 
 	@Override
 	public boolean validateEmail(String email) {
-		String regex = "\\w+@\\w+.\\w+(\\.\\w+)?{3,320}";
-		return Pattern.matches(email, regex);
+		System.out.println(email);
+		String pattern = "\\w+@\\w+.\\w+(\\.\\w+)?{3,320}";
+		return Pattern.matches(pattern, email);
 	}
 	
 	@Override
 	public boolean validateId(String id) {
-		String allPattern = "^[a-zA-Z0-9_-]{5,20}$";
-		return Pattern.matches(id, allPattern);
+		String pattern = "^[a-zA-Z0-9_-]{5,20}$";
+		return Pattern.matches(pattern, id);
 	}
 	
 	@Override
 	public boolean validateNickname(String nickname) {
-		String allPattern = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]{5,20}$";
-		return Pattern.matches(nickname, allPattern);
+		String pattern = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]{5,20}$";
+		return Pattern.matches(pattern, nickname);
 	}
 	
 	@Override
@@ -219,7 +217,6 @@ public class JDBCMemberService implements MemberService{
 		String encryptedPassword = "";
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
-
 
 		try {
 			con = dataSource.getConnection();
