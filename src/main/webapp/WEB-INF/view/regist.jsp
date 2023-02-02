@@ -21,7 +21,7 @@
         <div class="container">
             <div class="content">
                 <div class="regist_wrap">
-                    <form id="regist_form">
+                    <form id="regist_form" onsubmit="return false;" method="post">
                         <div class="tag">이름</div>
                         <div class="input_row">
                             <input type="text" name="name" placeholder="이름 입력" required>
@@ -88,12 +88,15 @@
                         <div class="select_row">
                             <select class="year">
                                 <option name="year">년도</option>
+                                <option name="year" value="1995">95</option>
                             </select>
                             <select class="month">
                                 <option name="month">월</option>
+                                <option name="month" value="1">1</option>
                             </select>
                             <select class="day">
                                 <option name="day">일</option>
+                                <option name="day" value="1">1</option>
                             </select>
                         </div>
                         <div class="button_wrap">

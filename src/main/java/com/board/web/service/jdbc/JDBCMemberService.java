@@ -105,7 +105,7 @@ public class JDBCMemberService implements MemberService{
 	@Override
 	public boolean validateDuplicateId(String id) {
 		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
-		String result = "";
+		boolean result = false;
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 
@@ -116,9 +116,8 @@ public class JDBCMemberService implements MemberService{
 
 			ResultSet rs = preparedStatement.executeQuery();
 
-			if(rs.next()) {
-				result = rs.getString("id");
-			}
+			result = !rs.next();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -135,7 +134,7 @@ public class JDBCMemberService implements MemberService{
 			}
 		}
 		
-		return result != null;
+		return result;
 	}
 	
 	@Override
@@ -163,8 +162,8 @@ public class JDBCMemberService implements MemberService{
 	
 	@Override
 	public boolean validateDuplicateNickname(String nickname) {
-		String sql = "SELECT NICKNAME FROM MEMBER WHERE ID = NICKNAME";
-		String result = "";
+		String sql = "SELECT NICKNAME FROM MEMBER WHERE NICKNAME = ?";
+		boolean result = false;
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 
@@ -175,9 +174,8 @@ public class JDBCMemberService implements MemberService{
 
 			ResultSet rs = preparedStatement.executeQuery();
 
-			if(rs.next()) {
-				result = rs.getString("id");
-			}
+			result = !rs.next();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -194,7 +192,7 @@ public class JDBCMemberService implements MemberService{
 			}
 		}
 		
-		return result != null;
+		return result;
 	}
 
 	@Override
