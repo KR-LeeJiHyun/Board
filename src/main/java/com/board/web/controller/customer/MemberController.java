@@ -30,11 +30,14 @@ public class MemberController {
 		return "regist";
 	}
 	
+	@ResponseBody
 	@PostMapping
 	public String postMember(String name, String nickname, String id,
 			String password, String confirmationPassword, String email, Date birthday) {
 		Member member = new Member(name, nickname, id, email, birthday);
-		if (this.memberService.registMember(member, password, confirmationPassword) == MemberError.NO_ERROR) {
+		
+		MemberError result = this.memberService.registMember(member, password, confirmationPassword);
+		if (result == MemberError.NO_ERROR) {
 			return "redirect:/";
 		} else {
 			return "regist";			
