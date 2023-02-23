@@ -4,15 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
 
 import com.board.web.entity.Member;
@@ -61,7 +60,8 @@ public class JDBCMemberService implements MemberService{
 		Connection con = null;
 		PreparedStatement preparedStatement = null;		
 		try {
-			con = this.dataSource.getConnection();
+			
+			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, member.getName());
 			preparedStatement.setString(2, member.getId());
@@ -74,6 +74,7 @@ public class JDBCMemberService implements MemberService{
 			result = preparedStatement.executeUpdate();
 		} catch (SQLException e) {			
 			e.printStackTrace();
+			result = 0;
 		} finally {
 			try {
 				if (preparedStatement != null) {
@@ -81,7 +82,7 @@ public class JDBCMemberService implements MemberService{
 				}
 				
 				if (con != null) {
-					con.close();
+					DataSourceUtils.releaseConnection(con, this.dataSource);
 				}							
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -102,19 +103,19 @@ public class JDBCMemberService implements MemberService{
 	}
 	
 	@Override
-	public boolean validateDuplicateId(String id) {
+	public boolean existId(String id) {
 		String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
 		boolean result = false;
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			con = dataSource.getConnection();
+			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, id);
 
 			ResultSet rs = preparedStatement.executeQuery();
-			result = !rs.next();
+			result = rs.next();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -124,7 +125,7 @@ public class JDBCMemberService implements MemberService{
 				}
 				
 				if (con != null) {
-					con.close();
+					DataSourceUtils.releaseConnection(con, this.dataSource);
 				}							
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -159,20 +160,20 @@ public class JDBCMemberService implements MemberService{
 	}
 	
 	@Override
-	public boolean validateDuplicateNickname(String nickname) {
+	public boolean existNickname(String nickname) {
 		String sql = "SELECT NICKNAME FROM MEMBER WHERE NICKNAME = ?";
 		boolean result = false;
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			con = dataSource.getConnection();
+			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, nickname);
 
 			ResultSet rs = preparedStatement.executeQuery();
 
-			result = !rs.next();
+			result = rs.next();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -182,7 +183,7 @@ public class JDBCMemberService implements MemberService{
 				}
 				
 				if (con != null) {
-					con.close();
+					DataSourceUtils.releaseConnection(con, this.dataSource);
 				}							
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -219,7 +220,7 @@ public class JDBCMemberService implements MemberService{
 		PreparedStatement preparedStatement = null;
 
 		try {
-			con = dataSource.getConnection();
+			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, id);
 
@@ -236,7 +237,7 @@ public class JDBCMemberService implements MemberService{
 				}
 				
 				if (con != null) {
-					con.close();
+					DataSourceUtils.releaseConnection(con, this.dataSource);
 				}							
 			} catch (SQLException e) {
 				e.printStackTrace();
