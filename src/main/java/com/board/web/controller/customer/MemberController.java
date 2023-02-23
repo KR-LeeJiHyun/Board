@@ -40,7 +40,7 @@ public class MemberController {
 		
 		MemberError result = this.memberService.registMember(member, password, confirmationPassword);
 		if (result == MemberError.NO_ERROR) {
-			return new ResponseEntity<String>("회원가입을 축하드립니다!", HttpStatus.OK);
+			return new ResponseEntity<String>("회원가입을 축하드립니다!", HttpStatus.CREATED);
 		} else if(result == MemberError.INVALID_ID) {
 			return new ResponseEntity<String>("잘못된 ID입니다.",HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.INVALID_NICKNAME){
@@ -60,10 +60,10 @@ public class MemberController {
 	@GetMapping("/nickname")
 	public ResponseEntity getNickname(String nickname) {
 		if(memberService.existNickname(nickname)) {
-			return new ResponseEntity(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 		else {
-			return new ResponseEntity(HttpStatus.CONFLICT);
+			return new ResponseEntity(HttpStatus.OK);
 		}
 	}
 	
@@ -71,10 +71,10 @@ public class MemberController {
 	@GetMapping("/id")
 	public ResponseEntity getId(String id) {
 		if(memberService.existId(id)) {
-			return new ResponseEntity(HttpStatus.OK);
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 		else {
-			return new ResponseEntity(HttpStatus.CONFLICT);
+			return new ResponseEntity(HttpStatus.OK);
 		}
 	}
 	
