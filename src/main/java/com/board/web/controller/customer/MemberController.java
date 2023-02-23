@@ -3,6 +3,8 @@ package com.board.web.controller.customer;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,37 +34,47 @@ public class MemberController {
 	
 	@ResponseBody
 	@PostMapping
-	public String postMember(String name, String nickname, String id,
+	public ResponseEntity postMember(String name, String nickname, String id,
 			String password, String confirmationPassword, String email, Date birthday) {
 		Member member = new Member(name, nickname, id, email, birthday);
 		
 		MemberError result = this.memberService.registMember(member, password, confirmationPassword);
 		if (result == MemberError.NO_ERROR) {
-			return "redirect:/";
-		} else {
-			return "regist";			
+			return new ResponseEntity<String>("회원가입을 축하드립니다!", HttpStatus.OK);
+		} else if(result == MemberError.INVALID_ID) {
+			return new ResponseEntity<String>("잘못된 ID입니다.",HttpStatus.BAD_REQUEST);
+		} else if(result == MemberError.INVALID_NICKNAME){
+			return new ResponseEntity<String>("잘못된 닉네임입니다.",HttpStatus.BAD_REQUEST);
+		} else if(result == MemberError.INVALID_PASSWORD){
+			return new ResponseEntity<String>("잘못된 비밀번호입니다.",HttpStatus.BAD_REQUEST);
+		} else if(result == MemberError.INVALID_EMAIL){
+			return new ResponseEntity<String>("잘못된 이메일입니다.",HttpStatus.BAD_REQUEST);
+		}else if(result == MemberError.INVALID_BIRTHDAY){
+			return new ResponseEntity<String>("잘못된 생년월일입니다.",HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<String>("문제가 발생했습니다. 다시시도해주세요!",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@ResponseBody
 	@GetMapping("/nickname")
-	public String getNickname(String nickname) {
-		if(memberService.validateDuplicateNickname(nickname)) {
-			return "none";
+	public ResponseEntity getNickname(String nickname) {
+		if(memberService.existNickname(nickname)) {
+			return new ResponseEntity(HttpStatus.OK);
 		}
 		else {
-			return "exist";
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 	}
 	
 	@ResponseBody
 	@GetMapping("/id")
-	public String getId(String id) {
-		if(memberService.validateDuplicateId(id)) {
-			return "none";
+	public ResponseEntity getId(String id) {
+		if(memberService.existId(id)) {
+			return new ResponseEntity(HttpStatus.OK);
 		}
 		else {
-			return "exist";
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 	}
 	
