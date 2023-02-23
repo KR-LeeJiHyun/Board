@@ -167,11 +167,17 @@ function init() {
         const curURL = $(window.location)[0].href;
         const slashLastIndex = curURL.lastIndexOf("/"); 
         let url = curURL.substring(0, slashLastIndex + 1) + "id";        
-
-        $.get(url, {"id" : id}, function(response) {
-            $("#chk_id").attr("value", "");
-            if (response == "none") {
+        const data = {"id" : id};
+        $.ajax({
+            url: url,
+            type: "GET",
+            data : data,
+            success: function(data) {
+                $("#chk_id").attr("value", "");
                 $("#chk_id").attr("value", id);
+            },
+            error: function(xhr) {
+                $("#chk_id").attr("value", "");
             }
         });
     });
@@ -203,11 +209,18 @@ function init() {
         const curURL = $(window.location)[0].href;
         const slashLastIndex = curURL.lastIndexOf("/"); 
         let url = curURL.substring(0, slashLastIndex + 1) + "nickname";        
+        const data = {"nickname" : nickname};
 
-        $.get(url, {"nickname" : nickname}, function(response) {
-            $("#chk_nickname").attr("value", "");
-            if (response == "none") {
+        $.ajax({
+            url: url,
+            type: "GET",
+            data : data,
+            success: function(data) {
+                $("#chk_nickname").attr("value", "");
                 $("#chk_nickname").attr("value", nickname);
+            },
+            error: function(xhr) {
+                $("#chk_nickname").attr("value", "");
             }
         });
     });
@@ -251,11 +264,18 @@ function init() {
         const curURL = $(window.location)[0].href;
         const slashLastIndex = curURL.lastIndexOf("/"); 
         const url = curURL.substring(0, slashLastIndex);
-        $.post(url, data, function(response) {
-            if (response == 'success') {
-                console.log('success');
-            } else {
-                console.log('fail');
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data : data,
+            success: function(data) {
+                alert(data);
+                document.location.href = "/community";
+            },
+            error: function(xhr) {
+                alert(xhr.responseText);
+                document.location.href = "/community/members/regist";
             }
         });
     });
