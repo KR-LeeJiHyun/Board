@@ -52,6 +52,14 @@ public class JDBCMemberService implements MemberService{
 			return MemberError.INVALID_EMAIL;
 		}
 		
+		if(existId(member.getId())) {
+			return MemberError.DUPLICATE_ID;
+		}
+		
+		if(existNickname(member.getNickname())) {
+			return MemberError.DUPLICATE_NICKNAME;
+		}
+		
 		String encryptedPassword = this.encryptiontSecurity.encryptPassword(password);
 		
 		String sql = "INSERT INTO MEMBER(NAME, ID, PASSWORD, NICKNAME, EMAIL, BIRTHDAY, ROLE) VALUES(?,?,?,?,?,?,?)";
