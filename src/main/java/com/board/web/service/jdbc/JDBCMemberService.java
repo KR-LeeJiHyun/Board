@@ -227,6 +227,8 @@ public class JDBCMemberService implements MemberService{
 			ResultSet rs = preparedStatement.executeQuery();
 			if(rs.next()) {
 				encryptedPassword = rs.getString("password");
+			} else {
+				return false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
