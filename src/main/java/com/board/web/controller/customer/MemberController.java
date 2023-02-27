@@ -2,6 +2,9 @@ package com.board.web.controller.customer;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.board.web.entity.Member;
 import com.board.web.error.MemberError;
@@ -49,9 +53,9 @@ public class MemberController {
 			return new ResponseEntity<String>("잘못된 비밀번호입니다.",HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.INVALID_EMAIL){
 			return new ResponseEntity<String>("잘못된 이메일입니다.",HttpStatus.BAD_REQUEST);
-		}else if(result == MemberError.INVALID_BIRTHDAY){
+		} else if(result == MemberError.INVALID_BIRTHDAY){
 			return new ResponseEntity<String>("잘못된 생년월일입니다.",HttpStatus.BAD_REQUEST);
-		}else {
+		} else {
 			return new ResponseEntity<String>("문제가 발생했습니다. 다시시도해주세요!",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -84,12 +88,19 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public String postMember(String id, String password) {
-		if (this.memberService.login(id, password)) {
-			return "redirect:/";
-		} else {
-			return "login";			
-		}
-	}
-	
+    public ModelAndView postMember(String id, String password) {
+        ModelAndView mv = new ModelAndView();
+
+        if (this.memberService.login(id, password)) {
+        	System.out.println("login success");
+            mv.setViewName("redirect:/");
+        } else {
+        	System.out.println("login fail");
+            mv.setViewName("login");
+            mv.setStatus(HttpStatus.UNAUTHORIZED);
+            mv.addObject("error", true);
+        }
+        
+        return mv;
+    }
 }
