@@ -1,25 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html>
     <head>
         <meta charset="utf-8">
         <!-- style.css-->
-        <link rel="stylesheet" href="css/login.css">
-    </head>
+        <link rel="stylesheet" href="/community/css/login.css">
+    </head>    
     <body>
         <header>
             <div class="header_inner">
                 <span>
                     LOGIN  
-                    <img class="logo" src="images/logo.jpg"/>   
+                    <img class="logo" src="/community/images/logo.jpg"/>   
                 </span> 
             </div>
         </header>
         <div class="container">
             <div class="content">
                 <div class="login_wrap">
-                    <form id="login_form">
+                    <form id="login_form" action="login" method="POST">
                         <div class="id_pw_wrap">
                             <div class="input_row" id="id_line">
                                 <input type="text" name="id" placeholder="아이디/이메일" required/>
@@ -45,4 +46,9 @@
             </div>
         </div>
     </body>
+    <c:if test="${error != null}">
+        <script>
+            alert("아이디 혹은 비밀번호가 잘못되었습니다.");
+        </script>
+    </c:if>
 </html>
