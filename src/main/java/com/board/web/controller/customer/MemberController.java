@@ -2,18 +2,13 @@ package com.board.web.controller.customer;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.board.web.entity.Member;
@@ -36,7 +31,6 @@ public class MemberController {
 		return "regist";
 	}
 	
-	@ResponseBody
 	@PostMapping
 	public ResponseEntity postMember(String name, String nickname, String id,
 			String password, String confirmationPassword, String email, Date birthday) {
@@ -55,12 +49,15 @@ public class MemberController {
 			return new ResponseEntity<String>("잘못된 이메일입니다.",HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.INVALID_BIRTHDAY){
 			return new ResponseEntity<String>("잘못된 생년월일입니다.",HttpStatus.BAD_REQUEST);
+		} else if(result == MemberError.DUPLICATE_ID){
+			return new ResponseEntity<String>("중복된 아이디입니다.",HttpStatus.BAD_REQUEST);
+		} else if(result == MemberError.DUPLICATE_NICKNAME){
+			return new ResponseEntity<String>("중복된 닉네임입니다.",HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<String>("문제가 발생했습니다. 다시시도해주세요!",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@ResponseBody
 	@GetMapping("/nickname")
 	public ResponseEntity getNickname(String nickname) {
 		if(memberService.existNickname(nickname)) {
@@ -71,7 +68,6 @@ public class MemberController {
 		}
 	}
 	
-	@ResponseBody
 	@GetMapping("/id")
 	public ResponseEntity getId(String id) {
 		if(memberService.existId(id)) {
