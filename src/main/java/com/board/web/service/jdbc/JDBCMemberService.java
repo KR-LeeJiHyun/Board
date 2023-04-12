@@ -256,4 +256,81 @@ public class JDBCMemberService implements MemberService{
 		
 		return encryptiontSecurity.matches(password, encryptedPassword);
 	}
+
+	@Override
+	public String findMemberIdByRefreshToken(String refreshToken) {
+		String sql = "SELECT MEMBER_ID FROM PERSISTENCE_LOGINS WHERE TOKEN = ?";
+		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		String id = null;
+
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, refreshToken);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				id = rs.getString("MEMBER_ID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					DataSourceUtils.releaseConnection(con, this.dataSource);
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return id;
+	}
+
+	@Override
+	public Member findMemberById(String id) {
+		String sql = "SELECT * FROM MEMBER WHERE ID = ?";
+		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		Member member = null;
+
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				String name = rs.getString("NAME");
+				String nickname = rs.getString("NICKNAME");				
+				String email = rs.getString("EMAIL");
+				Date birthday = rs.getDate("BIRTHDAY");
+				
+				member = new Member(name, nickname, id, email, birthday);				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					DataSourceUtils.releaseConnection(con, this.dataSource);
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return member;
+	}
 }

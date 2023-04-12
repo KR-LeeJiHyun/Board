@@ -14,4 +14,6 @@ public interface MemberService {
 	boolean existNickname(String nickname);
 	boolean validateEmail(String email);
 	boolean login(String id, String password);
+	String findMemberIdByRefreshToken(String refreshToken);
+	Member findMemberById(String id);
 }
