@@ -1,32 +1,49 @@
 package com.board.web.interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 public class LoginCheckInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         
-        System.out.println("preHandle");  
-        System.out.println(request.getContextPath());
-        System.out.println(request.getRequestURI());
-        System.out.println();
-        return true;
-    }	
-	
-	@Override
-	public void postHandle(
-			HttpServletRequest request, HttpServletResponse response,
-			Object obj, ModelAndView mav)
-	
-			throws Exception {
-		System.out.println("postHandle");  
-        System.out.println(request.getContextPath());
-        System.out.println(request.getRequestURI());
-        System.out.println();
-	}
+		Cookie[] cookies = request.getCookies();
+		for(Cookie cookie : cookies) {
+			if(cookie.getName().equals("JSESSIONID")) {
+				HttpSession session = request.getSession(false);
+				if(session == null) {
+					//401 반환
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					return false;
+				}
+				String memberId = (String)session.getAttribute("MeberId");
+				if(memberId != null) {
+					request.setAttribute("MemberId", memberId);
+					return true;
+				}
+				else {
+					//401반환
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					return false;
+				}
+			}
+			else if(cookie.getName().equals("GUEST")){
+				return true;
+			}
+			else {
+				//401 반환
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				return false;
+			}
+		}
+		
+		//401 반환
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		return false;
+    }
 }
