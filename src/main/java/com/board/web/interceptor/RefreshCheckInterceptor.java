@@ -12,42 +12,45 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.board.web.entity.Member;
 import com.board.web.service.MemberService;
 
-@Component
 public class RefreshCheckInterceptor implements HandlerInterceptor {
 	
 	private MemberService memberService;
 	
-	@Autowired	
 	public RefreshCheckInterceptor(MemberService memberService) {
 		this.memberService = memberService;
 	}
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
+			throws Exception {
+		HttpSession session = null;
 		Cookie[] cookies = request.getCookies();
-		for(Cookie cookie : cookies) {
-			if(cookie.getName().equals("REFRESH_TOKEN")) {
-				//멤버 서비스
-				String refreshToken = cookie.getValue();
-				String id = memberService.findMemberIdByRefreshToken(refreshToken);				
-				if (id == null) {					
-					break;
-				}	
-				
-				Member member = memberService.findMemberById(id);
-				if (member == null) {
-					break;
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				if(cookie.getName().equals("REFRESH_TOKEN")) {
+					//멤버 서비스
+					String refreshToken = cookie.getValue();
+					String id = memberService.findMemberIdByRefreshToken(refreshToken);				
+					if (id == null) {					
+						break;
+					}	
+
+					Member member = memberService.findMemberById(id);
+					if (member == null) {
+						break;
+					}
+					
+					session = request.getSession();
+					session.setAttribute("member", member);
 				}
-				
-				HttpSession session = request.getSession();
-				session.setAttribute("member", member);
-				return true;
 			}
 		}
 		
-		Cookie resCookie = new Cookie("GUEST", "1");
-		response.addCookie(resCookie);
+		if(session == null) {
+			session = request.getSession();
+			session.setAttribute("member", new Member());
+		}
+		
 		return true;
-    }
+	}
 }
