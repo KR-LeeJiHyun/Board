@@ -1,17 +1,17 @@
 package com.board.web.security.pbkdf2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.board.web.security.EncryptiontSecurity;
 
 @Component
 public class EncryptionSecurityPbkdf2 implements EncryptiontSecurity {
-	private Pbkdf2PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public EncryptionSecurityPbkdf2(Pbkdf2PasswordEncoder passwordEncoder) {		
+	public EncryptionSecurityPbkdf2(PasswordEncoder passwordEncoder) {		
 		this.passwordEncoder = passwordEncoder;
 	}
 
