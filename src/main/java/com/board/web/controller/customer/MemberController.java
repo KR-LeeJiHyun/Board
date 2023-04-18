@@ -1,6 +1,12 @@
 package com.board.web.controller.customer;
 
 import java.util.Date;
+import java.util.UUID;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -84,10 +90,20 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-    public ModelAndView postMember(String id, String password) {
+    public ModelAndView postMember(HttpServletRequest request, HttpServletResponse response, String id, String password, String loginKeep) {
         ModelAndView mv = new ModelAndView();
-
         if (this.memberService.login(id, password)) {
+        	HttpSession session = request.getSession();
+        	Member member = this.memberService.findMemberById(id);
+        	session.setAttribute("member", member);
+        	
+        	if (loginKeep != null) {
+        		String resfreshToken = UUID.randomUUID().toString();
+            	this.memberService.insertRefreshToken(resfreshToken, id);
+            	Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", resfreshToken);
+            	response.addCookie(refreshTokenCookie);
+        	}
+        	
         	System.out.println("login success");
             mv.setViewName("redirect:/");
         } else {
@@ -98,5 +114,5 @@ public class MemberController {
         }
         
         return mv;
-    }
+    }	
 }
