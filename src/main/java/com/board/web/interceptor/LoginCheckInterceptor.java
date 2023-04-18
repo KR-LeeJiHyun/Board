@@ -1,5 +1,6 @@
 package com.board.web.interceptor;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.web.entity.Member;
 
@@ -16,14 +18,14 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             throws Exception {
         HttpSession session = request.getSession(false);
         if(session != null) {
-        	Member member = (Member)session.getAttribute("Member");
-        	if(member != null) {
+        	Member member = (Member)session.getAttribute("member");
+        	if(member != null) {        		
         		return true;
         	}
         }
         
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/empty"); // /빼면 상대주소인지 확인하기
+      	dispatcher.forward(request, response);
         return false;
-    
 	}
 }
