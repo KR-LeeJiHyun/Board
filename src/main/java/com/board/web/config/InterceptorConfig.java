@@ -20,14 +20,13 @@ public class InterceptorConfig {
 	@Bean
 	public MappedInterceptor loginCheckInterceptor() {
 		String[] includePatterns = {"/**"};
-		String[] excludePatterns = {"/members/**","/css/**","/js/**","/fonts/**","/images/**"};
+		String[] excludePatterns = {"/members/**","/css/**","/js/**","/fonts/**","/images/**", "/refresh/**", "/empty/**"};
 	    return new MappedInterceptor(includePatterns, excludePatterns, new LoginCheckInterceptor());
 	}
 	
 	@Bean
 	public MappedInterceptor refreshCheckInterceptor() {
 		String[] includePatterns = {"/refresh"};
-		String[] excludePatterns = {"/**"};
-	    return new MappedInterceptor(includePatterns, excludePatterns, new RefreshCheckInterceptor(memberService));
+	    return new MappedInterceptor(includePatterns, new RefreshCheckInterceptor(memberService));
 	}
 }
