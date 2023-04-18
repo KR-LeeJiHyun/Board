@@ -49,8 +49,8 @@ public class RefreshCheckInterceptor implements HandlerInterceptor {
 		if(session == null) {
 			session = request.getSession();
 			session.setAttribute("member", new Member());
-		}
+		}		
 		
-		return true;
+		return false;
 	}
 }
