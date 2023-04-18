@@ -16,4 +16,5 @@ public interface MemberService {
 	boolean login(String id, String password);
 	String findMemberIdByRefreshToken(String refreshToken);
 	Member findMemberById(String id);
+	void insertRefreshToken(String resfreshToken, String id);
 }

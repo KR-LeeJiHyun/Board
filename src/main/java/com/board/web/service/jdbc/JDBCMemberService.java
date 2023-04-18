@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+import javax.security.auth.Refreshable;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -332,5 +333,36 @@ public class JDBCMemberService implements MemberService{
 		}
 		
 		return member;
+	}
+
+	@Override
+	public void insertRefreshToken(String resfreshToken, String id) {
+		String sql = "INSERT INTO PERSISTENCE_LOGINS(MEMBER_ID, TOKEN) VALUES(?,?)";
+		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;		
+		try {
+			
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+			preparedStatement.setString(2, resfreshToken);
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					DataSourceUtils.releaseConnection(con, this.dataSource);
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
