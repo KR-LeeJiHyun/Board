@@ -192,16 +192,8 @@ function init() {
         const nickname = document.getElementById("nickname").value;
         const chkNickname = document.getElementById('chk_nickname').value;
 
-        if (nickname.length < 5 && !nicknameErrMsg.classList.contains('hidden') && nickname == chkNickname) {
-            return;
-        }
-
         const nicknameErrMsg = document.getElementById('invalid_nickname_err_msg');
-        if (nickname.length <= 0 && !nicknameErrMsg.classList.contains('hidden')) {
-            return;
-        }
-
-        if (nickname == chkNickname) {
+        if (nickname.length < 5 || !nicknameErrMsg.classList.contains('hidden') || nickname == chkNickname) {
             return;
         }
 
