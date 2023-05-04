@@ -102,6 +102,51 @@ public class JDBCMemberRepository implements MemberRepository{
 	}
 
 	@Override
+	public Member findMemberByField(String field, String value) {
+		String sql = "SELECT * FROM MEMBER WHERE " + field +  " = ?";
+		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		Member member = null;
+
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, value);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			if(rs.next()) {
+				String id = rs.getString("ID");
+				String name = rs.getString("NAME");
+				String nickname = rs.getString("NICKNAME");				
+				String email = rs.getString("EMAIL");
+				Date birthday = rs.getDate("BIRTHDAY");
+				String encryptedPassword = rs.getString("PASSWORD");
+				
+				member = new Member(name, nickname, id, email, birthday, encryptedPassword);				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					DataSourceUtils.releaseConnection(con, this.dataSource);
+				}							
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return member;
+	}
+	
+	
+	@Override
 	public Member findMemberById(String id) {
 		String sql = "SELECT * FROM MEMBER WHERE ID = ?";
 		

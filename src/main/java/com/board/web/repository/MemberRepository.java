@@ -8,4 +8,5 @@ public interface MemberRepository {
 	String findMemberIdByRefreshToken(String refreshToken);
 	Member findMemberById(String id);
 	int insertRefreshToken(PersistenceLogin persistenceLogin);
+	Member findMemberByField(String field, String value);
 }
