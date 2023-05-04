@@ -1,8 +1,5 @@
 package com.board.web.controller.customer;
 
-import java.util.Date;
-import java.util.UUID;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,11 +35,8 @@ public class MemberController {
 	}
 	
 	@PostMapping
-	public ResponseEntity postMember(String name, String nickname, String id,
-			String password, String confirmationPassword, String email, Date birthday) {
-		Member member = new Member(name, nickname, id, email, birthday);
-		
-		MemberError result = this.memberService.registMember(member, password, confirmationPassword);
+	public ResponseEntity postMember(MemberForm memberForm) {
+		MemberError result = this.memberService.registMember(memberForm);
 		if (result == MemberError.NO_ERROR) {
 			return new ResponseEntity<String>("회원가입을 축하드립니다!", HttpStatus.CREATED);
 		} else if(result == MemberError.INVALID_ID) {
@@ -92,27 +86,28 @@ public class MemberController {
 	@PostMapping("/login")
     public ModelAndView postMember(HttpServletRequest request, HttpServletResponse response, String id, String password, String loginKeep) {
         ModelAndView mv = new ModelAndView();
-        if (this.memberService.login(id, password)) {
+        LoginResult loginResult = this.memberService.login(id, password, loginKeep);
+        Member member = loginResult.getMember();
+        if (member != null) {
         	HttpSession session = request.getSession();
-        	Member member = this.memberService.findMemberById(id);
         	session.setAttribute("member", member);
+        	String refreshToken = loginResult.getRefreshToken();
         	
-        	if (loginKeep != null) {
-        		String resfreshToken = UUID.randomUUID().toString();
-            	this.memberService.insertRefreshToken(resfreshToken, id);
-            	Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", resfreshToken);
+        	if(refreshToken != null) {
+        		Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", refreshToken);
             	response.addCookie(refreshTokenCookie);
         	}
-        	
-        	System.out.println("login success");
+            
+            System.out.println("login success");
             mv.setViewName("redirect:/");
-        } else {
+        }
+        else {
         	System.out.println("login fail");
             mv.setViewName("login");
             mv.setStatus(HttpStatus.UNAUTHORIZED);
             mv.addObject("error", true);
         }
-        
+        	
         return mv;
     }	
 }
