@@ -6,15 +6,15 @@ import org.springframework.web.servlet.handler.MappedInterceptor;
 
 import com.board.web.interceptor.LoginCheckInterceptor;
 import com.board.web.interceptor.RefreshCheckInterceptor;
-import com.board.web.service.MemberService;
+import com.board.web.repository.MemberRepository;
 
 @Configuration
 public class InterceptorConfig {
 	
-	private MemberService memberService;
+	private MemberRepository memberRepository;
 	
-	public InterceptorConfig (MemberService memberService) {
-		this.memberService = memberService;
+	public InterceptorConfig (MemberRepository memberRepository) {
+		this.memberRepository= memberRepository;
 	}
 	
 	@Bean
@@ -27,6 +27,6 @@ public class InterceptorConfig {
 	@Bean
 	public MappedInterceptor refreshCheckInterceptor() {
 		String[] includePatterns = {"/refresh"};
-	    return new MappedInterceptor(includePatterns, new RefreshCheckInterceptor(memberService));
+	    return new MappedInterceptor(includePatterns, new RefreshCheckInterceptor(memberRepository));
 	}
 }

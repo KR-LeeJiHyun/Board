@@ -5,19 +5,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.board.web.entity.Member;
-import com.board.web.service.MemberService;
-
+import com.board.web.repository.MemberRepository;
 public class RefreshCheckInterceptor implements HandlerInterceptor {
 	
-	private MemberService memberService;
+	private MemberRepository memberRepository;
 	
-	public RefreshCheckInterceptor(MemberService memberService) {
-		this.memberService = memberService;
+	public RefreshCheckInterceptor(MemberRepository memberRepository) {
+		this.memberRepository = memberRepository;
 	}
 
 	@Override
@@ -30,12 +27,12 @@ public class RefreshCheckInterceptor implements HandlerInterceptor {
 				if(cookie.getName().equals("REFRESH_TOKEN")) {
 					//멤버 서비스
 					String refreshToken = cookie.getValue();
-					String id = memberService.findMemberIdByRefreshToken(refreshToken);				
+					String id = memberRepository.findMemberIdByRefreshToken(refreshToken);				
 					if (id == null) {					
 						break;
 					}	
 
-					Member member = memberService.findMemberById(id);
+					Member member = memberRepository.findMemberById(id);
 					if (member == null) {
 						break;
 					}
