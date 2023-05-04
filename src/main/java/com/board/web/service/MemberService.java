@@ -81,12 +81,6 @@ public class MemberService {
 		return birthday.compareTo(now) < 1;
 	}
 	
-	public boolean existId(String id) {
-		boolean result = false;
-		
-		return result;
-	}
-	
 	public boolean validatePassword(String password, String confirmationPassword) {		
 		// 숫자
 		String numberPattern = "(.*)[0-9](.*)$";
@@ -109,11 +103,6 @@ public class MemberService {
 
 		return true;
 	}
-	
-	public boolean existNickname(String nickname) {
-		boolean result = false;
-		return result;
-	}
 
 	public boolean validateEmail(String email) {
 		System.out.println(email);
@@ -129,6 +118,24 @@ public class MemberService {
 	public boolean validateNickname(String nickname) {
 		String pattern = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣_-]{5,20}$";
 		return Pattern.matches(pattern, nickname);
+	}
+	
+	public boolean existId(String id) {
+		Member member = memberRepository.findMemberByField("id", id);
+		if (member != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean existNickname(String nickname) {
+		Member member = memberRepository.findMemberByField("nickname", nickname);
+		if (member != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public LoginResult login(String id, String password, String loginKeep) {
