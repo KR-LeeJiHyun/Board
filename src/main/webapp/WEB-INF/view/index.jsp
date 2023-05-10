@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +25,19 @@
 						<li><a class="user_menu_active" href="">HOME</a></li>
 						<li><a href="">MY PAGE</a></li>
 						<li><a href="">FOLLOW US</a></li>
-						<li><a href="">LOGOUT</a></li>
+						<li>
+							<c:if test="${member.id != null}">
+								<a href="">
+        							LOGOUT
+        						</a>
+    						</c:if>
+    						<c:if test="${member.id == null}">
+        						<a href="/community/members/login">
+        							LOGIN
+        						</a>
+    						</c:if>
+							
+						</li>
 					</ul>
 				</div>
 			</div>
