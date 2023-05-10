@@ -49,7 +49,8 @@ header {
 
 #blackbox {
     position: absolute;
-    width: 1500px;
+    width: 100%;
+    min-width: 1500px;
     height: 120px;
     background-color: white;
     z-index: 3;
