@@ -95,6 +95,8 @@ public class MemberController {
         	
         	if(refreshToken != null) {
         		Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", refreshToken);
+        		refreshTokenCookie.setPath("/community/refresh");
+        		refreshTokenCookie.setMaxAge(60 * 60 * 24 * 30);
             	response.addCookie(refreshTokenCookie);
         	}
             
