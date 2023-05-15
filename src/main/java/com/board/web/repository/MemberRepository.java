@@ -9,4 +9,5 @@ public interface MemberRepository {
 	Member findMemberById(String id);
 	int insertRefreshToken(PersistenceLogin persistenceLogin);
 	Member findMemberByField(String field, String value);
+	int deleteRefreshToken(String refreshToken);
 }

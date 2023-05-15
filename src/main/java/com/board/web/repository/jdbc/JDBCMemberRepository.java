@@ -201,7 +201,8 @@ public class JDBCMemberRepository implements MemberRepository{
 			preparedStatement.setString(1, persistenceLogin.getId());
 			preparedStatement.setString(2, persistenceLogin.getRefreshToken());
 			result = preparedStatement.executeUpdate();
-		} catch (SQLException e) {			
+		} catch (SQLException e) {		
+			result = 0;
 			e.printStackTrace();
 		} finally {
 			try {
@@ -213,7 +214,37 @@ public class JDBCMemberRepository implements MemberRepository{
 					DataSourceUtils.releaseConnection(con, this.dataSource);
 				}							
 			} catch (SQLException e) {
-				result = 0;
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int deleteRefreshToken(String refreshToken) {
+		int result = 0;
+		String sql = "DELETE FROM PERSISTENCE_LOGINS WHERE TOKEN = ?";
+		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;		
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1,refreshToken);
+			result = preparedStatement.executeUpdate();
+		} catch (SQLException e) {	
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				
+				if (con != null) {
+					DataSourceUtils.releaseConnection(con, this.dataSource);
+				}							
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
