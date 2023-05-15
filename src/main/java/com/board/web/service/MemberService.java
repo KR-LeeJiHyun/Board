@@ -163,4 +163,9 @@ public class MemberService {
 		
 		return new LoginResult(member, resfreshToken);
 	}
+	
+	public int logout(String refreshToken) {
+		// 토큰 삭제
+		return memberRepository.deleteRefreshToken(refreshToken);
+	}
 }
