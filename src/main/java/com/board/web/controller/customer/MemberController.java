@@ -95,16 +95,15 @@ public class MemberController {
         	
         	if(refreshToken != null) {
         		Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", refreshToken);
-        		refreshTokenCookie.setPath("/community/refresh");
+        		refreshTokenCookie.setPath("/community/refresh, /community/logout");
+        		refreshTokenCookie.setHttpOnly(true);
         		refreshTokenCookie.setMaxAge(60 * 60 * 24 * 30);
             	response.addCookie(refreshTokenCookie);
         	}
             
-            System.out.println("login success");
             mv.setViewName("redirect:/");
         }
         else {
-        	System.out.println("login fail");
             mv.setViewName("login");
             mv.setStatus(HttpStatus.UNAUTHORIZED);
             mv.addObject("error", true);
@@ -112,4 +111,18 @@ public class MemberController {
         	
         return mv;
     }	
+	
+	@PostMapping("/logout")
+	public String logout(HttpServletRequest request, String refreshToken) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			Member member = new Member();
+			session.setAttribute("member", member);			
+		}
+
+		// refresh 토큰 삭제
+		int result = memberService.logout(refreshToken);
+		
+		return "/";
+	}
 }
