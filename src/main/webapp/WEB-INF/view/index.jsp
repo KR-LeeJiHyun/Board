@@ -27,7 +27,7 @@
 						<li><a href="">FOLLOW US</a></li>
 						<li>
 							<c:if test="${member.id != null}">
-								<a href="">
+								<a href="/community/members/logout">
         							LOGOUT
         						</a>
     						</c:if>
@@ -36,7 +36,6 @@
         							LOGIN
         						</a>
     						</c:if>
-							
 						</li>
 					</ul>
 				</div>
