@@ -27,9 +27,9 @@
 						<li><a href="">FOLLOW US</a></li>
 						<li>
 							<c:if test="${member.id != null}">
-								<a href="/community/members/logout">
-        							LOGOUT
-        						</a>
+								<form method="post" action="/community/members/logout">
+									<input id="logout_button" type="submit" value="LOGOUT">
+								</form>
     						</c:if>
     						<c:if test="${member.id == null}">
         						<a href="/community/members/login">
