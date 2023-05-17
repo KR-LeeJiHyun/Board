@@ -95,12 +95,12 @@ public class MemberController {
         	
         	if(refreshToken != null) {
         		Cookie refreshTokenCookie = new Cookie("REFRESH_TOKEN", refreshToken);
-        		refreshTokenCookie.setPath("community/refresh");
+        		refreshTokenCookie.setPath("/community/refresh");
         		refreshTokenCookie.setHttpOnly(true);
         		refreshTokenCookie.setMaxAge(60 * 60 * 24 * 30);
             	response.addCookie(refreshTokenCookie);
             	Cookie logoutTokenCookie = new Cookie("LOGOUT_TOKEN", refreshToken);
-            	logoutTokenCookie.setPath("community/members/logout");
+            	logoutTokenCookie.setPath("/community/members/logout");
             	logoutTokenCookie.setHttpOnly(true);
             	logoutTokenCookie.setMaxAge(60 * 60 * 24 * 30);
             	response.addCookie(logoutTokenCookie);
@@ -117,8 +117,8 @@ public class MemberController {
         return mv;
     }	
 	
-	@GetMapping("/logout")
-	public String logout(HttpServletRequest request) {
+	@PostMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			Member member = new Member();
@@ -130,6 +130,8 @@ public class MemberController {
 			if(c.getName().equals("LOGOUT_TOKEN")) {
 				String refreshToken = c.getValue();
 				int result = memberService.logout(refreshToken);
+				c.setMaxAge(0);
+				response.addCookie(c);
 			}
 		}
 		
