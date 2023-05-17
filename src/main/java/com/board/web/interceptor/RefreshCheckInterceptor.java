@@ -28,12 +28,16 @@ public class RefreshCheckInterceptor implements HandlerInterceptor {
 					//멤버 서비스
 					String refreshToken = cookie.getValue();
 					String id = memberRepository.findMemberIdByRefreshToken(refreshToken);				
-					if (id == null) {					
+					if (id == null) {
+						cookie.setMaxAge(0);
+						response.addCookie(cookie);
 						break;
 					}	
 
 					Member member = memberRepository.findMemberById(id);
 					if (member == null) {
+						cookie.setMaxAge(0);
+						response.addCookie(cookie);
 						break;
 					}
 					
