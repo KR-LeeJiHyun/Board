@@ -11,7 +11,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import com.board.web.entity.Member;
 import com.board.web.entity.PersistenceLogin;
@@ -49,17 +48,7 @@ public class JDBCMemberRepository implements MemberRepository{
 			e.printStackTrace();
 			result = 0;
 		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-				
-				if (con != null) {
-					DataSourceUtils.releaseConnection(con, this.dataSource);
-				}							
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			close(preparedStatement, con);
 		}
 		
 		return result;
@@ -71,6 +60,7 @@ public class JDBCMemberRepository implements MemberRepository{
 		
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		String id = null;
 
 		try {
@@ -78,24 +68,22 @@ public class JDBCMemberRepository implements MemberRepository{
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, refreshToken);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
 				id = rs.getString("MEMBER_ID");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
 				}
 				
-				if (con != null) {
-					DataSourceUtils.releaseConnection(con, this.dataSource);
-				}							
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
+			close(preparedStatement, con);
 		}
 		
 		return id;
@@ -107,6 +95,7 @@ public class JDBCMemberRepository implements MemberRepository{
 		
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		Member member = null;
 
 		try {
@@ -114,7 +103,7 @@ public class JDBCMemberRepository implements MemberRepository{
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, value);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			
 			if(rs.next()) {
 				String id = rs.getString("ID");
@@ -129,17 +118,15 @@ public class JDBCMemberRepository implements MemberRepository{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
 				}
 				
-				if (con != null) {
-					DataSourceUtils.releaseConnection(con, this.dataSource);
-				}							
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
+			close(preparedStatement, con);
 		}
 		
 		return member;
@@ -152,6 +139,7 @@ public class JDBCMemberRepository implements MemberRepository{
 		
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		Member member = null;
 
 		try {
@@ -159,7 +147,7 @@ public class JDBCMemberRepository implements MemberRepository{
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, id);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
 				String name = rs.getString("NAME");
 				String nickname = rs.getString("NICKNAME");				
@@ -172,17 +160,15 @@ public class JDBCMemberRepository implements MemberRepository{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
 				}
 				
-				if (con != null) {
-					DataSourceUtils.releaseConnection(con, this.dataSource);
-				}							
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
+			close(preparedStatement, con);
 		}
 		
 		return member;
@@ -205,17 +191,7 @@ public class JDBCMemberRepository implements MemberRepository{
 			result = 0;
 			e.printStackTrace();
 		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-				
-				if (con != null) {
-					DataSourceUtils.releaseConnection(con, this.dataSource);
-				}							
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			close(preparedStatement, con);
 		}
 		
 		return result;
@@ -236,19 +212,22 @@ public class JDBCMemberRepository implements MemberRepository{
 		} catch (SQLException e) {	
 			e.printStackTrace();
 		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-				
-				if (con != null) {
-					DataSourceUtils.releaseConnection(con, this.dataSource);
-				}							
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			close(preparedStatement, con);
 		}
 		
 		return result;
+	}
+	
+	private void close(PreparedStatement preparedStatement, Connection con) {
+		try {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}						
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(con != null) {
+			DataSourceUtils.releaseConnection(con, this.dataSource);
+		}
 	}
 }
