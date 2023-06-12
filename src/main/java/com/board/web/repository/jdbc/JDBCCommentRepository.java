@@ -101,7 +101,7 @@ public class JDBCCommentRepository implements CommentRepository {
 	}
 
 	@Override
-	public List<Comment> findComments(String category, Long postId, int number) {
+	public List<Comment> findComments(String category, Long postId, int page) {
 		String sql ="SELECT *\r\n"
 				+ " FROM " + category + "_COMMENT\r\n"
 				+ " WHERE POST_ID = ?\r\n"
@@ -148,6 +148,40 @@ public class JDBCCommentRepository implements CommentRepository {
 		}
 		
 		return list;
+	}
+	
+	@Override
+	public Long findTotalCount(String category, Long postId) {
+		String sql = "SELECT COUNT(*) FROM " + category + "_COMMENT WHERE POST_ID = ?";		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		long count = 0L;
+
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setLong(1, postId);
+
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				count = rs.getLong("count");				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			close(preparedStatement, con);
+		}
+		
+		return count;
 	}
 	
 	@Override
@@ -255,7 +289,7 @@ public class JDBCCommentRepository implements CommentRepository {
 		return result;
 	}
 	
-	
+
 
 	private void close(PreparedStatement preparedStatement, Connection con) {
 		try {
@@ -270,6 +304,4 @@ public class JDBCCommentRepository implements CommentRepository {
 			DataSourceUtils.releaseConnection(con, this.dataSource);
 		}
 	}
-
-	
 }

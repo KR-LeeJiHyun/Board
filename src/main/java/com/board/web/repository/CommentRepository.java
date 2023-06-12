@@ -9,7 +9,8 @@ import com.board.web.entity.Member;
 public interface CommentRepository {
 	int insertComment(Member member, CommentForm commentForm);
 	Comment findOne(String category, Long commentId);
-	List<Comment> findComments(String category, Long postId, int number);
+	List<Comment> findComments(String category, Long postId, int page);
+	Long findTotalCount(String category, Long postId);
 	int findCount(String category, String column, Long commentId);
 	int updateCount(String category, String column, Long commentId);
 	int updateContent(String category, Long commentId, String content);
