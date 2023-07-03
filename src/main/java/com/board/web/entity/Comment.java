@@ -12,9 +12,10 @@ public class Comment {
 	private Date regdate;
 	private int like;
 	private int unlike;
+	private int blind;
 	
 	public Comment(Long id, Long parentId, Long postId, String memberId, String writer, String content, Date regdate,
-			int like, int unlike) {
+			int like, int unlike, int blind) {
 		this.id = id;
 		this.parentId = parentId;
 		this.postId = postId;
@@ -24,6 +25,7 @@ public class Comment {
 		this.regdate = regdate;
 		this.like = like;
 		this.unlike = unlike;
+		this.blind = blind;
 	}
 
 	public Long getId() {
@@ -60,5 +62,9 @@ public class Comment {
 
 	public int getUnlike() {
 		return unlike;
+	}
+
+	public int getBlind() {
+		return blind;
 	}
 }
