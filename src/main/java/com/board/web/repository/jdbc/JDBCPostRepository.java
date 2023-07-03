@@ -57,7 +57,7 @@ public class JDBCPostRepository implements PostRepository {
 				+ category + "_POST" + " ORDER BY ? DESC) P WHERE "
 				+ postSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
 		
-		int pager = 10;
+		final int PAGER = 10;
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -68,8 +68,8 @@ public class JDBCPostRepository implements PostRepository {
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, postSearch.getOrder());
 			preparedStatement.setString(2, "%" + postSearch.getQuery() + "%");
-			preparedStatement.setInt(3, 1 + (postSearch.getPage() - 1) * pager);
-			preparedStatement.setInt(4, postSearch.getPage() * pager);
+			preparedStatement.setInt(3, 1 + (postSearch.getPage() - 1) * PAGER);
+			preparedStatement.setInt(4, postSearch.getPage() * PAGER);
 			
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
@@ -89,15 +89,7 @@ public class JDBCPostRepository implements PostRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch(SQLException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			close(preparedStatement, con);
+			close(rs, preparedStatement, con);
 		}
 		return list;
 	}
@@ -132,15 +124,7 @@ public class JDBCPostRepository implements PostRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch(SQLException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			close(preparedStatement, con);
+			close(rs, preparedStatement, con);
 		}
 		
 		return post;
@@ -167,15 +151,7 @@ public class JDBCPostRepository implements PostRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch(SQLException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			close(preparedStatement, con);
+			close(rs, preparedStatement, con);
 		}
 		
 		return memberId;
@@ -272,31 +248,35 @@ public class JDBCPostRepository implements PostRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch(SQLException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			close(preparedStatement, con);
+			close(rs, preparedStatement, con);
 		}
 		
 		return cnt;
 	}
 	
 	private void close(PreparedStatement preparedStatement, Connection con) {
+		close(null, preparedStatement, con);
+	}
+	
+	private void close(ResultSet rs, PreparedStatement preparedStatement, Connection con) {
+		try {
+			if(rs != null) {
+				rs.close();
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
-			}						
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if(con != null) {
+		
+		if (con != null) {
 			DataSourceUtils.releaseConnection(con, this.dataSource);
 		}
 	}
-
 }
