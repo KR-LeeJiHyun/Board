@@ -244,113 +244,11 @@ header {
     padding: 0;    
 }
 
-.like_unlike_count {
-    font-size: 13px;  
-}
-
 .btn_like_unlike:hover {
     background-color: rgb(172,164,211);
 }
 
-
-
-.post_content, .comment_box {
+.post_content {
     font-family: 'Ubuntu', sans-serif;
 }
 
-.comment_header {
-    font-family: "HMFMMUEX";
-    border-bottom: solid 2px rgb(124,129,166);
-}
-
-.comment_list {
-    margin: 0;
-}
-
-.comment_area {
-	display: flex;
-}
-
-.comment_item {
-    padding: 5px 0 0 0;
-    border-bottom: 1px solid rgb(153,153,153,0.5);
-}
-
-.comment_reply_symbol {
-    margin-right: 5px;
-}
-
-.nickname {
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.comment_txt {
-    font-size: 13px;
-}
-
-.comment_date {
-    font-size: 13px;
-    color: gray;
-}
-
-.comment_writer {
-    margin: 10px;
-    padding: 10px;
-    border: 2px solid rgb(153,153,153,0.5);;
-}
-
-.comment_input_area {
-    margin-top: 10px;
-    width: 100%;
-    border: none;
-    resize: none;
-    outline: none;
-}
-
-.comment_btn_box {
-    display: flex;
-    justify-content: right;
-}
-
-.comment_btn {
-	font-family: "HMFMMUEX";
-    border: 2px solid  rgb(178, 188, 220);
-    border-radius: 10px;
-    color: rgb(68,68,68);
-    background-color: white;
-    font-size: 13px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    margin-right: 5px;
-    cursor: pointer;
-}
-
-.comment_btn:hover {
-    color: white;
-    background-color: rgb(178, 188, 220);
-}
-
-.blank_bottom {
-	margin-bottom: 5px;
-}
-
-.page_box {
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.page_box ul {
-    padding: 0;
-}
-
-.page_box li {
-    display: inline;
-    margin: 2px;
-    color: rgb(124,129,166);
-}
-
-.page_active {
-    border-bottom: 1px solid rgb(124,129,166);
-}
