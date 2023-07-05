@@ -48,8 +48,16 @@ public class PostController {
 			postSearch.setPage(page);
 		}
 		
+		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category) / 10);
+		int begin = ((int)Math.ceil((double)postSearch.getPage() / 5) - 1) * 5 + 1;
+		int end = begin + 4;
 		List<Post> postList = postService.findPosts(category, postSearch);
 		model.addAttribute("postList", postList);
+		model.addAttribute("category", category);
+		model.addAttribute("page", postSearch.getPage());
+		model.addAttribute("begin", begin);
+		model.addAttribute("end", Math.min(lastPage, end));
+		model.addAttribute("lastPage", lastPage);
 		
 		return "index";
 	}

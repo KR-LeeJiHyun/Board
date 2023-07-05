@@ -77,5 +77,9 @@ public class PostService {
     public boolean isPossible(String memberId, String category, Long id) {
     	return memberId.equals(postRepository.findMeberIdByPostId(category, id));
     }
+    
+    public int findTotalCount(String category) {
+    	return postRepository.findTotalCount(category);
+    }
 
 }
