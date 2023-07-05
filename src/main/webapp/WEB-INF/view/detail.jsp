@@ -106,11 +106,11 @@
 				<h3>${post.title}</h3>
 				<div class="post_info_box">
 					<div>
-						<span>휴지</span> <span> | </span> <span>2022-11-21 14:35:07</span>
+						<span>${post.writer}</span> <span> | </span> <span>${post.regdate}</span>
 					</div>
 					<div>
-						<span>조회수 126</span> <span> | </span> <span>좋아요 2187</span> <span>
-							| </span> <span>싫어요 2</span> <span> | </span> <span>댓글수 12</span>
+						<span>조회수 ${post.hit}</span> <span> | </span> <span>좋아요 ${post.like}</span> <span>
+							| </span> <span>싫어요 ${post.unlike}</span> <span> | </span>
 					</div>
 				</div>
 				<div id ="category" class="hidden">${post.category}</div>
