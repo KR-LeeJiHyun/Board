@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>index</title>
-<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="/community/css/index.css">
 <script src="https://kit.fontawesome.com/012cf477c7.js"
 	crossorigin="anonymous"></script>
 </head>
@@ -18,25 +18,20 @@
 		<div class="header_inner">
 			<div class="title_menu_wrap">
 				<span class="title"> 제목을 입력하시오 <img class="logo"
-					src="images/logo.jpg" />
+					src="/community/images/logo.jpg" />
 				</span>
 				<div class="user_menu">
 					<ul class="menu">
 						<li><a class="user_menu_active" href="">HOME</a></li>
-						<li><a href="">MY PAGE</a></li>
-						<li><a href="">FOLLOW US</a></li>
-						<li>
-							<c:if test="${member.id != null}">
+						<li><a class="menu" href="">MY PAGE</a></li>
+						<li><a class="menu" href="">FOLLOW US</a></li>
+						<li><c:if test="${member.id != null}">
 								<form method="post" action="/community/members/logout">
 									<input id="logout_button" type="submit" value="LOGOUT">
 								</form>
-    						</c:if>
-    						<c:if test="${member.id == null}">
-        						<a href="/community/members/login">
-        							LOGIN
-        						</a>
-    						</c:if>
-						</li>
+							</c:if> <c:if test="${member.id == null}">
+								<a class="menu" href="/community/members/login"> LOGIN </a>
+							</c:if></li>
 					</ul>
 				</div>
 			</div>
@@ -128,25 +123,38 @@
 					<th>좋아요</th>
 					<th>날짜</th>
 				</tr>
-				<tr>
-					<td>11</td>
-					<td>디자인이 뭐임 ㅈㄱㄴ <span class="ballon">12</span>
-					</td>
-					<td>휴지</td>
-					<td>126</td>
-					<td>2187</td>
-					<td>5분전</td>
-				</tr>
+
+				<c:forEach var="post" items="${postList}">
+					<tr>
+						<td>${post.postId}</td>
+						<td><a href="/community/board/${category}/${post.postId}">${post.title}</a><span
+							class="ballon">12</span></td>
+						<td>${post.writer}</td>
+						<td>${post.hit}</td>
+						<td>${post.like}</td>
+						<td>${post.regdate}</td>
+					</tr>
+				</c:forEach>
 			</table>
 			<div class="page_box">
 				<ul>
-					<li id="prev">&lt;</li>
-					<li class="page_active">1</li>
-					<li>2</li>
-					<li>3</li>
-					<li>4</li>
-					<li>5</li>
-					<li id="next">&gt;</li>
+					<c:if test="${begin > 1}">
+						<a href="?page=${begin - 1}">&lt;</a>
+					</c:if>
+					<c:forEach begin="${begin}" end="${end}" varStatus="st">
+							<c:if test="${st.index == page}">
+								<li class="page_active">${st.index}</li>
+							</c:if> 
+							<c:if test="${st.index != page}">
+								<a href="?page=${st.index}">
+               						${st.index}
+               					</a>
+            				</c:if>
+						
+					</c:forEach>
+					<c:if test="${lastPage > end}">
+						<a href="?page=${end + 1}" >&gt;</a>
+					</c:if>
 				</ul>
 			</div>
 		</div>
