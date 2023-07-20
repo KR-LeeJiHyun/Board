@@ -125,9 +125,14 @@
 			<button class="btn_like_unlike btn_like_unlike_big">👍</button>
 			<button class="btn_like_unlike btn_like_unlike_big">👎</button>
 		</div>
+		<c:if test="${memberId == post.memberId}">
+			<div class="btn_box">
+				<a href="/community/board/edit/${category}/${post.postId}" class="comment_btn">수정</a>
+				<a href="/community/board/delete/${category}/${post.postId}" class="comment_btn">삭제</a>
+			</div>
+		</c:if>
 		
 		<div class="comment_box">
-			
 		</div>
 		
 	</div>

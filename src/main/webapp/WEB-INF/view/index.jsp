@@ -105,7 +105,7 @@
 				<select class="order">
 					<option>조회수 순</option>
 					<option>날짜 순</option>
-				</select> <a href="#"> <i class="fa-solid fa-pencil"></i>
+				</select> <a href="new/${category}"> <i class="fa-solid fa-pencil"></i>
 				</a>
 			</div>
 		</div>

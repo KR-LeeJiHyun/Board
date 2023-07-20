@@ -100,7 +100,7 @@
 		<div class="content_banner">
 			<h1>자유게시판</h1>
 		</div>
-		<form action="/community/board/${category}/new" method="post">
+		<form action="edit" method="post">
 		<header>
 			<div class="post_header">
 				<input class="post_title" name="title" placeholder="제목을 입력해 주세요." value="${post.title}"/>

@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>상세</title>
-<link rel="stylesheet" href="css/write.css">
+<link rel="stylesheet" href="/community/css/write.css">
 
 <script src="https://kit.fontawesome.com/012cf477c7.js"
 	crossorigin="anonymous"></script>
@@ -18,7 +18,7 @@
 		<div class="header_inner">
 			<div class="title_menu_wrap">
 				<span class="title"> 제목을 입력하시오 <img class="logo"
-					src="images/logo.jpg" />
+					src="/community/images/logo.jpg" />
 				</span>
 				<div class="user_menu">
 					<ul class="menu">
@@ -86,11 +86,11 @@
 		<div class="content_banner">
 			<h1>자유게시판</h1>
 		</div>
-			<form>
+			<form action="new" method="post">
 			<header>
-				<input class="post_header" placeholder="제목을 입력해 주세요."/>
+				<input name="title" class="post_header" placeholder="제목을 입력해 주세요."/>
 			</header>
-			<textarea class="post_content" placeholder="내용을 입력해 주세요."></textarea>
+			<textarea name="content" class="post_content" placeholder="내용을 입력해 주세요."></textarea>
 			<input class="write_btn" type="button" value="취소"></input>
 			<input class="write_btn" type="submit" value="제출"></input>
 		</form>		
