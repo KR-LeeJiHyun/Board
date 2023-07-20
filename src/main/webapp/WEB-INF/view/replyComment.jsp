@@ -32,7 +32,7 @@
 
             <c:if test="${member != null && member.id == comment.memberId}">
                 <div class="comment_editor hidden">
-                    <div class="nickname">${comment.writer}</div>		
+                    <div class="nickname">${member.nickname}</div>		
                     <textarea class="comment_input_area" rows="1" placeholder="댓글을 입력하세요"
                     onkeyup="resize(this)"></textarea>
                     <div class="comment_btn_box">
@@ -43,12 +43,19 @@
             </c:if>
             
             <div class="comment_writer reply_comment_writer hidden">
-                <div class="nickname">${comment.writer}</div>
-                <textarea name="content" class="comment_input_area" rows="1" placeholder="댓글을 입력하세요"
-                    onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
-                <div class="comment_btn_box">
-                    <button class="comment_btn reply_comment_btn"  onclick="addReplyComment(this)">댓글 입력</button>
-                </div>
+                <c:choose>
+                    <c:when test="${member != null && member.id != null}">
+                        <div class="nickname">${member.nickname}</div>
+                        <textarea name="content" class="comment_input_area" rows="1" placeholder="댓글을 입력하세요"
+                            onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+                        <div class="comment_btn_box">
+                            <button class="comment_btn reply_comment_btn"  onclick="addReplyComment(this)">댓글 입력</button>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <textarea class="comment_input_area" placeholder="로그인을 해주세요" onclick="location.href='/community/members/login'"></textarea>
+                    </c:otherwise>
+                </c:choose>
             </div>
             </c:if>
             
