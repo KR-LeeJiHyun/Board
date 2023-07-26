@@ -89,6 +89,7 @@ public class PostController {
         if(session != null) {
         	Member member = (Member)session.getAttribute("member");
         	if(member != null && member.getId() != null) {
+        		model.addAttribute("category", category);
         		return "write";
         	}
         	else {
