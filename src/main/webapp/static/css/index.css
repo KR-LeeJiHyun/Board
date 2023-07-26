@@ -297,9 +297,6 @@ tr:last-child{
     border: 0;
 }
 
-.post_title {
-    column-span: 10;
-}
 
 .post_num {
     border-right: solid 1px rgb(235,222,230);

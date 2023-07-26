@@ -148,8 +148,12 @@
 		<div class="content">
 			<table class="board">
 				<colgroup>
-					<col class="post_num">
-					<col class="post_title">
+					<col class="post_num" style="width:80px">
+					<col>
+					<col style="width:200px">
+					<col style="width:80px">
+					<col style="width:80px">
+					<col style="width:200px">
 				</colgroup>
 				<tr>
 					<th>NO.</th>
@@ -163,7 +167,7 @@
 				<c:forEach var="post" items="${postList}">
 					<tr>
 						<td>${post.postId}</td>
-						<td class="title_td"><a href="/community/board/${category}/${post.postId}">${post.title}</a><span
+						<td><a href="/community/board/${category}/${post.postId}">${post.title}</a><span
 							class="ballon">12</span></td>
 						<td>${post.writer}</td>
 						<td>${post.hit}</td>
