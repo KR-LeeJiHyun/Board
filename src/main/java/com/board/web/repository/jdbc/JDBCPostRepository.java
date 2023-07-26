@@ -33,7 +33,7 @@ public class JDBCPostRepository implements PostRepository {
 	@Override
 	public int deletePost(String category, Long id) {
 		int result = 0;
-		String sql = "DELETE FROM " + category + "_POST WHERE POST_ID = ?";
+		String sql = "UPDATE " + category + "_POST SET BLIND = 1 WHERE POST_ID = ?";
 		
 		Connection con = null;
 		PreparedStatement preparedStatement = null;		
@@ -54,7 +54,7 @@ public class JDBCPostRepository implements PostRepository {
 	@Override
 	public List<Post> findAllPostByPostSearch(String category, PostSearch postSearch) {
 		String sql = "SELECT * FROM (SELECT ROWNUM NUM, P.* FROM (SELECT * FROM "
-				+ category + "_POST" + " ORDER BY " + postSearch.getOrder() + " DESC) P WHERE "
+				+ category + "_POST" + " WHERE BLIND = 0 ORDER BY " + postSearch.getOrder() + " DESC) P WHERE "
 				+ postSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
 		
 		final int PAGER = 10;
