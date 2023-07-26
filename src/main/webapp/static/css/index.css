@@ -154,6 +154,10 @@ header {
     z-index: 4;
 }
 
+.category > a {
+	color: rgb(124,129,166);
+}
+
 .category_list > li:hover .category {
     color: white;
     margin-bottom: 3px;
@@ -244,6 +248,10 @@ header {
 .search_button {
     border: none;
     background-color: transparent;
+}
+
+.title_td {
+	width: 550px;
 }
 
 #search_content {

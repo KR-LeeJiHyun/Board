@@ -86,7 +86,7 @@
 		<div class="content_banner">
 			<h1>자유게시판</h1>
 		</div>
-			<form action="new" method="post">
+			<form action="/community/board/new/${category}" method="post">
 			<header>
 				<input name="title" class="post_header" placeholder="제목을 입력해 주세요."/>
 			</header>

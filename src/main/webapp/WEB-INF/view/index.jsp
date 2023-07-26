@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +40,14 @@
 				<ul class="menu category_list">
 					<li class="category_list_item">
 						<div class="category_box">
-							<div class="category category_active">자유게시판</div>
+							<c:if test="${category == 'free'}">
+								<div class="category category_active">자유게시판</div>
+							</c:if>
+							<c:if test="${category != 'free'}">
+								<div class="category">
+									<a href="/community/board/free">자유게시판</a>
+								</div>
+							</c:if>
 						</div>
 						<div class="category_detail">
 							<div>화제 게시판</div>
@@ -49,7 +57,14 @@
 					</li>
 					<li class="category_list_item">
 						<div class="category_box">
-							<div class="category">게임</div>
+							<c:if test="${category == 'game'}">
+								<div class="category category_active">게임</div>
+							</c:if>
+							<c:if test="${category != 'game'}">
+								<div class="category">
+									<a href="/community/board/game">게임</a>
+								</div>
+							</c:if>
 						</div>
 						<div class="category_detail">
 							<div>화제 게시판</div>
@@ -59,7 +74,14 @@
 					</li>
 					<li class="category_list_item">
 						<div class="category_box">
-							<div class="category">스포츠</div>
+							<c:if test="${category == 'sports'}">
+									<div class="category category_active">스포츠</div>
+							</c:if>
+							<c:if test="${category != 'sports'}">
+								<div class="category">
+									<a href="/community/board/sports">스포츠</a>
+								</div>
+							</c:if>
 						</div>
 						<div class="category_detail">
 							<div>화제 게시판</div>
@@ -68,7 +90,14 @@
 					</li>
 					<li class="category_list_item">
 						<div class="category_box">
-							<div class="category">애완동물</div>
+							<c:if test="${category == 'pet'}">
+								<div class="category category_active">애완동물</div>
+							</c:if>
+							<c:if test="${category != 'pet'}">
+								<div class="category">
+									<a href="/community/board/pet">애완동물</a>
+								</div>
+							</c:if>
 						</div>
 						<div class="category_detail">
 							<div>화제 게시판</div>
@@ -78,7 +107,14 @@
 					</li>
 					<li class="category_list_item">
 						<div class="category_box">
-							<div class="category">IT/금융</div>
+							<c:if test="${category == 'it_finance'}">
+									<div class="category category_active">IT/금융</div>
+							</c:if>
+							<c:if test="${category != 'it_finance'}">
+									<div class="category">
+										<a href="/community/board/it_finance">IT/금융</a>
+									</div>
+							</c:if>
 						</div>
 						<div class="category_detail">
 							<div>화제 게시판</div>
@@ -127,12 +163,14 @@
 				<c:forEach var="post" items="${postList}">
 					<tr>
 						<td>${post.postId}</td>
-						<td><a href="/community/board/${category}/${post.postId}">${post.title}</a><span
+						<td class="title_td"><a href="/community/board/${category}/${post.postId}">${post.title}</a><span
 							class="ballon">12</span></td>
 						<td>${post.writer}</td>
 						<td>${post.hit}</td>
 						<td>${post.like}</td>
-						<td>${post.regdate}</td>
+						<td>
+							<fmt:formatDate value="${post.regdate}" type="both" />
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
