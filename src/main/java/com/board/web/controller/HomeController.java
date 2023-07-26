@@ -11,7 +11,7 @@ public class HomeController {
 	
 	@GetMapping(value = {"index",""})
 	public String index(Model model, Integer page, String field, String query) {
-		return "index";
+		return "redirect:/board/free";
 	}
 	
 }
