@@ -82,11 +82,9 @@ public class CommentService {
 	
 	public CommentDTO updateContent(Member member, String category, Long commentId, String content) {
 		CommentDTO result = null;
-		if (isMyComment(member, category, commentId)) {
-			if(commentRepository.updateContent(category, commentId, content) == 1) {
-				Comment comment = commentRepository.findOne(category, commentId);
-				result = new CommentDTO(comment.getId(), comment.getMemberId(), comment.getWriter(), comment.getContent(), comment.getRegdate(), comment.getLike(), comment.getUnlike(), 0, comment.getBlind());
-			}
+		if(commentRepository.updateContent(category, commentId, content) == 1) {
+			Comment comment = commentRepository.findOne(category, commentId);
+			result = new CommentDTO(comment.getId(), comment.getMemberId(), comment.getWriter(), comment.getContent(), comment.getRegdate(), comment.getLike(), comment.getUnlike(), 0, comment.getBlind());
 		}
 		
 		return result;
@@ -99,15 +97,10 @@ public class CommentService {
 	}
 	
 	public int deleteComment(Member member, String category, Long commentId) {
-		int result = 0;
-		if (isMyComment(member, category, commentId)) {
-			result = commentRepository.deleteComment(category, commentId);
-		}
-		
-		return result;
+		return commentRepository.deleteComment(category, commentId);
 	}
 	
-	private boolean isMyComment(Member member, String category, Long commentId) {
+	public boolean isMyComment(Member member, String category, Long commentId) {
 		Comment comment = commentRepository.findOne(category, commentId);
 		if (comment.getMemberId().equals(member.getId())) {
 			return true;
