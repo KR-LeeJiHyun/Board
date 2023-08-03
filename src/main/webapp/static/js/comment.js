@@ -9,7 +9,7 @@ function toggleReplyWriter(target) {
 }
 
 function loadComment(category, postId, page) {
-	const url = "/community/board/"+ category + "/" +postId +"/comment/list?page=" + page;
+	const url = "/community/board/"+ category + "/" + postId +"/comment/list?page=" + page;
 	const commentBox = $(".comment_box");
 	commentBox.load(url);	
 }
@@ -33,7 +33,7 @@ function loadReply(target) {
 function addComment(target) {
 	const category = $('#category').text();
 	const postId = $('#post_id').text();
-	const content = $(target).parent().parent().children(".comment_input_area").val();
+	const content = $(target).parent().parent().children(".comment_input_area").val().replace(/\n/g, "<br>");
 	const url = "/community/board/"+ category + "/" + postId +"/comment/create";
 
 	const commentBox = $(".comment_box");
@@ -43,7 +43,7 @@ function addComment(target) {
 function addReplyComment(target) {
 	const category = $('#category').text();
 	const postId = $('#post_id').text();
-	const content = $(target).parent().parent().children(".comment_input_area").val();
+	const content = $(target).parent().parent().children(".comment_input_area").val().replace(/\n/g, "<br>");
 	const commentItem = $(target).closest(".comment_item");
 	const commentId = commentItem.attr("id");
 	const url = "/community/board/"+ category + "/" + postId +"/comment/reply/" + commentId;
