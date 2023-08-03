@@ -101,7 +101,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            <textarea class="comment_input_area" placeholder="로그인을 해주세요" onclick="location.href='/community/members/login'"></textarea>
+            <textarea class="comment_input_area" placeholder="로그인을 해주세요" onclick="location.href='/community/members/login?redirectURL=/board/${category}/${postId}'"></textarea>
         </c:otherwise>
     </c:choose>
 </div>
