@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.board.web.entity.Comment;
 import com.board.web.entity.Member;
@@ -24,58 +27,85 @@ import com.board.web.service.comment.CommentService;
 @Controller
 @RequestMapping("/board/{category}/{postId}/comment/")
 public class CommentController {
-	
+	private final String LOGIN_ERROR = "로그인을 해주세요.";
+	private final String MY_COMMENT_ERROR = "권한이 없습니다";
+	private final String SERVER_ERROR = "서버 오류입니다..";	
+
 	private final CommentService commentService;
-	
+
 	public CommentController(CommentService commentService) {
 		this.commentService = commentService;
 	}
-	
+
 	@PostMapping("/create")
-	public String createComment(@PathVariable String category, @PathVariable Long postId, String content, Model model, HttpServletRequest request) {
+	public ModelAndView createComment(@PathVariable String category, @PathVariable Long postId, String content, ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Member member = getMemberFromSession(request);
 		if (member == null || member.getId() == null) {
-			return "redirect:/members/login?redirectURL=/board/" + category + "/" + postId;
+			mv.addObject("message", LOGIN_ERROR);
+			mv.setViewName("error");
+			mv.setStatus(HttpStatus.UNAUTHORIZED);
+			return mv;
 		}
 		
-		model.addAttribute("member", member);
 		CommentForm commentForm = new CommentForm(postId, 0L, category, content);
-		commentService.createComment(member, commentForm);
-		long topTotal = commentService.findTopCommentTotal(category, postId);
-		int last = (int)(topTotal % CommentConst.PAGER == 0 ? topTotal / CommentConst.PAGER : topTotal / CommentConst.PAGER + 1);
-		return "redirect:/board/" + category + "/" + postId + "/comment/list?page=" + 1;
+		Comment comment = commentService.createComment(member, commentForm); 
+		if (comment == null) {
+			mv.addObject("message", SERVER_ERROR);
+			mv.setViewName("error");
+			mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			mv.addObject("member", member);
+			mv.setViewName("redirect:/board/" + category + "/" + postId + "/comment/list?page=" + 1);
+		}
+		
+		return mv;
 	}
 	
 	@PostMapping("/reply/{parentId}")
-	public String createReplyComment(@PathVariable String category, @PathVariable Long postId, @PathVariable Long parentId, 
-			String content, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public ModelAndView createReplyComment(@PathVariable String category, @PathVariable Long postId,
+			@PathVariable Long parentId, String content, HttpServletRequest request, HttpServletResponse response,
+			ModelAndView mv) throws IOException {
 		Member member = getMemberFromSession(request);
 		if (member == null || member.getId() == null) {
-			// sendError 필요
-			return "";
+			mv.addObject("message", LOGIN_ERROR);
+			mv.setViewName("error");
+			mv.setStatus(HttpStatus.UNAUTHORIZED);
+			return mv;
 		}
-		
-		model.addAttribute("member", member);
+
 		CommentForm commentForm = new CommentForm(postId, parentId, category, content);
 		Comment comment = commentService.createComment(member, commentForm);
-		CommentDTO commentDTO = new CommentDTO(comment.getId(), comment.getMemberId(), comment.getWriter(), comment.getContent(), comment.getRegdate(), comment.getLike(), comment.getUnlike(), 0, comment.getBlind());
-		model.addAttribute("comment", commentDTO);
-		return "replyComment";
+		if (comment == null) {
+			mv.addObject("message", SERVER_ERROR);
+			mv.setViewName("error");
+			mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			mv.addObject("member", member);
+			mv.setViewName("replyComment");
+			CommentDTO commentDTO = new CommentDTO(comment.getId(), comment.getMemberId(), comment.getWriter(),
+					comment.getContent(), comment.getRegdate(), comment.getLike(), comment.getUnlike(), 0,
+					comment.getBlind());
+			mv.addObject("comment", commentDTO);
+		}
+		
+		return mv;
 	}
-	
+
 	@GetMapping("/list")
-	public String list(@PathVariable String category, @PathVariable Long postId, int page, Model model, HttpServletRequest request) {
+	public String list(@PathVariable String category, @PathVariable Long postId, int page, Model model,
+			HttpServletRequest request) {
 		Member member = getMemberFromSession(request);
 		model.addAttribute("member", member);
-		
+
 		long total = commentService.findCommentTotal(category, postId);
 		long topTotal = commentService.findTopCommentTotal(category, postId);
 		List<CommentDTO> list = commentService.findComments(category, postId, page);
-		
-		int last = (int)(topTotal % CommentConst.PAGER == 0 ? topTotal / CommentConst.PAGER : topTotal / CommentConst.PAGER + 1);
-		int begin = ((int)Math.ceil((double)page / 5) - 1) * 5 + 1; 
+
+		int last = (int) (topTotal % CommentConst.PAGER == 0 ? topTotal / CommentConst.PAGER
+				: topTotal / CommentConst.PAGER + 1);
+		int begin = ((int) Math.ceil((double) page / 5) - 1) * 5 + 1;
 		int end = last <= begin + 4 ? last : begin + 4;
-		
+
 		model.addAttribute("commentTotal", total);
 		model.addAttribute("commentList", list);
 		model.addAttribute("page", page);
@@ -86,53 +116,82 @@ public class CommentController {
 		model.addAttribute("lastPage", last);
 		return "commentList";
 	}
-	
+
 	@GetMapping("/reply/{commentId}")
-	public String reply(@PathVariable String category, @PathVariable Long postId, @PathVariable long commentId, Model model, HttpServletRequest request) {
+	public String reply(@PathVariable String category, @PathVariable Long postId, @PathVariable long commentId,
+			Model model, HttpServletRequest request) {
 		Member member = getMemberFromSession(request);
 		model.addAttribute("member", member);
-		
+
 		List<CommentDTONode> list = commentService.findReplyComments(category, postId, commentId);
 		model.addAttribute("list", list);
 		return "replyCommentList";
 	}
+	
+	@ResponseBody
+	@GetMapping("/total")
+	public Long commentTotal(@PathVariable String category, @PathVariable Long postId) {
+		return commentService.findCommentTotal(category, postId);
+	}
 
 	@ResponseBody
 	@PostMapping("/count")
-	public int like(@PathVariable String category, String column, Long commentId) {
+	public int up(@PathVariable String category, String column, Long commentId) {
 		return commentService.updateCount(category, column.toUpperCase(), commentId);
 	}
-	
-	@PostMapping("/update/{commentId}")	
-	public String update(@PathVariable String category,  @PathVariable Long commentId, String content, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+	@PostMapping("/update/{commentId}")
+	public ModelAndView update(@PathVariable String category, @PathVariable Long commentId, String content, ModelAndView mv,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Member member = getMemberFromSession(request);
-		if (member == null) {
-//			response.sendError("");
+		if (member == null || member.getId() == null) {
+			mv.setStatus(HttpStatus.UNAUTHORIZED);
+			mv.addObject("message", LOGIN_ERROR);
+			mv.setViewName("error");
+			return mv;
+		}
+
+		if (!commentService.isMyComment(member, category, commentId)) {
+			mv.setStatus(HttpStatus.UNAUTHORIZED);
+			mv.addObject("message", MY_COMMENT_ERROR);
+			mv.setViewName("error");
+			return mv;
 		}
 		
 		CommentDTO comment = commentService.updateContent(member, category, commentId, content);
 		if (comment == null) {
-//			response.sendError("");
+			mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			mv.addObject("message", SERVER_ERROR);
+			mv.setViewName("error");
+			return mv;
 		}
-		
-		model.addAttribute("comment", comment);
-		model.addAttribute("member", member);
-		return "comment";
+
+		mv.addObject("comment", comment);
+		mv.addObject("member", member);
+		mv.setViewName("comment");
+		return mv;
 	}
-	
+
 	@PostMapping("/delete/{commentId}")
-	public void delete(@PathVariable String category, @PathVariable Long commentId, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<String> delete(@PathVariable String category, @PathVariable Long commentId, Model model,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Member member = getMemberFromSession(request);
-		if (member == null) {
-//			response.sendError("");
+		if (member == null || member.getId() == null) {
+			return new ResponseEntity<String>(LOGIN_ERROR, HttpStatus.UNAUTHORIZED);
+		}
+
+		if (!commentService.isMyComment(member, category, commentId)) {
+			return new ResponseEntity<String>(MY_COMMENT_ERROR, HttpStatus.UNAUTHORIZED);
 		}
 		
 		int result = commentService.deleteComment(member, category, commentId);
-		if (result == 1) {
-//			response.sendError("");
+		if (result == 0) {
+			return new ResponseEntity<String>(SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+
+		return new ResponseEntity<String>("삭제돼었습니다.", HttpStatus.OK);
 	}
-	
+
 	private Member getMemberFromSession(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		Member member = (Member) session.getAttribute("member");
