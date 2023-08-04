@@ -48,6 +48,7 @@
 
 .comment_content {
     font-size: 13px;
+    white-space: pre-line;
 }
 
 .comment_date {
