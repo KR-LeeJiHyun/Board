@@ -103,7 +103,7 @@
 		</div>
 		<header>
 			<div class="post_header">
-				<h3>${post.title}</h3>
+				<h3><c:out value="${post.title}" escapeXml="true" /></h3>
 				<div class="post_info_box">
 					<div>
 						<span>${post.writer}</span> <span> | </span> <span>${post.regdate}</span>
@@ -118,9 +118,7 @@
 				
 			</div>
 		</header>
-		<div class="post_content">
-			${post.content}
-		</div>
+		<div class="post_content" style="white-space: pre">${post.content}</div>
 		<div class="like_unlike_wrap">
 			<button class="btn_like_unlike btn_like_unlike_big">👍</button>
 			<button class="btn_like_unlike btn_like_unlike_big">👎</button>

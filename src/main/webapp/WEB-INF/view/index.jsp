@@ -167,7 +167,7 @@
 				<c:forEach var="post" items="${postList}">
 					<tr>
 						<td>${post.postId}</td>
-						<td><a href="/community/board/${category}/${post.postId}">${post.title}</a><span
+						<td><a href="/community/board/${category}/${post.postId}"><c:out value="${post.title}" escapeXml="true" /></a><span
 							class="ballon">12</span></td>
 						<td>${post.writer}</td>
 						<td>${post.hit}</td>
