@@ -106,7 +106,7 @@ public class MemberController {
             	response.addCookie(logoutTokenCookie);
         	}
             
-            mv.setViewName("redirect:/");
+            mv.setViewName("redirect:/board/free");
         }
         else {
             mv.setViewName("login");
@@ -135,6 +135,6 @@ public class MemberController {
 			}
 		}
 		
-		return "redirect:/";
+		return "redirect:/board/free";
 	}
 }
