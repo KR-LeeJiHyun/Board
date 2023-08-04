@@ -30,20 +30,42 @@ function loadReply(target) {
 	}
 }
 
+function processError(response, category, postId) {
+	const message = response.responseText.trim();
+	const status = response.status;
+
+	if (status == 401) {
+		alert(message);
+		location.href= "/community/members/login?redirectURL=/board/" + category + "/" + postId;
+	} else {
+		$("body").html(message);
+	}
+}
+
 function addComment(target) {
 	const category = $('#category').text();
 	const postId = $('#post_id').text();
-	const content = $(target).parent().parent().children(".comment_input_area").val().replace(/\n/g, "<br>");
+	const content = $(target).parent().parent().children(".comment_input_area").val();
 	const url = "/community/board/"+ category + "/" + postId +"/comment/create";
 
 	const commentBox = $(".comment_box");
-	commentBox.load(url, {"content" : content});
+	$.ajax({
+		type : 'post',
+		url : url,
+		data: {"content" : content},
+		dataType: 'html',
+		success : function(data) {
+			commentBox.html(data);
+		}, error : function(response) {
+			processError(response, category, postId);
+		}
+	});
 }
 
 function addReplyComment(target) {
 	const category = $('#category').text();
 	const postId = $('#post_id').text();
-	const content = $(target).parent().parent().children(".comment_input_area").val().replace(/\n/g, "<br>");
+	const content = $(target).parent().parent().children(".comment_input_area").val();
 	const commentItem = $(target).closest(".comment_item");
 	const commentId = commentItem.attr("id");
 	const url = "/community/board/"+ category + "/" + postId +"/comment/reply/" + commentId;
@@ -58,6 +80,8 @@ function addReplyComment(target) {
 			$(target).closest(".comment_writer").addClass("hidden");
 			const total = $(".comment_header").children();
 			total.text(Number(total.text()) + 1);
+		}, error : function(response) {
+			processError(response, category, postId);
 		}
 	});
 }
@@ -95,6 +119,7 @@ function editComment(target) {
 
 	const comment = getCommentFromCommentItem(commentItem);
 	const url = "/community/board/"+ category + "/" + postId +"/comment/update/" + commentId;
+	console.log("update url : " + url);
 
 	$.ajax({
 		type : 'post',
@@ -106,9 +131,8 @@ function editComment(target) {
 			comment.removeClass("hidden");
 			commentEditor.addClass("hidden");
 		},
-		error:function(request, error) {
-			// error 발생 이유
-			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		error:function(response) {
+			processError(response, category, postId);
 		}
 	});
 }
@@ -132,8 +156,10 @@ function deleteComment(target) {
 
 			commentWrap.remove(".comment_editor");
 			commentWrap.remove(".comment_writer");
+		}, error:function(response) {
+			processError(response, category, postId);
 		}
-	})
+	});
 }
 
 function getEditorFromCommentItem(commentItem) {
