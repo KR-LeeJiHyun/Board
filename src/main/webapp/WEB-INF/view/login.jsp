@@ -20,7 +20,7 @@
         <div class="container">
             <div class="content">
                 <div class="login_wrap">
-                    <form id="login_form" action="login" method="POST">
+                    <form id="login_form" method="POST">
                         <div class="id_pw_wrap">
                             <div class="input_row" id="id_line">
                                 <input type="text" name="id" placeholder="아이디/이메일" required/>

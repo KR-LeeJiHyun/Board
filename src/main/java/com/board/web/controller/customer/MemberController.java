@@ -84,7 +84,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-    public ModelAndView postMember(HttpServletRequest request, HttpServletResponse response, String id, String password, String loginKeep) {
+    public ModelAndView postMember(HttpServletRequest request, HttpServletResponse response, String id, String password, String loginKeep, String redirectURL) {
         ModelAndView mv = new ModelAndView();
         LoginResult loginResult = this.memberService.login(id, password, loginKeep);
         Member member = loginResult.getMember();
@@ -106,7 +106,11 @@ public class MemberController {
             	response.addCookie(logoutTokenCookie);
         	}
             
-            mv.setViewName("redirect:/board/free");
+        	if (redirectURL != null) {
+        		mv.setViewName("redirect:" + redirectURL);
+        	} else {
+        		mv.setViewName("redirect:/");
+        	}
         }
         else {
             mv.setViewName("login");
@@ -135,6 +139,6 @@ public class MemberController {
 			}
 		}
 		
-		return "redirect:/board/free";
+		return "redirect:/";
 	}
 }
