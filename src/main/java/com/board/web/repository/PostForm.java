@@ -11,7 +11,6 @@ public class PostForm {
 	private String category;
 	
 	public PostForm(String memberId, String writer, String title, String content, String category) {
-		super();
 		this.memberId = memberId;
 		this.writer = writer;
 		this.title = title;
@@ -37,8 +36,5 @@ public class PostForm {
 
 	public String getCategory() {
 		return category;
-	}
-	
-	
-	
+	} 
 }
