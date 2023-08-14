@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.board.web.common.LoginCheck;
 import com.board.web.entity.Member;
 import com.board.web.entity.Post;
 import com.board.web.repository.PostForm;
@@ -71,96 +72,65 @@ public class PostController {
 		Post post = postService.findPost(category, id);
 		model.addAttribute("category", category);
 		model.addAttribute("post", post);
-		HttpSession session = request.getSession(false);
-        if(session != null) {
-        	Member member = (Member)session.getAttribute("member");
-        	if(member != null) {        		
-        		model.addAttribute("memberId", member.getId());
-        	}
-        }
-        
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {
+			model.addAttribute("memberId", member.getId());
+		}
 		return "detail";
 	}
 	
 	//게시글 작성 페이지 조회
 	@GetMapping(value = {"/new/{category}"})
 	public String createForm(HttpServletRequest request, @PathVariable String category, Model model) {
-		HttpSession session = request.getSession(false);
-        if(session != null) {
-        	Member member = (Member)session.getAttribute("member");
-        	if(member != null && member.getId() != null) {
-        		model.addAttribute("category", category);
-        		return "write";
-        	}
-        	else {
-        		return "redirect:/members/login";
-        	}
-        }
-        else {
-        	return "redirect:/members/login";
-        }
-        
+		if(LoginCheck.isLoggedIn(LoginCheck.getMemberFromSession(request))) {
+    		model.addAttribute("category", category);
+    		return "write";
+    	}
+    	else {
+    		return "redirect:/members/login";
+    	}  
 	}
 	
 	//게시글 작성
 	@PostMapping(value = {"/new/{category}"})
 	public String createPost(HttpServletRequest request, @PathVariable String category, String title, String content, Model model) {
-		HttpSession session = request.getSession(false);
-		Member member = null;
-        if(session != null) {
-        	member = (Member)session.getAttribute("member");
-        	if(member == null || member.getId() == null) {
-        		return "redirect:/members/login";
-        	}
-        }
-        else {
-        	return "redirect:/members/login";
-        }
-        
-        PostForm postForm = new PostForm(member.getId(), member.getNickname(), title, content, category);
-        postService.savePost(category, postForm);
-        
-		return "redirect:/board/" + category;
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {
+			PostForm postForm = new PostForm(member.getId(), member.getNickname(), title, content, category);
+	        postService.savePost(category, postForm);
+	        
+			return "redirect:/board/" + category;
+		}
+		else {
+			return "redirect:/members/login";
+		}
 	}
 	
 	//게시글 수정 페이지 조회
 	@GetMapping(value = {"/edit/{category}/{id}"})
 	public String updateForm(HttpServletRequest request, @PathVariable String category, @PathVariable Long id, Model model) {
-		HttpSession session = request.getSession(false);
-        if(session != null) {
-        	Member member = (Member)session.getAttribute("member");
-        	if(member != null && member.getId() != null) {
-        		Post post = postService.findPost(category, id);
-        		model.addAttribute("post", post);
-        		return "edit";
-        	}
-        	else {
-        		return "redirect:/members/login";
-        	}
-        }
-        else {
-        	return "redirect:/members/login";
-        }
+		if(LoginCheck.isLoggedIn(LoginCheck.getMemberFromSession(request))) {
+			Post post = postService.findPost(category, id);
+    		model.addAttribute("post", post);
+    		return "edit";
+    	}
+    	else {
+    		return "redirect:/members/login";
+    	} 
 	}
 		
 	//게시글 수정
 	@PostMapping(value = {"/edit/{category}/{id}"})
 	public String updatePost(HttpServletRequest request, @PathVariable String category, @PathVariable Long id, Model model, String title, String content) {
-		HttpSession session = request.getSession(false);
-		Member member = null;
-        if(session != null) {
-        	member = (Member)session.getAttribute("member");
-        	if(member == null || member.getId() == null) {
-        		return "redirect:/members/login";
-        	}
-        }
-        else {
-        	return "redirect:/members/login";
-        }
-        
-		UpdatePostForm updatePostForm = new UpdatePostForm(id, member.getId(), title, content);
-		postService.updatePost(category, updatePostForm);
-		return "redirect:/board/" + category + "/" + id;
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {
+			UpdatePostForm updatePostForm = new UpdatePostForm(id, member.getId(), title, content);
+			postService.updatePost(category, updatePostForm);
+			return "redirect:/board/" + category + "/" + id;
+		}
+		else {
+			return "redirect:/members/login";
+		}
 	}
 	
 	//게시글 좋아요
@@ -180,20 +150,14 @@ public class PostController {
 	//게시글 삭제
 	@PostMapping(value = {"/delete/{category}/{id}"})
 	public String deletePost(HttpServletRequest request, @PathVariable String category, @PathVariable Long id) {
-		HttpSession session = request.getSession(false);
-		Member member = null;
-        if(session != null) {
-        	member = (Member)session.getAttribute("member");
-        	if(member == null || member.getId() == null) {
-        		return "redirect:/members/login";
-        	}
-        }
-        else {
-        	return "redirect:/members/login";
-        }
-        
-		postService.deletePost(member.getId(),category, id);
-		return "redirect:/board/" + category;
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {
+			postService.deletePost(member.getId(),category, id);
+			return "redirect:/board/" + category;
+    	}
+    	else {
+    		return "redirect:/members/login";
+    	} 
 	}
 	
 	
