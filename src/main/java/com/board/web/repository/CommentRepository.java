@@ -8,7 +8,7 @@ import com.board.web.entity.Member;
 import com.board.web.repository.jdbc.comment.CommentDTO;
 
 public interface CommentRepository {
-	long insertComment(Member member, CommentForm commentForm);
+	Long insertComment(Member member, CommentForm commentForm);
 	Comment findOne(String category, Long commentId);
 	List<CommentDTO> findComments(String category, Long postId, int page);
 	List<CommentDTO> findReplyComments(String category, Long postId, Long parentId);

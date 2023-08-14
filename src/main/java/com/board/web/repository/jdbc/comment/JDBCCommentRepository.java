@@ -28,7 +28,7 @@ public class JDBCCommentRepository implements CommentRepository {
 	}
 
 	@Override
-	public long insertComment(Member member, CommentForm commentForm) {
+	public Long insertComment(Member member, CommentForm commentForm) {
 		String sql = "INSERT INTO " + commentForm.getCategory()
 				+ "_COMMENT(MEMBER_ID, WRITER, CONTENT, POST_ID, PARENT_ID) VALUES(?,?,?,?,?)";
 		String[] col = { "COMMENT_ID" };
