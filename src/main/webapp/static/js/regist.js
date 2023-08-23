@@ -10,44 +10,43 @@ function checkPw() {
     const pwLen = pwValue.length;
     const pwErrMsg = document.querySelector("#pw_err_msg");
 
-    let result = false;
+    let resultNumber = false;
+    let resultAlphabet = false;
+    let resultSpecial = false;
+    let resultLen = false;
+
+    //길이 체크
+    if(pwLen >= 8 && pwLen <= 20) {
+        pwErrMsg.classList.add("hidden");
+        resultLen = true;
+    } else {
+        pwErrMsg.classList.remove("hidden");
+    }
 
     //숫자 체크
     if (numberPattern.test(pwValue)) {
         document.querySelector("#number").classList.add("green_font");
-        result = true;
+        resultNumber = true;
     } else {
         document.querySelector("#number").classList.remove("green_font");
-        result = false;
     }
 
     //영어 체크
     if(alphabetPattern.test(pwValue)){
         document.querySelector("#alphabet").classList.add("green_font");
-        result = true;
+        resultAlphabet = true;
     } else {
         document.querySelector("#alphabet").classList.remove("green_font");
-        result = false;
     }
 
     if(specialPattern.test(pwValue)) {
         document.querySelector("#special").classList.add("green_font");
-        result = true;
+        resultSpecial = true;
     } else {
         document.querySelector("#special").classList.remove("green_font");
-        result = false;
     }
-
-    //길이 체크
-    if(pwLen >= 8 && pwLen <= 20) {
-        pwErrMsg.classList.add("hidden");
-        result = true;
-    } else {
-        pwErrMsg.classList.remove("hidden");
-        result = false;
-    }
-
-    return result;
+    
+    return resultLen && resultNumber && resultAlphabet && resultSpecial;
 }
 
 // 비밀번호 재확인
@@ -62,11 +61,13 @@ function confirmPw() {
         if(pw.value != null){
             confirmationEye.classList.remove("gray_eye");
             confirmationEye.classList.add("green_eye");
+            return true;
         }
     } else {
         confirmationPwErrMsg.classList.remove("hidden");
         confirmationEye.classList.remove("green_eye");
         confirmationEye.classList.add("gray_eye");
+        return false;
     }
 }
 
@@ -75,7 +76,7 @@ function finalCheckPw() {
     if(checkPw()){
         pwEye.classList.remove("gray_eye");
         pwEye.classList.add("green_eye");
-    }else {
+    } else {
         pwEye.classList.remove("green_eye");
         pwEye.classList.add("gray_eye");
     }
@@ -91,8 +92,10 @@ function checkEmail() {
 
     if(emailPattern.test(emailaddress)){
         emailErrMsg.classList.add("hidden");
-    }else {
+        return true;
+    } else {
         emailErrMsg.classList.remove("hidden");
+        return false;
     }
 }
 
@@ -102,8 +105,10 @@ function checkId() {
     const idErrMsg = document.getElementById('invalid_id_err_msg');
     if (pattern.test(id)) {
         idErrMsg.classList.add("hidden");
+        return true;
     } else {
         idErrMsg.classList.remove("hidden");
+        return false;
     }
 }
 
@@ -113,9 +118,33 @@ function checkNickname() {
     const nicknameErrMsg = document.getElementById('invalid_nickname_err_msg');
     if (pattern.test(nickname)) {
         nicknameErrMsg.classList.add("hidden");
+        return true;
     } else {
         nicknameErrMsg.classList.remove("hidden");
+        return false;
     }
+}
+
+function processErr(id) {
+    showErrMessage(id);
+    scrollErrMessage(id);
+}
+
+function showErrMessage(id) {
+    $("#" + id).removeClass("hidden");
+}
+
+function hideErrMessage(id) {
+    $("#" + id).addClass("hidden");
+}
+
+function scrollErrMessage(id) {
+    const location = $("#" + id).closest(".info_row").position().top;
+    $(window).scrollTop(location);
+}
+
+function replaceInputToEmpty(target) {
+    target.setAttribute("value", "");
 }
 
 function init() {
@@ -149,9 +178,12 @@ function init() {
     });
 
     const idInput = document.getElementById("id");
+    const chkId = document.getElementById("chk_id");
     idInput.addEventListener('focusout', (event) => {
-        // 기존 아이디랑 같지 않을 경우에 처리하기        
         checkId();
+        if (idInput.value != chkId.value) {
+            replaceInputToEmpty(chkId);
+        }
     });
 
     const duplicateIdButton = document.getElementById("duplicate_id_button");
@@ -175,16 +207,22 @@ function init() {
             success: function(data) {
                 $("#chk_id").attr("value", "");
                 $("#chk_id").attr("value", id);
+                hideErrMessage("duplicate_id_err_msg");
             },
             error: function(xhr) {
                 $("#chk_id").attr("value", "");
+                showErrMessage("duplicate_id_err_msg");
             }
         });
     });
 
     const nicknameInput = document.getElementById("nickname");
+    const chkNickname = document.getElementById("chk_nickname");
     nicknameInput.addEventListener('focusout', (event) => {
         checkNickname();
+        if (nicknameInput.value != chkNickname.value) {
+            replaceInputToEmpty(chkNickname);
+        }  
     });
 
     const duplicateNicknameButton = document.getElementById("duplicate_nickname_button");
@@ -208,11 +246,14 @@ function init() {
             type: "GET",
             data : data,
             success: function(data) {
+                console.log()
                 $("#chk_nickname").attr("value", "");
                 $("#chk_nickname").attr("value", nickname);
+                hideErrMessage("duplicate_nickname_err_msg");
             },
             error: function(xhr) {
                 $("#chk_nickname").attr("value", "");
+                showErrMessage("duplicate_nickname_err_msg");
             }
         });
     });
@@ -234,7 +275,9 @@ function init() {
     submitButton.addEventListener('click', (event) => {
         const name = $("#name").val();
         const nickname = $("#nickname").val();
+        const chkNickname = $("#chk_nickname").val();
         const id = $("#id").val();
+        const chkId = $("#chk_id").val();
         const password = $("#pw").val();
         const confirmationPw = $("#confirmation_pw").val();
         const email = $("#email").val() + $("#address option:selected").val();
@@ -242,6 +285,48 @@ function init() {
         const month = $(".month option:selected").val();
         const day = $(".day option:selected").val();
         const date = new Date(year, month, day);
+
+        if (name == "") {
+            return;
+        }
+
+        if (!checkNickname()) {
+            processErr("invalid_nickname_err_msg");
+            return;
+        }
+
+        if (chkNickname == "" || nickname != chkNickname) {
+            alert("닉네임 중복을 체크해주세요.")
+            return;
+        }
+
+        if(!checkId()) {
+            processErr("invalid_id_err_msg");
+            return;
+        }
+
+        if (chkId == "" || id != chkId) {
+            alert("id 중복을 체크해주세요.")
+            return;
+        }
+
+        if (!checkPw()) {
+            processErr("pw_err_msg")
+            return;
+        }
+
+        if (!confirmPw()) {
+            processErr("confirmation_pw_err_msg");
+        }
+
+        if (!checkEmail()) {
+            processErr("email_err_msg");
+            return;
+        }
+
+        if (year == "" || month == "" || day == "") {
+            return;
+        }
 
         const data = {
             'name' : name,
@@ -265,9 +350,10 @@ function init() {
                 alert(data);
                 document.location.href = "/community";
             },
-            error: function(xhr) {
-                alert(xhr.responseText);
-                document.location.href = "/community/members/regist";
+            error: function(response) {
+                const id = response.responseText;
+                alert("잘못된 입력이 존재합니다. 다시 확인해주세요");
+                processErr(id);
             }
         });
     });
