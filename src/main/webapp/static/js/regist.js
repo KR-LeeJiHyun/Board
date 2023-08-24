@@ -67,8 +67,9 @@ function confirmPw() {
         confirmationPwErrMsg.classList.remove("hidden");
         confirmationEye.classList.remove("green_eye");
         confirmationEye.classList.add("gray_eye");
-        return false;
     }
+
+    return false;
 }
 
 function finalCheckPw() {
@@ -268,7 +269,7 @@ function init() {
             location.replace("login.html");
         }
         */
-        location.replace("login.html");
+        location.replace("/community/members/login");
     });
 
     const submitButton = document.getElementById("submit_button");
@@ -317,6 +318,7 @@ function init() {
 
         if (!confirmPw()) {
             processErr("confirmation_pw_err_msg");
+            return;
         }
 
         if (!checkEmail()) {
