@@ -1,0 +1,176 @@
+/*
+회원가입 css
+*/
+
+@font-face {
+    font-family: "HMFMMUEX";
+    src: url(../fonts/HMFMMUEX.TTC);
+}
+
+@font-face {
+    font-family: "nanumgothic-bold";
+    src: url(../fonts/NanumGothicBold.ttf);
+}
+
+@font-face {
+    font-family: "malangmalang-bold";
+    src: url(../fonts/HancomMalangMalang-Bold.ttf);
+}
+
+html, body{
+    font-family: "HMFMMUEX";
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+header {
+    padding-top: 100px;
+    padding-left: 12px;
+    color : rgb(172, 164, 211)
+}
+
+/* 공통 */
+.hidden {
+    display: none;
+}
+
+.green_font {
+    color: rgb(63,213,81);
+}
+
+
+/* 아직 모르는거 */
+.header_inner {
+    font-family: "malangmalang-bold";
+    width: 605px;
+    margin: 0 auto;
+    font-size: 60px;
+}
+
+.profile {
+    color : rgb(68,68,68);
+    width: 500px;
+    height: fit-content;
+    margin: 0 auto;
+    border: 0.68mm rgb(178, 188, 220, 0.5) solid;
+    border-radius: 5px;
+    padding: 50px;
+}
+
+.tag {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.row {
+    display: flex;
+    margin-bottom : 30px;
+}
+
+.name_row{
+    width: 100%;
+    border-bottom: 2px solid  rgb(172, 164, 211);
+    /* margin-bottom: 30px; */
+}
+
+.pw_row, .id_row, .email_row, .nickname_row {
+    width: 100%;
+    border-bottom: 2px solid  rgb(172, 164, 211);
+}
+
+.name_row div {
+    font-family: "nanumgothic-bold";
+    border: 0;
+    width: 100%;
+    font-size: 18px;
+    color: rgb(68,68,68);
+    padding: 0px;
+}
+
+.pw_row div .id_row div, .nickname_row div {
+    font-family: "nanumgothic-bold";
+    border: 0;
+    width: 366px;
+    font-size: 18px;
+    color: rgb(68,68,68);
+}
+
+.pw_row div {
+    font-family: "nanumgothic-bold";
+    border: 0;
+    width: 366px;
+    font-size: 18px;
+    color: rgb(68,68,68);
+    padding: 0px;
+}
+
+.email_row span {
+    font-family: "nanumgothic-bold";
+    border: 0;
+    width: 307px;
+    font-size: 18px;
+    color: rgb(68,68,68);
+}
+
+.email_adress {
+    font-family: "nanumgothic-bold";
+    font-size: 18px;
+    color: rgb(68,68,68);
+    width: 180px;
+    margin-bottom: 1px;
+}
+
+.small_button{
+    font-family: "nanumgothic-bold";
+    width: 120px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(178, 188, 220);
+    font-size: 18px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
+}
+
+.select_row select {
+    font-family: "nanumgothic-bold";
+    font-size: 18px;
+}
+
+.medium_button {
+    font-family: "HMFMMUEX";
+    border: 2px solid  rgb(178, 188, 220);
+    width: 48%;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(178, 188, 220);
+    font-size: 30px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    margin-bottom: 50px;
+}
+
+.medium_button_white {
+    font-family: "HMFMMUEX";
+    border: 2px solid  rgb(178, 188, 220);
+    width: 48%;
+    border-radius: 10px;
+    color: rgb(68,68,68);
+    background-color: white;
+    font-size: 30px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    margin-right: 5px;
+    margin-bottom: 50px;
+}
+
+.gray_eye {
+    color: rgb(195,195,195);
+}
+
+.green_eye {
+    color: rgb(63,213,81);
+}
