@@ -20,8 +20,8 @@
 
         <div class="container">
             <div class="content">
-                <div class="password_wrap">
-                    <form id="password_form" onsubmit="return false;" method="post">
+                <div class="form_wrap">
+                    <form id="info_form" onsubmit="return false;" method="post">
                         <div class="info_row">
                             <div class="info_row">
                                 <div class="tag">현재 비밀번호</div>
