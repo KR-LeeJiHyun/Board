@@ -23,25 +23,26 @@
                 <div class="profile">
                     <div class="tag">이름</div>
                     <div class="name_row row">
-                        <div type="text" id="name">나미</div>
+                        <div type="text" id="name">${profile.name}</div>
                     </div>
                     <div class="tag">닉네임</div>
                     <div class="nickname_row row">
-                        <div id="nickname" type="text" id="nickname" >나미</div>                          
-                        <button id="change_nickname_button" type="button" class="small_button" onclick="location.href='/community/members/profile/nickname'">변경</button>
+                        <div id="nickname" type="text" >${profile.nickname}</div>                          
+                        <button type="button" class="small_button" onclick="location.href='/community/members/mypage/nickname'">변경</button>
                     </div>
                     <div class="tag">아이디</div>
                     <div class="id_row row">
-                        <div id="id" type="text" id="id">nami12</div>
+                        <div id="id" type="text">${profile.id}</div>
                     </div>
                     <div class="tag">이메일</div>
                     <div class="email_row row">
-                        <div id="email" type="text">nami12@naver.com</div>
+                        <div id="email" type="text">${profile.email}</div>
+                        <button type="button" class="small_button" onclick="location.href='/community/members/mypage/email'">변경</button>
                     </div>
                     <div class="tag">비밀번호</div>
                     <div class="pw_row row">
-                        <div id="nickname" type="text" id="nickname" >**************</div>    
-                        <button class="small_button" onclick="location.href='/community/members/profile/password'">변경</button>
+                        <div id="password" type="text" >**************</div>    
+                        <button type="button" class="small_button" onclick="location.href='/community/members/mypage/password'">변경</button>
                     </div>
                 </div>
             </div>

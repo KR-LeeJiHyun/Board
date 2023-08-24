@@ -24,13 +24,13 @@
                     <form id="info_form" onsubmit="return false;" method="post">
                         <div class="info_row">
                             <div class="tag">비밀번호</div>
-                            <div class="pw_row">
+                            <div class="pw_row row">
                                 <input type="password" id="pw" placeholder="비밀번호" required>
                             </div>
                         </div>
                         <div class="info_row">
                             <div class="tag">이메일</div>
-                            <div class="email_row">
+                            <div class="email_row row">
                                 <input id="email" type="text" placeholder="이메일 입력" required>
                                 <select id="address" class="email_adress">
                                     <option name="address" value="">직접입력</option>

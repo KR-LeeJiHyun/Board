@@ -82,6 +82,11 @@ input::placeholder {
     border-bottom: 2px solid  rgb(172, 164, 211);
 }
 
+.row {
+	display: flex;
+    margin-bottom : 30px;
+}
+
 .pw_err_msg_wrap {
     color: rgb(235,38,38);
     font-size: 15px;
