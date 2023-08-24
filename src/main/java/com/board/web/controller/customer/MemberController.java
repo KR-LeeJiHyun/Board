@@ -144,21 +144,21 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/profile")
-	public String getProfile(HttpServletRequest request, Model model) {
+	@GetMapping("/mypage")
+	public String getMyPage(HttpServletRequest request, Model model) {
 		Member member = LoginCheck.getMemberFromSession(request);
 		if(LoginCheck.isLoggedIn(member)) {	
 			Profile profile = new Profile(member.getName(), member.getNickname(), member.getId(), member.getEmail());
 			model.addAttribute("profile", profile);
-			return "profile";
+			return "myPage";
 		}
 		else {
 			return "redirect:/members/login";
 		}
 	}
 	
-	@GetMapping("/profile/nickname")
-	public String getProfileNickname(HttpServletRequest request) {
+	@GetMapping("/mypage/nickname")
+	public String getMyPageNickname(HttpServletRequest request) {
 		Member member = LoginCheck.getMemberFromSession(request);
 		if(LoginCheck.isLoggedIn(member)) {	
 			return "nickname";
@@ -168,11 +168,22 @@ public class MemberController {
 		}
 	}
 	
-	@GetMapping("/profile/password")
-	public String getProfilePassword(HttpServletRequest request) {
+	@GetMapping("/mypage/password")
+	public String getMyPagePassword(HttpServletRequest request) {
 		Member member = LoginCheck.getMemberFromSession(request);
 		if(LoginCheck.isLoggedIn(member)) {	
 			return "password";
+		}
+		else {
+			return "redirect:/members/login";
+		}
+	}
+	
+	@GetMapping("/mypage/email")
+	public String getMyPageEmail(HttpServletRequest request) {
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {	
+			return "email";
 		}
 		else {
 			return "redirect:/members/login";
