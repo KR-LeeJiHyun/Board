@@ -59,7 +59,8 @@
                                 <i id="pw_eye" class="fa-solid fa-eye gray_eye"></i>
                             </div>
                             <div class="pw_err_msg_wrap">
-                                <span id="pw_err_msg" class="hidden">*20자 이내의 비밀번호를 입력해주세요.</span>
+                                <span id="pw_err_msg" class="hidden">*8~20자의 비밀번호를 입력해주세요.</span>
+                                <span id="invalid_pw_err_msg" class="hidden">*사용할 수 없는 비밀번호입니다.</span>
                             </div>
                             <div class="chk_box">
                                 <ul>
