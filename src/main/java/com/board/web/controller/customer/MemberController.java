@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.board.web.common.LoginCheck;
 import com.board.web.entity.Member;
 import com.board.web.error.MemberError;
+import com.board.web.error.MemberErrorMessageId;
 import com.board.web.service.MemberService;
 
 @Controller
@@ -42,28 +43,28 @@ public class MemberController {
 		if (result == MemberError.NO_ERROR) {
 			return new ResponseEntity<String>("회원가입을 축하드립니다!", HttpStatus.CREATED);
 		} else if(result == MemberError.INVALID_ID) {
-			return new ResponseEntity<String>("잘못된 ID입니다.",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(MemberErrorMessageId.INVALID_ID, HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.INVALID_NICKNAME){
-			return new ResponseEntity<String>("잘못된 닉네임입니다.",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(MemberErrorMessageId.INVALID_NICKNAME, HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.INVALID_PASSWORD){
-			return new ResponseEntity<String>("잘못된 비밀번호입니다.",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(MemberErrorMessageId.INVALID_PASSWORD, HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.INVALID_EMAIL){
-			return new ResponseEntity<String>("잘못된 이메일입니다.",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(MemberErrorMessageId.INVALID_EMAIL, HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.INVALID_BIRTHDAY){
-			return new ResponseEntity<String>("잘못된 생년월일입니다.",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(MemberErrorMessageId.INVALID_BIRTHDAY, HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.DUPLICATE_ID){
-			return new ResponseEntity<String>("중복된 아이디입니다.",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(MemberErrorMessageId.DUPLICATE_ID, HttpStatus.BAD_REQUEST);
 		} else if(result == MemberError.DUPLICATE_NICKNAME){
-			return new ResponseEntity<String>("중복된 닉네임입니다.",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(MemberErrorMessageId.DUPLICATE_NICKNAME, HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<String>("문제가 발생했습니다. 다시시도해주세요!",HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>(MemberErrorMessageId.SERVER, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@GetMapping("/nickname")
 	public ResponseEntity getNickname(String nickname) {
 		if(memberService.existNickname(nickname)) {
-			return new ResponseEntity(HttpStatus.CONFLICT);
+			return new ResponseEntity(MemberErrorMessageId.DUPLICATE_NICKNAME, HttpStatus.CONFLICT);
 		}
 		else {
 			return new ResponseEntity(HttpStatus.OK);
@@ -73,7 +74,7 @@ public class MemberController {
 	@GetMapping("/id")
 	public ResponseEntity getId(String id) {
 		if(memberService.existId(id)) {
-			return new ResponseEntity(HttpStatus.CONFLICT);
+			return new ResponseEntity(MemberErrorMessageId.DUPLICATE_ID, HttpStatus.CONFLICT);
 		}
 		else {
 			return new ResponseEntity(HttpStatus.OK);
