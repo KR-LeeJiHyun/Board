@@ -74,12 +74,15 @@ function confirmPw() {
 
 function finalCheckPw() {
     const pwEye = document.querySelector("#pw_eye");
+    const errMsg = document.querySelector("#invalid_pw_err_msg");
     if(checkPw()){
         pwEye.classList.remove("gray_eye");
         pwEye.classList.add("green_eye");
+        errMsg.classList.add("hidden");
     } else {
         pwEye.classList.remove("green_eye");
         pwEye.classList.add("gray_eye");
+        errMsg.classList.remove("hidden");
     }
 }
 
