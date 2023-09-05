@@ -358,6 +358,12 @@ function init() {
             error: function(response) {
                 const id = response.responseText;
                 alert("잘못된 입력이 존재합니다. 다시 확인해주세요");
+                if (id == "duplicate_id_err_msg") {
+                    $("#chk_id").attr("value", "");
+                } else if (id == "duplicate_nickname_err_msg") {
+                    $("#chk_nickname").attr("value", "");
+                }
+
                 processErr(id);
             }
         });
