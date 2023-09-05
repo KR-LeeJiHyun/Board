@@ -2,10 +2,9 @@ package com.board.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.handler.MappedInterceptor;
-import org.springframework.web.servlet.mvc.WebContentInterceptor;
 
+import com.board.web.interceptor.CacheControlInterceptor;
 import com.board.web.interceptor.LoginCheckInterceptor;
 import com.board.web.interceptor.RefreshCheckInterceptor;
 import com.board.web.repository.MemberRepository;
@@ -34,11 +33,7 @@ public class InterceptorConfig {
 	
 	@Bean
     public MappedInterceptor webContentInterceptor() {
-        String[] includePatterns = {"/board/edit/**", "/board/new/**"};
-        WebContentInterceptor wci = new WebContentInterceptor();
-        CacheControl cacheControl = CacheControl.noStore().mustRevalidate();
-        wci.addCacheMapping(cacheControl, "/**");
-
-        return new MappedInterceptor(includePatterns, wci);
+        String[] includePatterns = {"/board/edit/**", "/board/new/**", "/members/mypage/**"};
+        return new MappedInterceptor(includePatterns, new CacheControlInterceptor());
     }
 }
