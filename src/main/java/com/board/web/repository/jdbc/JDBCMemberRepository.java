@@ -218,6 +218,50 @@ public class JDBCMemberRepository implements MemberRepository{
 		return result;
 	}
 	
+	@Override
+	public int updatePassword(String id, String encryptedPassword) {
+		String sql = "UPDATE MEMBER SET PASSWORD = ? WHERE ID = ?";
+		int result = 0;		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;		
+		try {	
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, encryptedPassword);
+			preparedStatement.setString(2, id);
+			result = preparedStatement.executeUpdate();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+			result = -1;
+		} finally {
+			close(preparedStatement, con);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int deleteRefreshTokenById(String id) {
+		int result = 0;
+		String sql = "DELETE FROM PERSISTENCE_LOGINS WHERE MEMBER_ID = ?";
+		
+		Connection con = null;
+		PreparedStatement preparedStatement = null;		
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1,id);
+			result = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			result = -1;
+			e.printStackTrace();
+		} finally {
+			close(preparedStatement, con);
+		}
+		
+		return result;
+	}
+	
 	private void close(PreparedStatement preparedStatement, Connection con) {
 		try {
 			if (preparedStatement != null) {

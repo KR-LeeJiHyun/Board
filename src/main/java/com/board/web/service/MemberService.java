@@ -21,6 +21,7 @@ import com.board.web.repository.MemberRepository;
 import com.board.web.security.EncryptiontSecurity;
 import com.board.web.controller.customer.LoginResult;
 import com.board.web.controller.customer.MemberForm;
+import com.board.web.controller.customer.PasswordForm;
 
 @Service
 public class MemberService {
@@ -87,9 +88,9 @@ public class MemberService {
 		// 영문자
 		String alphabetPattern = "(.*)[a-zA-Z](.*)$";
 		// 특수문자
-		String specialPattern = "(.*)[!@#$%^&*()<>~`\\-_=+\\|\\[\\{\\]\\}\\;:'\",./?\\\\](.*)$";
+		String specialPattern = "(.*)[!@#$%^&*()<>~`\\-_=+\\|\\[\\{\\]\\}\\;:'\",./?](.*)$";
 		// 포함 문자
-		String allPattern = "^[a-zA-Z0-9!@#$%^&*()<>~`\\-_=+\\|\\[\\{\\]\\}\\;:'\",./?\\\\]]{8,20}$";
+		String allPattern = "^[a-zA-Z0-9!@#$%^&*()<>~`\\-_=+\\|\\[\\{\\]\\}\\;:'\",./?\\]]{8,20}$";
 
 		// 확인용 비밀번호와 일치하는지 확인
 		if (password.compareTo(confirmationPassword) != 0) {
@@ -164,8 +165,35 @@ public class MemberService {
 		return new LoginResult(member, resfreshToken);
 	}
 	
+	
+	
 	public int logout(String refreshToken) {
 		// 토큰 삭제
 		return memberRepository.deleteRefreshToken(refreshToken);
+	}
+
+	public boolean updatePassword(PasswordForm passwordForm) {
+		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        Member member = null;
+        int result = 0;
+        try{
+			member = memberRepository.findMemberById(passwordForm.getId());
+			if(encryptiontSecurity.matches(passwordForm.getCurrentPassword(), member.getEncryptedPassword()) 
+					&& validatePassword(passwordForm.getNewPassword(), passwordForm.getConfirmationPassword())) {
+				String encryptedPassword = this.encryptiontSecurity.encryptPassword(passwordForm.getNewPassword());
+				result = memberRepository.updatePassword(passwordForm.getId(), encryptedPassword);
+				result = memberRepository.deleteRefreshTokenById(passwordForm.getId());
+			}
+			transactionManager.commit(status);
+		} catch(RuntimeException e) {
+			result = -1;
+			transactionManager.rollback(status);
+		}
+        if(result != -1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 }

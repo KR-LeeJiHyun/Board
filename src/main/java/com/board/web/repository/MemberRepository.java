@@ -10,4 +10,6 @@ public interface MemberRepository {
 	int insertRefreshToken(PersistenceLogin persistenceLogin);
 	Member findMemberByField(String field, String value);
 	int deleteRefreshToken(String refreshToken);
+	int updatePassword(String id, String encryptedPassword);
+	int deleteRefreshTokenById(String id);
 }
