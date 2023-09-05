@@ -83,9 +83,7 @@ function init() {
             'email' : email,
         };
 
-        const curURL = $(window.location)[0].href;
-        const slashLastIndex = curURL.lastIndexOf("/"); 
-        const url = curURL.substring(0, slashLastIndex);
+        const url = $(window.location)[0].href;
 
         $.ajax({
             url: url,
@@ -93,12 +91,11 @@ function init() {
             data : data,
             success: function(data) {
                 alert(data);
-                document.location.href = "/community";
+                document.location.href = "/community/members/mypage";
             },
             error: function(response) {
-                const id = response.responseText;
-                alert("잘못된 입력이 존재합니다. 다시 확인해주세요");
-                processErr(id);
+                const message = response.responseText;
+                alert(message);
             }
         });
     });

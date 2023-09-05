@@ -111,9 +111,7 @@ function init() {
             'password' : password,
         };
 
-        const curURL = $(window.location)[0].href;
-        const slashLastIndex = curURL.lastIndexOf("/"); 
-        const url = curURL.substring(0, slashLastIndex);
+        const url = $(window.location)[0].href;
 
         $.ajax({
             url: url,
@@ -124,9 +122,12 @@ function init() {
                 document.location.href = "/community/members/mypage";
             },
             error: function(response) {
-                const id = response.responseText;
-                alert("잘못된 입력이 존재합니다. 다시 확인해주세요");
-                processErr(id);
+                const message = response.responseText;
+                alert(message);
+                if (message == "중복된 닉네임입니다.") {
+                    showErrMessage("duplicate_nickname_err_msg");
+                    $("#chk_nickname").attr("value", "");
+                }
             }
         });
     });
