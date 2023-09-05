@@ -11,5 +11,7 @@ public interface MemberRepository {
 	Member findMemberByField(String field, String value);
 	int deleteRefreshToken(String refreshToken);
 	int updatePassword(String id, String encryptedPassword);
+	int updateEmail(String id, String email);
+	int updateNickname(String id, String nickname);
 	int deleteRefreshTokenById(String id);
 }

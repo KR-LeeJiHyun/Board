@@ -168,6 +168,32 @@ public class MemberController {
 			return "redirect:/members/login";
 		}
 	}
+
+	@PostMapping("/mypage/nickname")
+	public ResponseEntity updateNickname(HttpServletRequest request, String nickname, String password) {
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {
+			NicknameForm form = new NicknameForm(member.getId(), nickname, password);
+			MemberError result = memberService.updateNickname(form);
+			if (result == MemberError.NO_ERROR) {
+				Member updateMember = new Member(member.getName(), nickname, member.getId(), member.getEmail(), member.getBirthday(), member.getEncryptedPassword());
+				HttpSession session = request.getSession(false);
+				session.setAttribute("member", updateMember);
+				
+				return new ResponseEntity("닉네임이 변경되었습니다.", HttpStatus.OK);
+ 			} else if (result == MemberError.INVALID_EMAIL) {
+ 				return new ResponseEntity("사용할 수 없는 닉네임입니다.", HttpStatus.BAD_REQUEST);
+ 			} else if (result == MemberError.DUPLICATE_NICKNAME) {
+ 				return new ResponseEntity("중복된 닉네임입니다.", HttpStatus.BAD_REQUEST);
+ 			} else if (result == MemberError.WRONG_PASSWORD) {
+ 				return new ResponseEntity("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
+ 			} else {
+ 				return new ResponseEntity("서버 오류입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+ 			}			
+		} else {
+			return new ResponseEntity("로그인을 해주세요.", HttpStatus.UNAUTHORIZED);
+		}
+	}
 	
 	@GetMapping("/mypage/password")
 	public String getMyPagePassword(HttpServletRequest request) {
@@ -205,4 +231,28 @@ public class MemberController {
 			return "redirect:/members/login";
 		}
 	}
+
+	@PostMapping("/mypage/email")
+	public ResponseEntity updateEmail(HttpServletRequest request, String email, String password) {
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {
+			EmailForm form = new EmailForm(member.getId(), email, password);
+			MemberError result = memberService.updateEmail(form);
+			if (result == MemberError.NO_ERROR) {
+				Member updateMember = new Member(member.getName(), member.getNickname(), member.getId(), email, member.getBirthday(), member.getEncryptedPassword());
+				HttpSession session = request.getSession(false);
+				session.setAttribute("member", updateMember);
+				
+				return new ResponseEntity("이메일이 변경되었습니다.", HttpStatus.OK);
+ 			} else if (result == MemberError.INVALID_EMAIL) {
+ 				return new ResponseEntity("사용할 수 없는 이메일입니다.", HttpStatus.BAD_REQUEST);
+ 			} else if (result == MemberError.WRONG_PASSWORD) {
+ 				return new ResponseEntity("비밀번호가 일치하지 않습니다", HttpStatus.UNAUTHORIZED);
+ 			} else {
+ 				return new ResponseEntity("서버 오류입니다", HttpStatus.INTERNAL_SERVER_ERROR);
+ 			}			
+		} else {
+			return new ResponseEntity("로그인을 해주세요.", HttpStatus.UNAUTHORIZED);
+		}
+	}	
 }

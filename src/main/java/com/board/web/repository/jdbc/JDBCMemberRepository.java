@@ -239,6 +239,54 @@ public class JDBCMemberRepository implements MemberRepository{
 		
 		return result;
 	}
+
+	@Override
+	public int updateEmail(String id, String email) {
+		String sql = "UPDATE MEMBER SET EMAIL = ? WHERE ID = ?";
+
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		int result = 0;
+
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, email);
+			preparedStatement.setString(2, id);
+
+			result = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(preparedStatement, con);
+		}
+
+		return result;
+	}
+	
+	@Override
+	public int updateNickname(String id, String nickname) {
+		String sql = "UPDATE MEMBER SET NICKNAME = ? WHERE ID = ?";
+
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		int result = 0;
+
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, nickname);
+			preparedStatement.setString(2, id);
+
+			result = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(preparedStatement, con);
+		}
+
+		return result;
+	}
 	
 	@Override
 	public int deleteRefreshTokenById(String id) {

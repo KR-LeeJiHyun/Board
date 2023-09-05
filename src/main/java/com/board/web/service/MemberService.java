@@ -19,8 +19,10 @@ import com.board.web.entity.PersistenceLogin;
 import com.board.web.error.MemberError;
 import com.board.web.repository.MemberRepository;
 import com.board.web.security.EncryptiontSecurity;
+import com.board.web.controller.customer.EmailForm;
 import com.board.web.controller.customer.LoginResult;
 import com.board.web.controller.customer.MemberForm;
+import com.board.web.controller.customer.NicknameForm;
 import com.board.web.controller.customer.PasswordForm;
 
 @Service
@@ -195,5 +197,69 @@ public class MemberService {
 		}else {
 			return false;
 		}
+	}
+
+	public MemberError updateEmail(EmailForm form) {
+		if (!validateEmail(form.getEmail())) {
+			return MemberError.INVALID_EMAIL;
+		}
+		
+		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        Member member = null;
+		MemberError result;
+        try {
+        	member = memberRepository.findMemberById(form.getId());
+    		if(member != null && encryptiontSecurity.matches(form.getPassword(), member.getEncryptedPassword())) {
+    			if (memberRepository.updateEmail(form.getId(), form.getEmail()) == 1) {
+    				result = MemberError.NO_ERROR;
+    			} else {
+    				result = MemberError.DB_FAIL;
+    			}
+    		} else {
+    			result = MemberError.WRONG_PASSWORD;
+    		}
+    		
+			transactionManager.commit(status);
+		} catch(RuntimeException e) {
+			result = MemberError.DB_FAIL;
+			transactionManager.rollback(status);
+		}
+        
+		return result;
+	}
+	
+	public MemberError updateNickname(NicknameForm form) {
+		if (!validateNickname(form.getNickname())) {
+			return MemberError.INVALID_NICKNAME;
+		}
+		
+		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		Member member = null;
+		MemberError result;
+		try {
+			if(existNickname(form.getNickname())) {
+				result =  MemberError.DUPLICATE_NICKNAME;				
+			} else {
+				member = memberRepository.findMemberById(form.getId());
+	        	if(member != null && encryptiontSecurity.matches(form.getPassword(), member.getEncryptedPassword())) {
+	    			if (memberRepository.updateNickname(form.getId(), form.getNickname()) == 1) {
+	    				result = MemberError.NO_ERROR;
+	    			} else {
+	    				result = MemberError.DB_FAIL;
+	    			}
+	    		} else {
+	    			result = MemberError.WRONG_PASSWORD;
+	    		}
+			}
+    		
+			transactionManager.commit(status);
+		} catch(RuntimeException e) {
+			result = MemberError.DB_FAIL;
+			transactionManager.rollback(status);
+		}
+		
+		return result;
 	}
 }
