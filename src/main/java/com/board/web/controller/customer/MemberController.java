@@ -180,6 +180,21 @@ public class MemberController {
 		}
 	}
 	
+	@PostMapping("/mypage/password")
+	public ResponseEntity postMyPagePassword(HttpServletRequest request, String currentPassword, String password, String confirmationPassword) {
+		Member member = LoginCheck.getMemberFromSession(request);
+		if(LoginCheck.isLoggedIn(member)) {
+			PasswordForm passwordForm = new PasswordForm(member.getId(), currentPassword, password, confirmationPassword);
+			if(memberService.updatePassword(passwordForm)) {
+				HttpSession session = request.getSession(false);
+				session.setAttribute("member", new Member());
+				return new ResponseEntity("비밀번호 변경되었습니다.",HttpStatus.OK);
+			}
+		}
+
+		return new ResponseEntity(HttpStatus.BAD_REQUEST);
+	}
+	
 	@GetMapping("/mypage/email")
 	public String getMyPageEmail(HttpServletRequest request) {
 		Member member = LoginCheck.getMemberFromSession(request);
