@@ -15,13 +15,13 @@ public class InterceptorConfig {
 	private MemberRepository memberRepository;
 	
 	public InterceptorConfig (MemberRepository memberRepository) {
-		this.memberRepository= memberRepository;
+		this.memberRepository = memberRepository;
 	}
 	
 	@Bean
 	public MappedInterceptor loginCheckInterceptor() {
 		String[] includePatterns = {"/**"};
-		String[] excludePatterns = {"/members/**","/css/**","/js/**","/fonts/**","/images/**", "/refresh/**", "/empty/**"};
+		String[] excludePatterns = {"/members/login", "/members/regist", "/css/**", "/js/**", "/fonts/**", "/images/**", "/refresh/**", "/empty/**"};
 	    return new MappedInterceptor(includePatterns, excludePatterns, new LoginCheckInterceptor());
 	}
 	
