@@ -13,7 +13,7 @@
 				<div class="user_menu">
 					<ul class="menu">
 						<li><a class="user_menu_active" href="">HOME</a></li>
-						<li><a class="menu" href="">MY PAGE</a></li>
+						<li><a class="menu" href="/community/members/mypage">MY PAGE</a></li>
 						<li><a class="menu" href="">FOLLOW US</a></li>
 						<li><c:if test="${member.id != null}">
 								<form method="post" action="/community/members/logout">
