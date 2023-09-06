@@ -38,11 +38,6 @@
 								</div>
 							</c:if>
 						</div>
-						<div class="category_detail">
-							<div>화제 게시판</div>
-							<div>자유 게시판</div>
-						</div>
-						<div class="invisible"></div>
 					</li>
 					<li class="category_list_item">
 						<div class="category_box">
@@ -56,9 +51,9 @@
 							</c:if>
 						</div>
 						<div class="category_detail">
-							<div>화제 게시판</div>
-							<div>자유 게시판</div>
-							<div>직업 게시판</div>
+							<div><a href="/community/board/game/online">온라인</a></div>
+							<div><a href="/community/board/game/mobile">모바일</a></div>
+							<div><a href="/community/board/game/console">콘솔</a></div>
 						</div>
 					</li>
 					<li class="category_list_item">
@@ -73,8 +68,10 @@
 							</c:if>
 						</div>
 						<div class="category_detail">
-							<div>화제 게시판</div>
-							<div>자유 게시판</div>
+							<div><a href="/community/board/sports/soccer">축구</a></div>
+							<div><a href="/community/board/sports/baseball">야구</a></div>
+							<div><a href="/community/board/sports/basketball">농구</a></div>
+							<div><a href="/community/board/sports/etc">기타</a></div>
 						</div>
 					</li>
 					<li class="category_list_item">
@@ -89,9 +86,9 @@
 							</c:if>
 						</div>
 						<div class="category_detail">
-							<div>화제 게시판</div>
-							<div>자유 게시판</div>
-							<div>직업 게시판</div>
+							<div><a href="/community/board/pet/dog">강아지</a></div>
+							<div><a href="/community/board/pet/cat">고양이</a></div>
+							<div><a href="/community/board/pet/etc">기타</a></div>
 						</div>
 					</li>
 					<li class="category_list_item">
@@ -106,8 +103,8 @@
 							</c:if>
 						</div>
 						<div class="category_detail">
-							<div>화제 게시판</div>
-							<div>자유 게시판</div>
+							<div><a href="/community/board/it_finance/it">IT</a></div>
+							<div><a href="/community/board/it_finance/finance">금융</a></div>
 						</div>
 					</li>
 				</ul>
