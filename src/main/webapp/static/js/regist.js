@@ -186,15 +186,11 @@ function init() {
     const chkId = document.getElementById("chk_id");
     const idPass = "id_pass";
     const diemId = "duplicate_id_err_msg";
-    idInput.addEventListener('focusout', (event) => {
-        if(!checkId()) {
-            hideMessage(diemId);
-        }
-
-        if (idInput.value != chkId.value) {
-            replaceInputToEmpty(chkId);
-            hideMessage(idPass);
-        }
+    idInput.addEventListener('change', (event) => {
+        replaceInputToEmpty(chkId);
+        hideMessage(diemId);
+        hideMessage(idPass);
+        checkId();
     });
 
     const duplicateIdButton = document.getElementById("duplicate_id_button");
@@ -240,15 +236,11 @@ function init() {
     const chkNickname = document.getElementById("chk_nickname");
     const nicknamePass = "nickname_pass";
     const dnemId = "duplicate_nickname_err_msg";
-    nicknameInput.addEventListener('focusout', (event) => {
-        if (!checkNickname()) {
-            hideMessage(dnemId);
-        }
-
-        if (nicknameInput.value != chkNickname.value) {
-            replaceInputToEmpty(chkNickname);
-            hideMessage(nicknamePass);
-        }  
+    nicknameInput.addEventListener('change', (event) => {
+        replaceInputToEmpty(chkNickname);
+        hideMessage(dnemId);
+        hideMessage(nicknamePass);
+        checkNickname();
     });
 
     const duplicateNicknameButton = document.getElementById("duplicate_nickname_button");    
