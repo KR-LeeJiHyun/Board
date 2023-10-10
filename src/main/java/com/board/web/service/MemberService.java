@@ -90,9 +90,9 @@ public class MemberService {
 		// 영문자
 		String alphabetPattern = "(.*)[a-zA-Z](.*)$";
 		// 특수문자
-		String specialPattern = "(.*)[!@#$%^&*()<>~`\\-_=+\\|\\[\\{\\]\\}\\;:'\",./?](.*)$";
+		String specialPattern = "(.*)[!-/:-@\\[-`{-~](.*)$";
 		// 포함 문자
-		String allPattern = "^[a-zA-Z0-9!@#$%^&*()<>~`\\-_=+\\|\\[\\{\\]\\}\\;:'\",./?\\]]{8,20}$";
+		String allPattern = "^[!-~]{8,20}$";
 
 		// 확인용 비밀번호와 일치하는지 확인
 		if (password.compareTo(confirmationPassword) != 0) {
@@ -108,7 +108,6 @@ public class MemberService {
 	}
 
 	public boolean validateEmail(String email) {
-		System.out.println(email);
 		String pattern = "\\w+@\\w+.\\w+(\\.\\w+)?{3,320}";
 		return Pattern.matches(pattern, email);
 	}
