@@ -31,7 +31,7 @@
 				<select class="order">
 					<option>조회수 순</option>
 					<option>날짜 순</option>
-				</select> <a href="new/${category}"> <i class="fa-solid fa-pencil"></i>
+				</select> <a href="/community/board/new/${category}"> <i class="fa-solid fa-pencil"></i>
 				</a>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 				<c:forEach var="post" items="${postList}">
 					<tr>
 						<td>${post.postId}</td>
-						<td><a href="/community/board/${category}/${post.postId}"><c:out value="${post.title}" escapeXml="true" /></a><span
+						<td><a href="/community/board/${category}/${post.category}/${post.postId}"><c:out value="${post.title}" escapeXml="true" /></a><span
 							class="ballon">12</span></td>
 						<td>${post.writer}</td>
 						<td>${post.hit}</td>

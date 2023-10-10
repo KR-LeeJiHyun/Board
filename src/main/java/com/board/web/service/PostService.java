@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.board.web.entity.Post;
+import com.board.web.repository.PostAllSearch;
 import com.board.web.repository.PostForm;
 import com.board.web.repository.PostRepository;
 import com.board.web.repository.PostSearch;
@@ -41,8 +42,12 @@ public class PostService {
 		return -1;
 	}
 	
-	public List<Post> findPosts(String category, PostSearch postSearch) {
-		return postRepository.findAllPostByPostSearch(category, postSearch);
+	public List<Post> findPosts(PostAllSearch postAllSearch) {
+		return postRepository.findPosts(postAllSearch);
+	}
+	
+	public List<Post> findPosts(PostSearch postSearch) {
+		return postRepository.findPosts(postSearch);
 	}
 	
 	public Post findPost(String category, Long id) {
@@ -80,6 +85,10 @@ public class PostService {
     
     public int findTotalCount(String category) {
     	return postRepository.findTotalCount(category);
+    }
+    
+    public int findTotalCount(String category, String subCategory) {
+    	return postRepository.findTotalCount(category, subCategory);
     }
 
 }

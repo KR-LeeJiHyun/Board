@@ -5,37 +5,40 @@ public class PostSearch {
 	private String field;
 	private String query;
 	private String order;
+	private String category;
+	private String subCategory;
 	private int page;
 	
-	public PostSearch() {
-		this.field = "TITLE";
-		this.query = "";
-		this.order = "REGDATE";
-		this.page = 1;
+	public PostSearch(String field, String query, String order, String category, String subCategory, int page) {
+		this.field = field;
+		this.query = query;
+		this.order = order;
+		this.category = category;
+		this.subCategory = subCategory;
+		this.page = page;
 	}
-	
+
 	public String getField() {
 		return field;
 	}
-	public void setField(String field) {
-		this.field = field;
-	}
+
 	public String getQuery() {
 		return query;
 	}
-	public void setQuery(String query) {
-		this.query = query;
-	}
+
 	public String getOrder() {
 		return order;
 	}
-	public void setOrder(String order) {
-		this.order = order;
+
+	public String getCategory() {
+		return category;
 	}
+
+	public String getSubCategory() {
+		return subCategory;
+	}
+
 	public int getPage() {
 		return page;
-	}
-	public void setPage(int page) {
-		this.page = page;
 	}
 }

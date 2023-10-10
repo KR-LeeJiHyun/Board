@@ -15,6 +15,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.board.web.entity.Post;
+import com.board.web.repository.PostAllSearch;
 import com.board.web.repository.PostForm;
 import com.board.web.repository.PostRepository;
 import com.board.web.repository.PostSearch;
@@ -52,9 +53,51 @@ public class JDBCPostRepository implements PostRepository {
 	}
 	
 	@Override
-	public List<Post> findAllPostByPostSearch(String category, PostSearch postSearch) {
+	public List<Post> findPosts(PostAllSearch postAllSearch) {
 		String sql = "SELECT * FROM (SELECT ROWNUM NUM, P.* FROM (SELECT * FROM "
-				+ category + "_POST" + " WHERE BLIND = 0 ORDER BY " + postSearch.getOrder() + " DESC) P WHERE "
+				+ postAllSearch.getCategory() + "_POST" + " WHERE BLIND = 0 ORDER BY " + postAllSearch.getOrder() + " DESC) P WHERE "
+				+ postAllSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
+		
+		final int PAGER = 10;
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		List<Post> list = new LinkedList();
+		
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, "%" + postAllSearch.getQuery() + "%");
+			preparedStatement.setInt(2, 1 + (postAllSearch.getPage() - 1) * PAGER);
+			preparedStatement.setInt(3, postAllSearch.getPage() * PAGER);
+			
+			rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				Long id = rs.getLong("POST_ID");
+				String memberId = rs.getString("MEMBER_ID"); 
+				String writer = rs.getString("WRITER"); 
+				String title = rs.getString("TITLE"); 
+				String content = rs.getString("CONTENT"); 
+				Date regdate = rs.getTimestamp("REGDATE"); 
+				Integer like = rs.getInt("LIKE"); 
+				Integer unlike = rs.getInt("UNLIKE"); 
+				Integer hit = rs.getInt("HIT"); 
+				String subcategory = rs.getString("CATEGORY");  
+				
+				list.add(new Post(id, memberId, writer, title, content, regdate, like, unlike, hit, subcategory));				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, preparedStatement, con);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Post> findPosts(PostSearch postSearch) {
+		String sql = "SELECT * FROM (SELECT ROWNUM NUM, P.* FROM (SELECT * FROM "
+				+ postSearch.getCategory() + "_POST" + " WHERE BLIND = 0 AND CATEGORY = ? ORDER BY " + postSearch.getOrder() + " DESC) P WHERE "
 				+ postSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
 		
 		final int PAGER = 10;
@@ -66,9 +109,10 @@ public class JDBCPostRepository implements PostRepository {
 		try {
 			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
-			preparedStatement.setString(1, "%" + postSearch.getQuery() + "%");
-			preparedStatement.setInt(2, 1 + (postSearch.getPage() - 1) * PAGER);
-			preparedStatement.setInt(3, postSearch.getPage() * PAGER);
+			preparedStatement.setString(1, postSearch.getSubCategory());
+			preparedStatement.setString(2, "%" + postSearch.getQuery() + "%");
+			preparedStatement.setInt(3, 1 + (postSearch.getPage() - 1) * PAGER);
+			preparedStatement.setInt(4, postSearch.getPage() * PAGER);
 			
 			rs = preparedStatement.executeQuery();
 			while(rs.next()) {
@@ -265,6 +309,31 @@ public class JDBCPostRepository implements PostRepository {
 			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
 			
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				cnt = rs.getInt("COUNT"); 		
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, preparedStatement, con);
+		}
+		
+		return cnt;
+	}
+	
+	@Override
+	public int findTotalCount(String category, String subCategory) {
+		String sql = "SELECT COUNT(POST_ID) AS COUNT FROM " + category + "_POST WHERE CATEGORY = ?";
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		int cnt = 0;
+		
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, subCategory);
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
 				cnt = rs.getInt("COUNT"); 		
