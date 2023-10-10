@@ -2,8 +2,8 @@
 function checkPw() {
     const numberPattern = /[0-9]/; //숫자
     const alphabetPattern = /[a-zA-Z]/; //영어
-    // var specialPattern = /[~!@#\#$%<>^&*]/; //특수문자
-    const specialPattern = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자
+    const specialPattern = /[!-/:-@\[-`{-~]/; //특수문자
+    const excludePattern = /[^!-~]/;
 
     const pw = document.querySelector("#pw");
     const pwValue = pw.value;
@@ -14,6 +14,7 @@ function checkPw() {
     let resultAlphabet = false;
     let resultSpecial = false;
     let resultLen = false;
+    let resultExclude = excludePattern.test(pwValue);
 
     //길이 체크
     if(pwLen >= 8 && pwLen <= 20) {
@@ -46,7 +47,7 @@ function checkPw() {
         document.querySelector("#special").classList.remove("green_font");
     }
     
-    return resultLen && resultNumber && resultAlphabet && resultSpecial;
+    return resultLen && resultNumber && resultAlphabet && resultSpecial && !resultExclude;
 }
 
 // 비밀번호 재확인
