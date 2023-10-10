@@ -2,8 +2,8 @@
 function checkPw() {
     const numberPattern = /[0-9]/; //숫자
     const alphabetPattern = /[a-zA-Z]/; //영어
-    // var specialPattern = /[~!@#\#$%<>^&*]/; //특수문자
-    const specialPattern = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자
+    const specialPattern = /[!-/:-@\[-`{-~]/; //특수문자
+    const excludePattern = /[^!-~]/;
 
     const pw = document.querySelector("#pw");
     const pwValue = pw.value;
@@ -14,6 +14,7 @@ function checkPw() {
     let resultAlphabet = false;
     let resultSpecial = false;
     let resultLen = false;
+    let resultExclude = excludePattern.test(pwValue);
 
     //길이 체크
     if(pwLen >= 8 && pwLen <= 20) {
@@ -45,8 +46,8 @@ function checkPw() {
     } else {
         document.querySelector("#special").classList.remove("green_font");
     }
-    
-    return resultLen && resultNumber && resultAlphabet && resultSpecial;
+
+    return resultLen && resultNumber && resultAlphabet && resultSpecial && !resultExclude;
 }
 
 // 비밀번호 재확인
@@ -130,19 +131,19 @@ function checkNickname() {
 }
 
 function processErr(id) {
-    showErrMessage(id);
-    scrollErrMessage(id);
+    showMessage(id);
+    scrollMessage(id);
 }
 
-function showErrMessage(id) {
+function showMessage(id) {
     $("#" + id).removeClass("hidden");
 }
 
-function hideErrMessage(id) {
+function hideMessage(id) {
     $("#" + id).addClass("hidden");
 }
 
-function scrollErrMessage(id) {
+function scrollMessage(id) {
     const location = $("#" + id).closest(".info_row").position().top;
     $(window).scrollTop(location);
 }
@@ -183,19 +184,27 @@ function init() {
 
     const idInput = document.getElementById("id");
     const chkId = document.getElementById("chk_id");
+    const idPass = "id_pass";
+    const diemId = "duplicate_id_err_msg";
     idInput.addEventListener('focusout', (event) => {
-        checkId();
+        if(!checkId()) {
+            hideMessage(diemId);
+        }
+
         if (idInput.value != chkId.value) {
             replaceInputToEmpty(chkId);
+            hideMessage(idPass);
         }
     });
 
     const duplicateIdButton = document.getElementById("duplicate_id_button");
+    const iiemId = "invalid_id_err_msg";
     duplicateIdButton.addEventListener('click', (event) => {
         const id = document.getElementById("id").value;
-        const chkId = document.getElementById('chk_id').value;
         const idErrMsg = document.getElementById('invalid_id_err_msg');
-        if (id.length < 5 && !idErrMsg.classList.contains('hidden') && id == chkId) {
+        if (id.length < 5 || !idErrMsg.classList.contains('hidden')) {
+            hideMessage(diemId);
+            alert("사용할 수 없는 아이디입니다.")
             return;
         }
 
@@ -204,60 +213,83 @@ function init() {
         const slashLastIndex = curURL.lastIndexOf("/"); 
         let url = curURL.substring(0, slashLastIndex + 1) + "id";        
         const data = {"id" : id};
+        
         $.ajax({
             url: url,
             type: "GET",
             data : data,
             success: function(data) {
+                hideMessage(diemId);
+                hideMessage(iiemId);
                 $("#chk_id").attr("value", "");
                 $("#chk_id").attr("value", id);
-                hideErrMessage("duplicate_id_err_msg");
+                showMessage(idPass);
+                alert("사용할 수 있는 아이디입니다.");                
             },
-            error: function(xhr) {
+            error: function(response) {
+                const id = response.responseText;
                 $("#chk_id").attr("value", "");
-                showErrMessage("duplicate_id_err_msg");
+                showMessage(id);
+                hideMessage(idPass);
+                alert("이미 사용 중인 아이디입니다.");                
             }
         });
     });
 
     const nicknameInput = document.getElementById("nickname");
     const chkNickname = document.getElementById("chk_nickname");
+    const nicknamePass = "nickname_pass";
+    const dnemId = "duplicate_nickname_err_msg";
     nicknameInput.addEventListener('focusout', (event) => {
-        checkNickname();
+        if (!checkNickname()) {
+            hideMessage(dnemId);
+        }
+
         if (nicknameInput.value != chkNickname.value) {
             replaceInputToEmpty(chkNickname);
+            hideMessage(nicknamePass);
         }  
     });
 
-    const duplicateNicknameButton = document.getElementById("duplicate_nickname_button");
+    const duplicateNicknameButton = document.getElementById("duplicate_nickname_button");    
+    const inemId = "invalid_nickname_err_msg";
     duplicateNicknameButton.addEventListener('click', (event) => {
         const nickname = document.getElementById("nickname").value;
-        const chkNickname = document.getElementById('chk_nickname').value;
+        const nicknameErrMsg = document.getElementById(inemId);
 
-        const nicknameErrMsg = document.getElementById('invalid_nickname_err_msg');
-        if (nickname.length < 5 || !nicknameErrMsg.classList.contains('hidden') || nickname == chkNickname) {
+        if (nickname.length < 5 || !nicknameErrMsg.classList.contains('hidden')) {
+            hideMessage(nicknamePass);
+            hideMessage(dnemId);
+            alert("사용할 수 없는 닉네임입니다.")
             return;
         }
 
         // 서버로 닉네임 중복검사 보내기 ajax사용     
         const curURL = $(window.location)[0].href;
         const slashLastIndex = curURL.lastIndexOf("/"); 
-        let url = curURL.substring(0, slashLastIndex + 1) + "nickname";        
+        let url = curURL.substring(0, slashLastIndex + 1) + "nickname";
+        console.log(url);
         const data = {"nickname" : nickname};
+        
 
         $.ajax({
             url: url,
             type: "GET",
             data : data,
             success: function(data) {
-                console.log()
+                hideMessage(dnemId);
+                hideMessage(inemId);
                 $("#chk_nickname").attr("value", "");
-                $("#chk_nickname").attr("value", nickname);
-                hideErrMessage("duplicate_nickname_err_msg");
+                $("#chk_nickname").attr("value", nickname);                
+                showMessage(nicknamePass);
+                alert("사용할 수 있는 닉네임입니다.");
             },
-            error: function(xhr) {
+            error: function(response) {
+                const id = response.responseText;
                 $("#chk_nickname").attr("value", "");
-                showErrMessage("duplicate_nickname_err_msg");
+                showMessage(id);
+                hideMessage(nicknamePass);
+                alert("이미 사용 중인 닉네임입니다.");
             }
         });
     });
@@ -285,10 +317,8 @@ function init() {
         const password = $("#pw").val();
         const confirmationPw = $("#confirmation_pw").val();
         const email = $("#email").val() + $("#address option:selected").val();
-        const year = $(".year option:selected").val();
-        const month = $(".month option:selected").val();
-        const day = $(".day option:selected").val();
-        const date = new Date(year, month, day);
+        const birthday = $("#birthday").val();
+        
 
         if (name == "") {
             return;
@@ -300,6 +330,7 @@ function init() {
         }
 
         if (chkNickname == "" || nickname != chkNickname) {
+            scrollMessage("duplicate_nickname_err_msg");
             alert("닉네임 중복을 체크해주세요.")
             return;
         }
@@ -310,6 +341,7 @@ function init() {
         }
 
         if (chkId == "" || id != chkId) {
+            scrollMessage("duplicate_id_err_msg");
             alert("id 중복을 체크해주세요.")
             return;
         }
@@ -329,7 +361,7 @@ function init() {
             return;
         }
 
-        if (year == "" || month == "" || day == "") {
+        if (birthday == "") {
             return;
         }
 
@@ -340,7 +372,7 @@ function init() {
             'password' : password,
             'confirmationPassword': confirmationPw,
             'email' : email,
-            'birthday' : date
+            'birthday' : new Date(birthday)
         };
 
         const curURL = $(window.location)[0].href;
@@ -360,8 +392,10 @@ function init() {
                 alert("잘못된 입력이 존재합니다. 다시 확인해주세요");
                 if (id == "duplicate_id_err_msg") {
                     $("#chk_id").attr("value", "");
+                    hideMessage("duplicate_id_pass");
                 } else if (id == "duplicate_nickname_err_msg") {
                     $("#chk_nickname").attr("value", "");
+                    hideMessage("duplicate_nickname_pass");
                 }
 
                 processErr(id);
@@ -370,4 +404,6 @@ function init() {
     });
 }
 
-init();
+$(document).ready(function() {
+    init();
+});

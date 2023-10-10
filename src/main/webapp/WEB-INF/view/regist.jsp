@@ -31,9 +31,12 @@
                         <div class="info_row">
                             <div class="tag">닉네임</div>
                             <div class="nickname_row">
-                                <input id="nickname" type="text" id="nickname" placeholder="닉네임 입력" required>                            
+                                <input id="nickname" type="text" id="nickname" placeholder="닉네임 입력" required> 
                                 <button id="duplicate_nickname_button" type="button" class="small_button">중복확인</button>
                                 <input id="chk_nickname" type="text" class="hidden" required readonly>
+                            </div>
+                            <div class="success_msg_wrap">
+                                <span id="nickname_pass" class="hidden">*사용할 수 있는 닉네임입니다.</span>
                             </div>
                             <div class="err_msg_wrap">
                                 <span id="invalid_nickname_err_msg" class="hidden">*사용할 수 없는 닉네임입니다.</span>
@@ -47,7 +50,10 @@
                                 <button id="duplicate_id_button" type="button" class="small_button">중복확인</button>
                                 <input id="chk_id" type="text" class="hidden" required readonly>
                             </div>
-                            <div class="err_msg_wrap">
+                            <div class="success_msg_wrap">
+                                <span id="id_pass" class="hidden">*사용할 수 있는 아이디입니다.</span>
+                            </div>
+                            <div class="err_msg_wrap">                                
                                 <span id="invalid_id_err_msg" class="hidden">*사용할 수 없는 아이디입니다.</span>
                                 <span id="duplicate_id_err_msg" class="hidden">*중복된 아이디입니다.</span>
                             </div>
@@ -98,18 +104,7 @@
                         <div class="info_row">
                             <div class="tag">생년월일</div>
                             <div class="select_row">
-                                <select class="year" required>
-                                    <option name="year" value="">년도</option>
-                                    <option name="year" value="1995">95</option>
-                                </select>
-                                <select class="month" required>
-                                    <option name="month" value="">월</option>
-                                    <option name="month" value="1">1</option>
-                                </select>
-                                <select class="day" required>
-                                    <option name="day" value="">일</option>
-                                    <option name="day" value="1">1</option>
-                                </select>
+                                <input id="birthday" type="date" required>
                             </div>
                         </div>
                         <div class="button_wrap">
