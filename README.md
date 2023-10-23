@@ -35,14 +35,14 @@ Commynity Board
 - Oracle 21c Express Edition Release 21.0.0.0.0
 - Windows 10, 11
 ## 3.2. Maven Dependency
-- Tomcat 9.0.55
-- Spring 5.2.22.RELEASE
-- Tiles-JSP 3.0.8
-- JSTL 1.2
-- OJDBC 19.14.0.0
-- Spring-JDBC 5.3.20
-- Jackson-Databind 2.11.2
-- Spring-Security-Core 5.7.5
+- tomcat 9.0.55
+- spring 5.2.22.RELEASE
+- tiles-jsp 3.0.8
+- jstl 1.2
+- ojdbc 19.14.0.0
+- spring-jdbc 5.3.20
+- jackson-databind 2.11.2
+- spring-security-core 5.7.5
 # 4. 사용법
 사용법입니다.
 # 5. 멤버
