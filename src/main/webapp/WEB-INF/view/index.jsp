@@ -54,16 +54,16 @@
 					<th>날짜</th>
 				</tr>
 
-				<c:forEach varStatus="status" items="${postList}">
+				<c:forEach var = "post" items = "${postList}">
 					<tr>
-						<td>${postList[status.index].postId}</td>
-						<td><a href="/community/board/${category}/${postList[status.index].category}/${post.postId}"><c:out value="${post.title}" escapeXml="true" /></a><span
-							class="ballon">${commentCntList[status.index]}</span></td>
-						<td>${postList[status.index].writer}</td>
-						<td>${postList[status.index].hit}</td>
-						<td>${postList[status.index].like}</td>
+						<td>${post.postId}</td>
+						<td><a href="/community/board/${category}/${post.category}/${post.postId}"><c:out value="${post.title}" escapeXml="true" /></a><span
+							class="ballon">${commentCntMap[post.postId]}</span></td>
+						<td>${post.writer}</td>
+						<td>${post.hit}</td>
+						<td>${post.like}</td>
 						<td>
-							<fmt:formatDate value="${postList[status.index].regdate}" type="both" />
+							<fmt:formatDate value="${post.regdate}" type="both" />
 						</td>
 					</tr>
 				</c:forEach>

@@ -1,7 +1,7 @@
 package com.board.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,19 +49,16 @@ public class PostController {
 		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category) / 10);
 		int begin = ((int)Math.ceil((double)postAllSearch.getPage() / 5) - 1) * 5 + 1;
 		int end = begin + 4;
-		List<Post> postList = postService.findPosts(postAllSearch);
-		List<Long> postIds = new ArrayList<>();
-		for(Post post : postList) {
-			postIds.add(post.getPostId());
-		}
-		List<Integer> commentCntList = commentService.findCommentCounts(postIds);
+		
+		List<Post> postList = postService.findPosts(postAllSearch);		
+		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("category", category);
 		model.addAttribute("page", postAllSearch.getPage());
 		model.addAttribute("begin", begin);
 		model.addAttribute("end", Math.min(lastPage, end));
 		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("commentCntList", commentCntList);
+		model.addAttribute("commentCntMap", commentCntMap);
 		return "index";
 	}
 	
@@ -75,12 +72,9 @@ public class PostController {
 		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, subCategory) / 10);
 		int begin = ((int)Math.ceil((double)postSearch.getPage() / 5) - 1) * 5 + 1;
 		int end = begin + 4;
+		
 		List<Post> postList = postService.findPosts(postSearch);
-		List<Long> postIds = new ArrayList<>();
-		for(Post post : postList) {
-			postIds.add(post.getPostId());
-		}
-		List<Integer> commentCntList = commentService.findCommentCounts(postIds);
+		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("category", category);
@@ -88,7 +82,7 @@ public class PostController {
 		model.addAttribute("begin", begin);
 		model.addAttribute("end", Math.min(lastPage, end));
 		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("commentCntList", commentCntList);
+		model.addAttribute("commentCntMap", commentCntMap);
 		return "index";
 	}
 	
@@ -102,6 +96,7 @@ public class PostController {
 		if(LoginCheck.isLoggedIn(member)) {
 			model.addAttribute("memberId", member.getId());
 		}
+		
 		return "detail";
 	}
 	
@@ -111,8 +106,7 @@ public class PostController {
 		if(LoginCheck.isLoggedIn(LoginCheck.getMemberFromSession(request))) {
     		model.addAttribute("category", category);
     		return "write";
-    	}
-    	else {
+    	} else {
     		return "redirect:/members/login";
     	}  
 	}
@@ -126,8 +120,7 @@ public class PostController {
 	        postService.savePost(category, postForm);
 	        
 			return "redirect:/board/" + category;
-		}
-		else {
+		} else {
 			return "redirect:/members/login";
 		}
 	}
@@ -139,8 +132,7 @@ public class PostController {
 			Post post = postService.findPost(category, id);
     		model.addAttribute("post", post);
     		return "edit";
-    	}
-    	else {
+    	} else {
     		return "redirect:/members/login";
     	} 
 	}
@@ -153,8 +145,7 @@ public class PostController {
 			UpdatePostForm updatePostForm = new UpdatePostForm(id, member.getId(), title, content);
 			postService.updatePost(category, updatePostForm);
 			return "redirect:/board/" + category + "/" + id;
-		}
-		else {
+		} else {
 			return "redirect:/members/login";
 		}
 	}
@@ -180,12 +171,9 @@ public class PostController {
 		if(LoginCheck.isLoggedIn(member)) {
 			postService.deletePost(member.getId(),category, id);
 			return "redirect:/board/" + category;
-    	}
-    	else {
+    	} else {
     		return "redirect:/members/login";
     	} 
 	}
-	
-	
 }
 

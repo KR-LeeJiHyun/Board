@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -17,6 +19,7 @@ import com.board.web.controller.comment.CommentConst;
 import com.board.web.controller.comment.CommentForm;
 import com.board.web.entity.Comment;
 import com.board.web.entity.Member;
+import com.board.web.entity.Post;
 import com.board.web.repository.CommentRepository;
 
 @Repository
@@ -181,6 +184,47 @@ public class JDBCCommentRepository implements CommentRepository {
 		return list;
 	}
 
+	@Override
+	public Map<Long, Integer> findCounts(List<Post> postList) {
+		StringBuilder builder = new StringBuilder();
+		String category = postList.get(0).getCategory();
+		
+		builder.append(postList.get(0).getPostId());
+		for (int index = 1; index < postList.size(); ++index) {
+			builder.append(", ");
+			builder.append(postList.get(index).getPostId());
+			
+		}
+		
+		String numberStr = builder.toString();
+		String sql = "SELECT p.post_id p, nvl(c.cnt, 0) cnt "
+				+ " FROM " + category + "_POST p LEFT JOIN (select post_id, count(*) as cnt from " + category + "_comment group by post_id) c ON p.post_id = c.post_id"
+				+ " WHERE p.post_id in (" + numberStr + ")";
+						
+
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		Map<Long, Integer> map = new HashMap<>();
+
+		try {
+			con = DataSourceUtils.getConnection(this.dataSource);
+			preparedStatement = con.prepareStatement(sql);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				long postId = rs.getLong("p"); 
+				int count = rs.getInt("cnt");
+				map.put(postId, count);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, preparedStatement, con);
+		}
+
+		return map;
+	}
+	
 	@Override
 	public Long findTotalCount(String category, Long postId) {
 		String sql = "SELECT COUNT(COMMENT_ID) AS COUNT FROM " + category + "_COMMENT WHERE POST_ID = ?";

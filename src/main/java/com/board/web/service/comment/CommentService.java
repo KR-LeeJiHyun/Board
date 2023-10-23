@@ -1,7 +1,9 @@
 package com.board.web.service.comment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.board.web.controller.comment.CommentForm;
 import com.board.web.entity.Comment;
 import com.board.web.entity.Member;
+import com.board.web.entity.Post;
 import com.board.web.repository.CommentRepository;
 import com.board.web.repository.jdbc.comment.CommentDTO;
 
@@ -70,6 +73,14 @@ public class CommentService {
 			int lastIndex = children.size() - 1;
 			addCommentDTO(children.get(lastIndex), comment);
 		}
+	}
+	
+	public Map<Long, Integer> findCommentCounts(List<Post> postList) {
+		if (postList.isEmpty()) {
+			return new HashMap<>();
+		}
+		
+		return commentRepository.findCounts(postList);
 	}
 	
 	public Long findCommentTotal(String category, Long postId) {
