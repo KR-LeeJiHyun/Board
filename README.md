@@ -12,7 +12,7 @@ Commynity Board
 |6. 개선점|
 
 # 1. 개요
-여러 커뮤니티 게시판 사이트를 모방한 프로젝트입니다.
+여러 커뮤니티 게시판 사이트를 참조한 게시판 프로젝트입니다.
 # 2. 기능
 ## 2.1. 회원
 - 회원가입
@@ -32,7 +32,7 @@ Commynity Board
 - 이클립스
 - 크롬
 - SQL Developer
-- Oracle 21c Express Edition Release 21.0.0.0.0
+- [Oracle 21c Express Edition Release 21.0.0.0.0](https://github.com/KR-LeeJiHyun/Board/issues/16)
 - Windows 10, 11
 ## 3.2. Maven Dependency
 - tomcat 9.0.55
