@@ -1,13 +1,12 @@
 package com.board.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +24,19 @@ import com.board.web.repository.PostForm;
 import com.board.web.repository.PostSearch;
 import com.board.web.repository.UpdatePostForm;
 import com.board.web.service.PostService;
+import com.board.web.service.comment.CommentService;
 
 @Controller
 @RequestMapping("/board")
 public class PostController {
 	
 	private PostService postService;
+	private CommentService commentService;
 	
 	@Autowired
-	public PostController(PostService postService) {
+	public PostController(PostService postService, CommentService commentService) {
 		this.postService = postService;
+		this.commentService = commentService;
 	}
 
 	//게시글 목록
@@ -48,12 +50,18 @@ public class PostController {
 		int begin = ((int)Math.ceil((double)postAllSearch.getPage() / 5) - 1) * 5 + 1;
 		int end = begin + 4;
 		List<Post> postList = postService.findPosts(postAllSearch);
+		List<Long> postIds = new ArrayList<>();
+		for(Post post : postList) {
+			postIds.add(post.getPostId());
+		}
+		List<Integer> commentCntList = commentService.findCommentCounts(postIds);
 		model.addAttribute("postList", postList);
 		model.addAttribute("category", category);
 		model.addAttribute("page", postAllSearch.getPage());
 		model.addAttribute("begin", begin);
 		model.addAttribute("end", Math.min(lastPage, end));
 		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("commentCntList", commentCntList);
 		return "index";
 	}
 	
@@ -68,12 +76,19 @@ public class PostController {
 		int begin = ((int)Math.ceil((double)postSearch.getPage() / 5) - 1) * 5 + 1;
 		int end = begin + 4;
 		List<Post> postList = postService.findPosts(postSearch);
+		List<Long> postIds = new ArrayList<>();
+		for(Post post : postList) {
+			postIds.add(post.getPostId());
+		}
+		List<Integer> commentCntList = commentService.findCommentCounts(postIds);
+		model.addAttribute("postList", postList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("category", category);
 		model.addAttribute("page", postSearch.getPage());
 		model.addAttribute("begin", begin);
 		model.addAttribute("end", Math.min(lastPage, end));
 		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("commentCntList", commentCntList);
 		return "index";
 	}
 	
