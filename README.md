@@ -32,7 +32,7 @@ Commynity Board
 - 이클립스
 - 크롬
 - SQL Developer
-- [Oracle 21c Express Edition Release 21.0.0.0.0](https://github.com/KR-LeeJiHyun/Board/issues/16)
+- Oracle 21c Express Edition Release 21.0.0.0.0
 - Windows 10, 11
 ## 3.2. Maven Dependency
 - tomcat 9.0.55
@@ -44,7 +44,7 @@ Commynity Board
 - jackson-databind 2.11.2
 - spring-security-core 5.7.5
 # 4. 사용법
-사용법입니다.
+- [테이블 구조](https://github.com/KR-LeeJiHyun/Board/issues/16)
 # 5. 멤버
 - KR-LeeJiHyun : 게시글
 - kr-seominwoo : 댓글
