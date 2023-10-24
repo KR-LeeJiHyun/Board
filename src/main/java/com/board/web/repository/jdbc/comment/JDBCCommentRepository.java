@@ -185,10 +185,8 @@ public class JDBCCommentRepository implements CommentRepository {
 	}
 
 	@Override
-	public Map<Long, Integer> findCounts(List<Post> postList) {
+	public Map<Long, Integer> findCounts(List<Post> postList, String category) {
 		StringBuilder builder = new StringBuilder();
-		String category = postList.get(0).getCategory();
-		
 		builder.append(postList.get(0).getPostId());
 		for (int index = 1; index < postList.size(); ++index) {
 			builder.append(", ");

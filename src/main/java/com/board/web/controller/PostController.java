@@ -44,6 +44,7 @@ public class PostController {
 	public String home(@PathVariable String category, 
 			@RequestParam(defaultValue = "TITLE") String field, @RequestParam(defaultValue = "")String query, @RequestParam(defaultValue = "REGDATE")String order, 
 			@RequestParam(defaultValue = "1")Integer page, Model model) {
+		System.out.println(category);
 		PostAllSearch postAllSearch = new PostAllSearch(field, query, order, category, page);
 		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, postAllSearch) / 10);
 		int begin = ((int)Math.ceil((double)postAllSearch.getPage() / 5) - 1) * 5 + 1;
@@ -54,7 +55,7 @@ public class PostController {
 		System.out.println(postService.findTotalCount(category, postAllSearch));
 		
 		List<Post> postList = postService.findPosts(postAllSearch);		
-		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList);
+		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList, category);
 		model.addAttribute("postList", postList);
 		model.addAttribute("category", category);
 		model.addAttribute("page", postAllSearch.getPage());
@@ -77,7 +78,7 @@ public class PostController {
 		int end = begin + 4;
 		
 		List<Post> postList = postService.findPosts(postSearch);
-		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList);
+		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList, category);
 		model.addAttribute("postList", postList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("category", category);

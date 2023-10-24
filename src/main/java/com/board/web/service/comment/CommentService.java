@@ -75,12 +75,12 @@ public class CommentService {
 		}
 	}
 	
-	public Map<Long, Integer> findCommentCounts(List<Post> postList) {
+	public Map<Long, Integer> findCommentCounts(List<Post> postList, String category) {
 		if (postList.isEmpty()) {
 			return new HashMap<>();
 		}
 		
-		return commentRepository.findCounts(postList);
+		return commentRepository.findCounts(postList, category);
 	}
 	
 	public Long findCommentTotal(String category, Long postId) {

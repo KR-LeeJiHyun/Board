@@ -14,7 +14,7 @@ public interface CommentRepository {
 	Comment findOne(String category, Long commentId);
 	List<CommentDTO> findComments(String category, Long postId, int page);
 	List<CommentDTO> findReplyComments(String category, Long postId, Long parentId);
-	Map<Long, Integer> findCounts(List<Post> postList);
+	Map<Long, Integer> findCounts(List<Post> postList, String category);
 	Long findTotalCount(String category, Long postId);
 	Long findTopTotalCount(String category, Long postId);	
 	int findCount(String category, String column, Long commentId);
