@@ -40,7 +40,7 @@
                     </form> 
                     <div class="find_wrap">
                         <a href="#" id="find_id_pw">아이디/비밀번호 찾기</a>
-                        <a href="#" id="regist">회원가입</a>
+                        <a href="regist" id="regist">회원가입</a>
                     </div>  
                 </div>
             </div>
