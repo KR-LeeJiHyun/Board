@@ -45,10 +45,13 @@ public class PostController {
 			@RequestParam(defaultValue = "TITLE") String field, @RequestParam(defaultValue = "")String query, @RequestParam(defaultValue = "REGDATE")String order, 
 			@RequestParam(defaultValue = "1")Integer page, Model model) {
 		PostAllSearch postAllSearch = new PostAllSearch(field, query, order, category, page);
-		
-		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category) / 10);
+		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, postAllSearch) / 10);
 		int begin = ((int)Math.ceil((double)postAllSearch.getPage() / 5) - 1) * 5 + 1;
 		int end = begin + 4;
+		System.out.println(begin);
+		System.out.println(end);
+		System.out.println(lastPage);
+		System.out.println(postService.findTotalCount(category, postAllSearch));
 		
 		List<Post> postList = postService.findPosts(postAllSearch);		
 		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList);
@@ -59,6 +62,7 @@ public class PostController {
 		model.addAttribute("end", Math.min(lastPage, end));
 		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("commentCntMap", commentCntMap);
+		model.addAttribute("postSearch", postAllSearch);
 		return "index";
 	}
 	
@@ -68,8 +72,7 @@ public class PostController {
 			@RequestParam(defaultValue = "TITLE") String field, @RequestParam(defaultValue = "")String query, @RequestParam(defaultValue = "REGDATE")String order, 
 			@RequestParam(defaultValue = "1")Integer page, Model model) {
 		PostSearch postSearch = new PostSearch(field, query, order, category, subCategory, page);
-		
-		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, subCategory) / 10);
+		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, postSearch) / 10);
 		int begin = ((int)Math.ceil((double)postSearch.getPage() / 5) - 1) * 5 + 1;
 		int end = begin + 4;
 		
@@ -83,6 +86,7 @@ public class PostController {
 		model.addAttribute("end", Math.min(lastPage, end));
 		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("commentCntMap", commentCntMap);
+		model.addAttribute("postSearch", postSearch);
 		return "index";
 	}
 	

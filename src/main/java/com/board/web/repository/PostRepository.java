@@ -13,7 +13,7 @@ public interface PostRepository {
 	int updateCount(String category, Long id, String column);
 	int deletePost(String category, Long id);
 	int findCount(String category, Long id, String column);
-	int findTotalCount(String category);
-	int findTotalCount(String category, String subCategory);
+	int findTotalCount(String category, PostAllSearch postAllSearch);
+	int findTotalCount(String category, PostSearch postSearch);
 	String findMeberIdByPostId(String category, Long id);
 }

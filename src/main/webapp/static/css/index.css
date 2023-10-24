@@ -64,10 +64,11 @@ select {
 }
 
 .order {
-    margin-right: 10px;
+    float: right;
 }
 
 .search_form {
+	width: 80%;
     margin-left: 10px;
 }
 

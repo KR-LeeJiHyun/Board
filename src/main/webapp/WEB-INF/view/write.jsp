@@ -36,39 +36,31 @@
 		<form action="/community/board/new/${category}" method="post">
 			<div class="post_header">
 				<input name="title" class="post_title" placeholder="제목을 입력해 주세요." />
+				<select name="subCategory" style="float: right;" required>
 				<c:if test="${category == 'free'}">
-					<select style="float: right;" required>
-						<option name="subCategory" selected value="free">자유</option>
-					</select>
+						<option selected value="free">자유</option>
 				</c:if>
 				<c:if test="${category == 'game'}">
-					<select style="float: right;" required>
-						<option name="subCategory" value="online">온라인</option>
-						<option name="subCategory" value="mobile">모바일</option>
-						<option name="subCategory" value="console">콘솔</option>
-					</select>
+						<option value="online">온라인</option>
+						<option value="mobile">모바일</option>
+						<option value="console">콘솔</option>
 				</c:if>
 				<c:if test="${category == 'sports'}">
-					<select style="float: right;" required>
-						<option name="subCategory" value="soccer">축구</option>
-						<option name="subCategory" value="baseball">야구</option>
-						<option name="subCategory" value="basketball">농구</option>
-						<option name="subCategory" value="etc">기타</option>
-					</select>
+						<option value="soccer">축구</option>
+						<option value="baseball">야구</option>
+						<option value="basketball">농구</option>
+						<option value="etc">기타</option>
 				</c:if>
 				<c:if test="${category == 'pet'}">
-					<select style="float: right;" required>
-						<option name="subCategory" value="dog">강아지</option>
-						<option name="subCategory" value="cat">고양이</option>
-						<option name="subCategory" value="etc">기타</option>
-					</select>
+						<option value="dog">강아지</option>
+						<option value="cat">고양이</option>
+						<option value="etc">기타</option>
 				</c:if>
 				<c:if test="${category == 'it_finance'}">
-					<select style="float: right;" required>
-						<option name="subCategory" value="it">IT</option>
-						<option name="subCategory" value="finance">금융</option>
-					</select>
+						<option value="it">IT</option>
+						<option value="finance">금융</option>
 				</c:if>
+				</select>
 			</div>
 			<textarea name="content" class="post_content"
 				placeholder="내용을 입력해 주세요."></textarea>

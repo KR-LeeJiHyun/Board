@@ -19,20 +19,38 @@
 		<div class="content_banner">
 			<h1>자유게시판</h1>
 			<form class="search_form">
-				<select>
-					<option>제목</option>
-					<option>글쓴이</option>
-				</select> <input id="search_content" type="text">
+				<select name = "field">
+				
+					<option 
+					<c:if test="${postSearch.field == 'title'}">
+						selected
+					</c:if> 
+					value="title">제목</option>
+					<option 
+					<c:if test="${postSearch.field == 'writer'}">
+						selected
+					</c:if> 
+					value="writer">글쓴이</option>
+				</select>
+				 <input id="search_content" name="query" type="text" value="${postSearch.query}">
 				<button class="search_button">
 					<i class="fa-solid fa-magnifying-glass"></i>
 				</button>
+				<select name= "order" class="order">
+					<option
+					<c:if test="${postSearch.order == 'regdate'}">
+						selected
+					</c:if> 
+					value="regdate">날짜 순</option>
+					<option
+					<c:if test="${postSearch.order == 'hit'}">
+						selected
+					</c:if> 
+					value="hit">조회수 순</option>
+				</select> 
 			</form>
 			<div class="order_edit_wrap">
-				<select class="order">
-					<option>조회수 순</option>
-					<option>날짜 순</option>
-				</select> <a href="/community/board/new/${category}"> <i class="fa-solid fa-pencil"></i>
-				</a>
+				<a href="/community/board/new/${category}"> <i class="fa-solid fa-pencil"></i></a>
 			</div>
 		</div>
 		<div class="content">
@@ -78,7 +96,7 @@
 								<li class="page_active">${st.index}</li>
 							</c:if> 
 							<c:if test="${st.index != page}">
-								<a href="?page=${st.index}">
+								<a href="?page=${st.index}&field=${postSearch.field}&query=${postSearch.query}&order=${postSearch.order}">
                						${st.index}
                					</a>
             				</c:if>

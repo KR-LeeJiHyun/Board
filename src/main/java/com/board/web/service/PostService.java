@@ -83,12 +83,12 @@ public class PostService {
     	return memberId.equals(postRepository.findMeberIdByPostId(category, id));
     }
     
-    public int findTotalCount(String category) {
-    	return postRepository.findTotalCount(category);
+    public int findTotalCount(String category, PostAllSearch postAllSearch) {
+    	return postRepository.findTotalCount(category, postAllSearch);
     }
     
-    public int findTotalCount(String category, String subCategory) {
-    	return postRepository.findTotalCount(category, subCategory);
+    public int findTotalCount(String category, PostSearch postSearch) {
+    	return postRepository.findTotalCount(category, postSearch);
     }
 
 }

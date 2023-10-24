@@ -55,7 +55,7 @@ public class JDBCPostRepository implements PostRepository {
 	@Override
 	public List<Post> findPosts(PostAllSearch postAllSearch) {
 		String sql = "SELECT * FROM (SELECT ROWNUM NUM, P.* FROM (SELECT * FROM "
-				+ postAllSearch.getCategory() + "_POST" + " WHERE BLIND = 0 ORDER BY " + postAllSearch.getOrder() + " DESC) P WHERE "
+				+ postAllSearch.getCategory() + "_POST" + " WHERE BLIND = 0 ORDER BY " + postAllSearch.getOrder() + " DESC) P WHERE P."
 				+ postAllSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
 		
 		final int PAGER = 10;
@@ -97,7 +97,7 @@ public class JDBCPostRepository implements PostRepository {
 	@Override
 	public List<Post> findPosts(PostSearch postSearch) {
 		String sql = "SELECT * FROM (SELECT ROWNUM NUM, P.* FROM (SELECT * FROM "
-				+ postSearch.getCategory() + "_POST" + " WHERE BLIND = 0 AND CATEGORY = ? ORDER BY " + postSearch.getOrder() + " DESC) P WHERE "
+				+ postSearch.getCategory() + "_POST" + " WHERE BLIND = 0 AND CATEGORY = ? ORDER BY " + postSearch.getOrder() + " DESC) P WHERE P."
 				+ postSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
 		
 		final int PAGER = 10;
@@ -270,6 +270,7 @@ public class JDBCPostRepository implements PostRepository {
 		return result;
 	}
 	
+	//좋아요, 싫어요, 조회수 찾기
 	@Override
 	public int findCount(String category, Long id, String column) {
 		String sql = "SELECT " + column + " FROM " + category + "_POST WHERE POST_ID = ?";
@@ -298,8 +299,8 @@ public class JDBCPostRepository implements PostRepository {
 	}
 	
 	@Override
-	public int findTotalCount(String category) {
-		String sql = "SELECT COUNT(POST_ID) AS COUNT FROM " + category + "_POST";
+	public int findTotalCount(String category, PostAllSearch postAllSearch) {
+		String sql = "SELECT COUNT(POST_ID) AS COUNT FROM " + category + "_POST WHERE " + postAllSearch.getField() + " LIKE ?";
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -308,6 +309,7 @@ public class JDBCPostRepository implements PostRepository {
 		try {
 			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, '%' + postAllSearch.getQuery() + '%');
 			
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
@@ -323,8 +325,8 @@ public class JDBCPostRepository implements PostRepository {
 	}
 	
 	@Override
-	public int findTotalCount(String category, String subCategory) {
-		String sql = "SELECT COUNT(POST_ID) AS COUNT FROM " + category + "_POST WHERE CATEGORY = ?";
+	public int findTotalCount(String category, PostSearch postSearch) {
+		String sql = "SELECT COUNT(POST_ID) AS COUNT FROM " + category + "_POST WHERE CATEGORY = ? AND " + postSearch.getField() + " LIKE ?";
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -333,7 +335,8 @@ public class JDBCPostRepository implements PostRepository {
 		try {
 			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
-			preparedStatement.setString(1, subCategory);
+			preparedStatement.setString(1, postSearch.getCategory());
+			preparedStatement.setString(2, '%' + postSearch.getQuery() + '%');
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
 				cnt = rs.getInt("COUNT"); 		
