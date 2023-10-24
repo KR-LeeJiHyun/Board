@@ -7,7 +7,7 @@
 	<header>
 		<div class="header_inner">
 			<div class="title_menu_wrap">
-				<span class="title"> 제목을 입력하시오 <img class="logo"
+				<span class="title"> 서리 <img class="logo"
 					src="/community/images/logo.jpg" />
 				</span>
 				<div class="user_menu">
