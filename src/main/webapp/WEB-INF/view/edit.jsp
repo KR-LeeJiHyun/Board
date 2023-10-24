@@ -37,7 +37,7 @@
 		<div class="post_content">
 			<textarea name="content" class="post_content" placeholder="내용을 입력해 주세요." style="white-space: pre-wrap;">${post.content}</textarea>
 		</div>
-		<input class="write_btn" type="button" value="취소"></input>
+		<input class="write_btn" type="button" onclick="history.back()" value="취소"></input>
 		<input class="write_btn" type="submit" value="제출"></input>
 		</form>
 	</div>

@@ -64,8 +64,8 @@
 			</div>
 			<textarea name="content" class="post_content"
 				placeholder="내용을 입력해 주세요."></textarea>
-			<input class="write_btn" type="button" value="취소"></input> <input
-				class="write_btn" type="submit" value="제출"></input>
+			<input class="write_btn" type="button" onclick="history.back()" value="취소"></input> 
+			<input class="write_btn" type="submit" value="제출"></input>
 		</form>
 	</div>
 </body>

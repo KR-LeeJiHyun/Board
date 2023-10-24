@@ -29,14 +29,11 @@
 				<ul class="menu category_list">
 					<li class="category_list_item">
 						<div class="category_box">
-							<c:if test="${category == 'free'}">
-								<div class="category category_active">자유게시판</div>
-							</c:if>
-							<c:if test="${category != 'free'}">
 								<div class="category">
-									<a href="/community/board/free">자유게시판</a>
+									<a href="/community/board/free"
+									class=${category == "free" ? "category_active" : ""} 
+									>자유게시판</a>
 								</div>
-							</c:if>
 						</div>
 					</li>
 					<li class="category_list_item">

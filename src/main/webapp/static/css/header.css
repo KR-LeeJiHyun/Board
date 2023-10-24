@@ -114,10 +114,6 @@ header {
     transition: 1s;
 }
 
-.category_active {
-    color: white;
-}
-
 .category_detail > div {
     display: flex;
     justify-content: center;
@@ -149,4 +145,8 @@ header {
 
 .category > a {
 	color: rgb(124,129,166);
+}
+
+.category_active {
+    color: white !important;
 }
