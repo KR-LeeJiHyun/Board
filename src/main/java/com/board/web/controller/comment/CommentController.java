@@ -38,7 +38,7 @@ public class CommentController {
 	@PostMapping("/create")
 	public ModelAndView createComment(@PathVariable String category, @PathVariable Long postId, String content, ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Member member = LoginCheck.getMemberFromSession(request);
-		if (LoginCheck.isLoggedIn(member)) {
+		if (!LoginCheck.isLoggedIn(member)) {
 			mv.addObject("message", CommentErrorMessage.LOGIN_ERROR);
 			mv.setViewName("error");
 			mv.setStatus(HttpStatus.UNAUTHORIZED);
@@ -64,7 +64,7 @@ public class CommentController {
 			@PathVariable Long parentId, String content, HttpServletRequest request, HttpServletResponse response,
 			ModelAndView mv) throws IOException {
 		Member member = LoginCheck.getMemberFromSession(request);
-		if (LoginCheck.isLoggedIn(member)) {
+		if (!LoginCheck.isLoggedIn(member)) {
 			mv.addObject("message", CommentErrorMessage.LOGIN_ERROR);
 			mv.setViewName("error");
 			mv.setStatus(HttpStatus.UNAUTHORIZED);
@@ -142,7 +142,7 @@ public class CommentController {
 	public ModelAndView update(@PathVariable String category, @PathVariable Long commentId, String content, ModelAndView mv,
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Member member = LoginCheck.getMemberFromSession(request);
-		if (LoginCheck.isLoggedIn(member)) {
+		if (!LoginCheck.isLoggedIn(member)) {
 			mv.setStatus(HttpStatus.UNAUTHORIZED);
 			mv.addObject("message", CommentErrorMessage.LOGIN_ERROR);
 			mv.setViewName("error");
@@ -174,7 +174,7 @@ public class CommentController {
 	public ResponseEntity<String> delete(@PathVariable String category, @PathVariable Long commentId, Model model,
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Member member = LoginCheck.getMemberFromSession(request);
-		if (LoginCheck.isLoggedIn(member)) {
+		if (!LoginCheck.isLoggedIn(member)) {
 			return new ResponseEntity<String>(CommentErrorMessage.LOGIN_ERROR, HttpStatus.UNAUTHORIZED);
 		}
 		
