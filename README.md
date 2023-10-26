@@ -22,8 +22,6 @@ Commynity Board
 
 # 1. 개요
 여러 커뮤니티 게시판 사이트를 참조한 게시판 프로젝트입니다.
-# 1. 개요
-ㅁㅁㅁㅁㅁ
 # 2. 기능
 ## 2.1. 회원
 - 회원가입
@@ -162,3 +160,5 @@ Commynity Board
     ```shell
     프로젝트 속성 -> Deployment Assembly -> Add -> Java Build Path Entries -> Maven Depedencies -> finish
     ```
+# 1. 개요
+ㅁㅁㅁㅁㅁ
