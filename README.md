@@ -2,23 +2,23 @@ Commynity Board
 ====
 |목차|
 |----|
-|1. 개요|
-|2. 기능|
-|&nbsp;&nbsp;&nbsp;2.1. 회원|
-|&nbsp;&nbsp;&nbsp;2.2. 게시판|
-|&nbsp;&nbsp;&nbsp;2.3. 댓글|
-|&nbsp;&nbsp;&nbsp;2.4. UI|
-|3. 환경|
-|&nbsp;&nbsp;&nbsp;3.1. 개발자 환경|
-|&nbsp;&nbsp;&nbsp;3.2. Maven Dependency|
-|4. 사용법|
-|&nbsp;&nbsp;&nbsp;4.1. 사전 요구사항|
-|&nbsp;&nbsp;&nbsp;4.2. 순서|
-|&nbsp;&nbsp;&nbsp;4.3. 배포자 예시|
-|&nbsp;&nbsp;&nbsp;4.4. 주의사항|
-|5. 멤버|
-|6. 개선점|
-|7. 에러 시 대처사항|
+|1. [개요](#1-개요)|
+|2. [기능](#2-기능)|
+|&nbsp;&nbsp;&nbsp;2.1. [회원](#21-회원)|
+|&nbsp;&nbsp;&nbsp;2.2. [게시판](#22-게시판)|
+|&nbsp;&nbsp;&nbsp;2.3. [댓글](#23-댓글)|
+|&nbsp;&nbsp;&nbsp;2.4. [UI](#24-ui)|
+|3. [환경](#3-환경)|
+|&nbsp;&nbsp;&nbsp;3.1. [개발자 환경](#31-개발자-환경)|
+|&nbsp;&nbsp;&nbsp;3.2. [Maven Dependency](#32-maven-dependency)|
+|4. [사용법](#4-사용법)|
+|&nbsp;&nbsp;&nbsp;4.1. [사전 요구사항](#41-사전-요구사항)|
+|&nbsp;&nbsp;&nbsp;4.2. [순서](#42-순서)|
+|&nbsp;&nbsp;&nbsp;4.3. [배포자 예시](#43-배포자-예시)|
+|&nbsp;&nbsp;&nbsp;4.4. [주의사항](#44-주의사항)|
+|5. [멤버](#5-멤버)|
+|6. [개선점](#6-개선점)|
+|7. [에러 시 대처사항](#7-에러-시-대처사항)|
 
 # 1. 개요
 여러 커뮤니티 게시판 사이트를 참조한 게시판 프로젝트입니다.
