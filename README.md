@@ -4,6 +4,9 @@ Commynity Board
 |----|
 |1. 개요|
 |2. 기능|
+|&nbsp;&nbsp;&nbsp;2.1. 회원|
+|&nbsp;&nbsp;&nbsp;2.2. 게시판|
+|&nbsp;&nbsp;&nbsp;2.3. 댓글|
 |3. 환경|
 |&nbsp;&nbsp;&nbsp;3.1. 개발자 환경|
 |&nbsp;&nbsp;&nbsp;3.2. Maven Dependency|
@@ -27,6 +30,7 @@ Commynity Board
 ## 2.3. 댓글
 - 댓글 및 대댓글 작성, 수정, 조회, 삭제
 - 댓글 좋아요, 싫어요
+<img width="80%" src="https://user-images.githubusercontent.com/72476869/278185734-3df4c84b-d7ec-48f6-9b99-dd8949e0545b.png"/>
 # 3. 환경
 ## 3.1. 개발자 환경
 - 이클립스
@@ -55,3 +59,4 @@ Commynity Board
 - 이미지 및 파일 첨부 기능
 - 클라이언트와 서버 세션 연결 시 리프레시 토큰을 보내는 방법이 있으면 개선이 가능
 - 새로고침 시 댓글 페이지 유지 기능
+- 글목록 돌아가기 기능
