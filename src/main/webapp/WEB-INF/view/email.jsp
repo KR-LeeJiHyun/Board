@@ -13,7 +13,7 @@
         <header>
             <div class="header_inner">
                 <span>
-                    회원정보
+                    이메일 변경
                 </span> 
             </div>
         </header>
