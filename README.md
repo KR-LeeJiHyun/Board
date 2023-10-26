@@ -160,5 +160,3 @@ Commynity Board
     ```shell
     프로젝트 속성 -> Deployment Assembly -> Add -> Java Build Path Entries -> Maven Depedencies -> finish
     ```
-# 1. 개요
-ㅁㅁㅁㅁㅁ
