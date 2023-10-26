@@ -140,7 +140,7 @@ Commynity Board
   - creat a new Server -> Apache -> tomcat v9.0 server -> add -> Tomcat installation directory에 톰캣 디렉토리 지정 -> finish
   - 프로젝트명 -> Run as -> Run on Server
   ```
-- [에러 시 참고사항](https://github.com/KR-LeeJiHyun/Board/edit/main/README.md#7-%EC%97%90%EB%9F%AC-%EC%8B%9C-%EB%8C%80%EC%B2%98%EC%82%AC%ED%95%AD)
+- [에러 시 참고사항](#7. 에러 시 대처사항)
 ## 4.4. 주의사항
 - 다른 버전에서 테스트를 한적 없으므로 개발자 환경과 맞추는 것을 권장한다.
 # 5. 멤버
