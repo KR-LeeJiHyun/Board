@@ -12,8 +12,13 @@ Commynity Board
 |&nbsp;&nbsp;&nbsp;3.1. 개발자 환경|
 |&nbsp;&nbsp;&nbsp;3.2. Maven Dependency|
 |4. 사용법|
+|&nbsp;&nbsp;&nbsp;4.1. 사전 요구사항|
+|&nbsp;&nbsp;&nbsp;4.2. 순서|
+|&nbsp;&nbsp;&nbsp;4.3. 배포자 예시|
+|&nbsp;&nbsp;&nbsp;4.4. 주의사항|
 |5. 멤버|
 |6. 개선점|
+|7. 에러 시 대처사항|
 
 # 1. 개요
 여러 커뮤니티 게시판 사이트를 참조한 게시판 프로젝트입니다.
@@ -98,7 +103,45 @@ Commynity Board
 - jackson-databind 2.11.2
 - spring-security-core 5.7.5
 # 4. 사용법
-- [테이블 구조](https://github.com/KR-LeeJiHyun/Board/issues/16)
+## 4.1. 사전 요구사항
+- [tomcat](https://tomcat.apache.org/download-80.cgi)
+- [Oracle DB](https://www.oracle.com/kr/downloads/#category-database)
+- [테이블 설정](https://github.com/KR-LeeJiHyun/Board/issues/16)
+- [git](https://git-scm.com/download/win)(선택사항)
+## 4.2. 순서
+- git 혹은 zip파일을 내려받는다.
+  ``` shell
+  git clone https://github.com/KR-LeeJiHyun/Board.git
+  ```
+- 본인의 IDE에서 Maven Project를 불러온다.
+- tomcat 디렉토리를 지정한다.
+- Maven Project를 빌드한다.
+- Oracle databse 연결 정보(url, username, password)를 프로젝트명/webapp/WEB-INF/spring/service-context.xml에 설정한다.
+- Maven Project를 실행시킨다.
+## 4.3. 배포자 예시(에러 시 참고사항)
+- git 혹은 zip파일을 내려받는다.
+  ``` shell
+  git clone https://github.com/KR-LeeJiHyun/Board.git
+  ```
+- 이클립스를 실행시킨다.
+- 프로젝트 불러오기
+  ``` shell
+  FILE -> Import -> Maven -> Existing Maven Projects
+  ```
+- Maven Project를 빌드한다.
+  ``` shell
+  프로젝트명 -> Run As -> Maven install
+  프로젝트명 -> Maven -> Update project
+  ```
+- Oracle databse 연결 정보(url, username, password)를 프로젝트명/webapp/WEB-INF/spring/service-context.xml에 설정한다.
+- 프로젝트 실행
+  ``` shell
+  - Windows -> Show View -> other -> server
+  - creat a new Server -> Apache -> tomcat v9.0 server -> add -> Tomcat installation directory에 톰캣 디렉토리 지정 -> finish
+  - 프로젝트명 -> Run as -> Run on Server
+  ```
+## 4.4. 주의사항
+- 다른 버전에서 테스트를 한적 없으므로 개발자 환경과 맞추는 것을 권장한다.
 # 5. 멤버
 - KR-LeeJiHyun : 게시글
 - kr-seominwoo : 댓글
@@ -110,3 +153,9 @@ Commynity Board
 - 클라이언트와 서버 세션 연결 시 리프레시 토큰을 보내는 방법이 있으면 개선이 가능
 - 새로고침 시 댓글 페이지 유지 기능
 - 글목록 돌아가기 기능
+# 7. 에러 시 대처사항
+- tomcat 서버가 실행되지 않을 시 startup 파일로 tomcat 서버 한 번 실행시킨다.
+- 실행 오류 시
+    ```shell
+    프로젝트 속성 -> Deployment Assembly -> Add -> Java Build Path Entries -> Maven Depedencies -> finish
+    ```
