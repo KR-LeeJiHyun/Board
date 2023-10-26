@@ -13,7 +13,7 @@
         <header>
             <div class="header_inner">
                 <span>
-                    회원정보
+                    회원가입
                 </span> 
             </div>
         </header>
