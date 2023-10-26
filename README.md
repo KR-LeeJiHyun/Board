@@ -7,6 +7,7 @@ Commynity Board
 |&nbsp;&nbsp;&nbsp;2.1. 회원|
 |&nbsp;&nbsp;&nbsp;2.2. 게시판|
 |&nbsp;&nbsp;&nbsp;2.3. 댓글|
+|&nbsp;&nbsp;&nbsp;2.4. UI|
 |3. 환경|
 |&nbsp;&nbsp;&nbsp;3.1. 개발자 환경|
 |&nbsp;&nbsp;&nbsp;3.2. Maven Dependency|
@@ -30,7 +31,56 @@ Commynity Board
 ## 2.3. 댓글
 - 댓글 및 대댓글 작성, 수정, 조회, 삭제
 - 댓글 좋아요, 싫어요
-<img width="80%" src="https://user-images.githubusercontent.com/72476869/278185734-3df4c84b-d7ec-48f6-9b99-dd8949e0545b.png"/>
+
+## 2.4. UI
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278188572-48bdf372-cd55-4d5c-9add-63c9f234c988.jpg"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278186273-505c4066-a62d-4c28-ba82-817feeff58ad.jpg"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278186099-424cc463-32c6-4eb1-af5f-3f28e21e0c7e.jpg"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278186238-c0e567ab-296d-4b18-8326-0f2ff324a1b1.jpg"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278188561-77b229cd-e475-4c2b-961f-1e32dfafd2a0.jpg"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/72476869/278185798-b4ebc9b3-634b-4d6e-b62a-bbdc6b797a04.png"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/72476869/278185734-3df4c84b-d7ec-48f6-9b99-dd8949e0545b.png"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278186084-0474d8dd-3dba-47dd-b5d6-bda5c0231689.jpg"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/72476869/278185830-a1855d70-a0d4-4b9a-b0ee-c4d630107efc.png"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/72476869/278185872-923007d2-682b-475b-8b3b-0aeab667fb8e.png"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278186194-7a8b1317-446b-4e7f-ba11-2c2db80bd9b6.jpg"/>
+
+#
+
+<img width="100%" src="https://user-images.githubusercontent.com/46846455/278186202-bad26264-63a8-496b-ab2f-5c40ea503ca3.jpg"/>
+
+
 # 3. 환경
 ## 3.1. 개발자 환경
 - 이클립스
