@@ -56,9 +56,18 @@ public class PostService {
         Post post = null;
         
         try{
-        	postRepository.updateCount(category, id, "HIT");
+        	
+        	if(postRepository.updateCount(category, id, "HIT")== 0) {
+        		transactionManager.rollback(status);
+        		return post;
+        	}
         	post = postRepository.findPost(category, id);
-        	transactionManager.commit(status);
+        	if(post != null) {
+        		transactionManager.commit(status);
+        	}
+        	else {
+        		transactionManager.rollback(status);
+        	}
         } catch(TransactionException e) {
         	post = null;
         	transactionManager.rollback(status);
