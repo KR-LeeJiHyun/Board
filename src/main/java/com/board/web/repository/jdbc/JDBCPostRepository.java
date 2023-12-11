@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
+import com.board.web.controller.PostConst;
 import com.board.web.entity.Post;
 import com.board.web.repository.PostAllSearch;
 import com.board.web.repository.PostForm;
@@ -58,7 +59,6 @@ public class JDBCPostRepository implements PostRepository {
 				+ postAllSearch.getCategory() + "_POST" + " WHERE BLIND = 0 ORDER BY " + postAllSearch.getOrder() + " DESC) P WHERE P."
 				+ postAllSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
 		
-		final int PAGER = 10;
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -68,8 +68,8 @@ public class JDBCPostRepository implements PostRepository {
 			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, "%" + postAllSearch.getQuery() + "%");
-			preparedStatement.setInt(2, 1 + (postAllSearch.getPage() - 1) * PAGER);
-			preparedStatement.setInt(3, postAllSearch.getPage() * PAGER);
+			preparedStatement.setInt(2, 1 + (postAllSearch.getPage() - 1) * PostConst.COUNT_PER_PAGE);
+			preparedStatement.setInt(3, postAllSearch.getPage() * PostConst.COUNT_PER_PAGE);
 			
 			rs = preparedStatement.executeQuery();
 			while(rs.next()) {
@@ -100,7 +100,6 @@ public class JDBCPostRepository implements PostRepository {
 				+ postSearch.getCategory() + "_POST" + " WHERE BLIND = 0 AND CATEGORY = ? ORDER BY " + postSearch.getOrder() + " DESC) P WHERE P."
 				+ postSearch.getField() + " LIKE ?) WHERE NUM BETWEEN ? AND ?";
 		
-		final int PAGER = 10;
 		Connection con = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -111,8 +110,8 @@ public class JDBCPostRepository implements PostRepository {
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setString(1, postSearch.getSubCategory());
 			preparedStatement.setString(2, "%" + postSearch.getQuery() + "%");
-			preparedStatement.setInt(3, 1 + (postSearch.getPage() - 1) * PAGER);
-			preparedStatement.setInt(4, postSearch.getPage() * PAGER);
+			preparedStatement.setInt(3, 1 + (postSearch.getPage() - 1) * PostConst.COUNT_PER_PAGE);
+			preparedStatement.setInt(4, postSearch.getPage() * PostConst.COUNT_PER_PAGE);
 			
 			rs = preparedStatement.executeQuery();
 			while(rs.next()) {

@@ -45,9 +45,9 @@ public class PostController {
 			@RequestParam(defaultValue = "TITLE") String field, @RequestParam(defaultValue = "")String query, @RequestParam(defaultValue = "REGDATE")String order, 
 			@RequestParam(defaultValue = "1")Integer page, Model model) {
 		PostAllSearch postAllSearch = new PostAllSearch(field, query, order, category, page);
-		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, postAllSearch) / 10);
-		int begin = ((int)Math.ceil((double)postAllSearch.getPage() / 5) - 1) * 5 + 1;
-		int end = begin + 4;
+		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, postAllSearch) / PostConst.COUNT_PER_PAGE);
+		int begin = ((int)Math.ceil((double)postAllSearch.getPage() / PostConst.PAGER) - 1) * PostConst.PAGER + 1;
+		int end = begin + PostConst.PAGER - 1;
 		
 		List<Post> postList = postService.findPosts(postAllSearch);		
 		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList, category);
@@ -68,9 +68,9 @@ public class PostController {
 			@RequestParam(defaultValue = "TITLE") String field, @RequestParam(defaultValue = "")String query, @RequestParam(defaultValue = "REGDATE")String order, 
 			@RequestParam(defaultValue = "1")Integer page, Model model) {
 		PostSearch postSearch = new PostSearch(field, query, order, category, subCategory, page);
-		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, postSearch) / 10);
-		int begin = ((int)Math.ceil((double)postSearch.getPage() / 5) - 1) * 5 + 1;
-		int end = begin + 4;
+		int lastPage = (int)Math.ceil((double)postService.findTotalCount(category, postSearch) / PostConst.COUNT_PER_PAGE);
+		int begin = ((int)Math.ceil((double)postSearch.getPage() / PostConst.PAGER) - 1) * PostConst.PAGER + 1;
+		int end = begin + PostConst.PAGER - 1;
 		
 		List<Post> postList = postService.findPosts(postSearch);
 		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList, category);
