@@ -17,15 +17,12 @@ import com.board.web.entity.Post;
 import com.board.web.repository.CommentRepository;
 import com.board.web.repository.jdbc.comment.CommentDTO;
 
-@Transactional
 @Service
 public class CommentService {
 	
-	private final DataSource dataSource;
 	private final CommentRepository commentRepository;
 	
-	public CommentService(DataSource dataSource, CommentRepository commentRepository) {
-		this.dataSource = dataSource;
+	public CommentService(CommentRepository commentRepository) {
 		this.commentRepository = commentRepository;
 	}
 
