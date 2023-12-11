@@ -99,9 +99,9 @@ public class CommentController {
 		long topTotal = commentService.findTopCommentTotal(category, postId);
 		List<CommentDTO> list = commentService.findComments(category, postId, page);
 
-		int last = (int) (topTotal % CommentConst.PAGER == 0 ? topTotal / CommentConst.PAGER
-				: topTotal / CommentConst.PAGER + 1);
-		int begin = ((int) Math.ceil((double) page / 5) - 1) * 5 + 1;
+		int last = (int) (topTotal % CommentConst.COUNT_PER_PAGE == 0 ? topTotal / CommentConst.COUNT_PER_PAGE
+				: topTotal / CommentConst.COUNT_PER_PAGE + 1);
+		int begin = ((int) Math.ceil((double) page / CommentConst.PAGER) - 1) * CommentConst.PAGER + 1;
 		int end = last <= begin + 4 ? last : begin + 4;
 
 		model.addAttribute("commentTotal", total);

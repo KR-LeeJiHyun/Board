@@ -116,8 +116,8 @@ public class JDBCCommentRepository implements CommentRepository {
 			con = DataSourceUtils.getConnection(this.dataSource);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.setLong(1, postId);
-			preparedStatement.setInt(2, 1 + (page - 1) * CommentConst.PAGER);
-			preparedStatement.setInt(3, page * CommentConst.PAGER);
+			preparedStatement.setInt(2, 1 + (page - 1) * CommentConst.COUNT_PER_PAGE);
+			preparedStatement.setInt(3, page * CommentConst.COUNT_PER_PAGE);
 
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
@@ -129,7 +129,6 @@ public class JDBCCommentRepository implements CommentRepository {
 				Date regdate = rs.getTimestamp("REGDATE");
 				int like = rs.getInt("LIKE");
 				int unlike = rs.getInt("UNLIKE");
-				final Long PARENT_ID = 0L;
 				int blind = rs.getInt("BLIND");
 
 				CommentDTO comment = new CommentDTO(id, memberId, writer, content, regdate, like, unlike, 0, blind);
