@@ -75,7 +75,6 @@ public class PostController {
 		List<Post> postList = postService.findPosts(postSearch);
 		Map<Long, Integer> commentCntMap = commentService.findCommentCounts(postList, category);
 		model.addAttribute("postList", postList);
-		model.addAttribute("postList", postList);
 		model.addAttribute("category", category);
 		model.addAttribute("page", postSearch.getPage());
 		model.addAttribute("begin", begin);

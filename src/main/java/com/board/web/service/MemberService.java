@@ -157,7 +157,12 @@ public class MemberService {
 			else {
 				member = null;
 			}
-			transactionManager.commit(status);
+			if(member == null) {
+				transactionManager.commit(status);
+			}
+			else {
+				transactionManager.rollback(status);
+			}
 		} catch(RuntimeException e) {
 			member = null;
 			transactionManager.rollback(status);
@@ -174,8 +179,6 @@ public class MemberService {
 	}
 
 	public boolean updatePassword(PasswordForm passwordForm) {
-		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
         Member member = null;
         int result = 0;
         try{
@@ -186,10 +189,8 @@ public class MemberService {
 				result = memberRepository.updatePassword(passwordForm.getId(), encryptedPassword);
 				result = memberRepository.deleteRefreshTokenById(passwordForm.getId());
 			}
-			transactionManager.commit(status);
 		} catch(RuntimeException e) {
 			result = -1;
-			transactionManager.rollback(status);
 		}
         if(result != -1) {
 			return true;
@@ -203,8 +204,6 @@ public class MemberService {
 			return MemberError.INVALID_EMAIL;
 		}
 		
-		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
         Member member = null;
 		MemberError result;
         try {
@@ -219,10 +218,8 @@ public class MemberService {
     			result = MemberError.WRONG_PASSWORD;
     		}
     		
-			transactionManager.commit(status);
 		} catch(RuntimeException e) {
 			result = MemberError.DB_FAIL;
-			transactionManager.rollback(status);
 		}
         
 		return result;
@@ -233,8 +230,6 @@ public class MemberService {
 			return MemberError.INVALID_NICKNAME;
 		}
 		
-		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		Member member = null;
 		MemberError result;
 		try {
@@ -253,10 +248,8 @@ public class MemberService {
 	    		}
 			}
     		
-			transactionManager.commit(status);
 		} catch(RuntimeException e) {
 			result = MemberError.DB_FAIL;
-			transactionManager.rollback(status);
 		}
 		
 		return result;
